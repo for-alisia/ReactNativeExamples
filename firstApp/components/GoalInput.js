@@ -17,6 +17,7 @@ const GoalInput = ({ onGoalAdd, visible, onClose }) => {
 
   const addGoalHandler = () => {
     if (enteredGoal === '') {
+      // Show alert
       setIsEmpty(true);
       return;
     }
@@ -25,22 +26,28 @@ const GoalInput = ({ onGoalAdd, visible, onClose }) => {
     beforeCloseModalHandler();
   };
 
+  const changeInputHandler = (text) => {
+    setEnteredGoal(text);
+    setIsEmpty(false);
+  };
+
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Add Goal Here"
           style={styles.input}
-          onChangeText={(text) => {
-            setEnteredGoal(text);
-            setIsEmpty(false);
-          }}
+          onChangeText={changeInputHandler}
           value={enteredGoal}
         />
         {isEmpty && <Text style={styles.errorAlert}>Fill the goal here</Text>}
-        <View style={styles.buttonContainer}>
-          <Button title="ADD GOAL" color="darkturquoise" onPress={addGoalHandler} />
-          <Button title="CANCEL" color="red" onPress={beforeCloseModalHandler} />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.addButtonContainer}>
+            <Button title="ADD" color="darkturquoise" onPress={addGoalHandler} />
+          </View>
+          <View style={styles.cancelButtonContainer}>
+            <Button title="CANCEL" color="red" onPress={beforeCloseModalHandler} />
+          </View>
         </View>
       </View>
     </Modal>
@@ -57,15 +64,24 @@ const styles = StyleSheet.create({
   input: {
     borderColor: 'darkturquoise',
     borderWidth: 1,
-    padding: 3,
+    padding: 8,
     width: '75%',
   },
-  buttonContainer: {
+  buttonsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40%',
+    marginTop: 16,
   },
   errorAlert: {
     color: 'red',
+  },
+  addButtonContainer: {
+    width: 88,
+    marginRight: 8,
+  },
+  cancelButtonContainer: {
+    width: 88,
   },
 });
 
