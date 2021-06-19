@@ -1,7 +1,7 @@
 // React
 import React, { useState } from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
-
+// Components
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
@@ -9,11 +9,13 @@ export default function App() {
   const [goals, setGoals] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
 
+  // Add new goal
   const goalAddHandler = (enteredGoal) => {
     // @ts-ignore
     setGoals((goals) => [...goals, { id: Math.random().toString(), value: enteredGoal }]);
   };
 
+  // Delete goal
   const goalDeleteHandler = (id) => {
     // @ts-ignore
     setGoals((goals) => goals.filter((goal) => goal.id !== id));
