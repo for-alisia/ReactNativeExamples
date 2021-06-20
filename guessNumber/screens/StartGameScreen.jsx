@@ -12,11 +12,12 @@ import {
 // Components
 import Card from '../components/Card';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 
 // Theme
 import colors from '../constants/colors';
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ onStart }) => {
   const [enteredVal, setEnteredVal] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
@@ -40,12 +41,18 @@ const StartGameScreen = () => {
     // @ts-ignore
     setSelectedNumber(chosenNumber);
     setEnteredVal('');
+    Keyboard.dismiss();
   };
-  let confirmedOutput;
 
-  if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
-  }
+  const startGameHadler = () => {
+    if (!selectedNumber) {
+      Alert.alert('Choose a number', 'Number has to be between 1 and 99', [
+        { text: 'OK', style: 'destructive', onPress: resetInputHandler },
+      ]);
+      return;
+    }
+    onStart(selectedNumber);
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -55,7 +62,7 @@ const StartGameScreen = () => {
     >
       <View style={styles.screen}>
         <Text style={styles.title}>Start a new game!</Text>
-        <Card cardStyles={styles.inputContainer}>
+        <Card style={styles.inputContainer}>
           <Text>Select a number</Text>
           <Input
             inputStyles={styles.input}
@@ -76,7 +83,15 @@ const StartGameScreen = () => {
             </View>
           </View>
         </Card>
-        {confirmedOutput}
+        {confirmed && (
+          <Card style={styles.outputContainer}>
+            <Text style={styles.outputTitle}>You Selected number</Text>
+            <NumberContainer>{selectedNumber}</NumberContainer>
+            <View style={styles.outputButton}>
+              <Button title="START GAME" color={colors.primary} onPress={startGameHadler} />
+            </View>
+          </Card>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -110,6 +125,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: 96,
+  },
+  outputContainer: {
+    marginVertical: 32,
+    alignItems: 'center',
+    width: '90%',
+  },
+  outputTitle: {
+    textTransform: 'uppercase',
+    fontSize: 16,
+  },
+  outputButton: {
+    width: '50%',
   },
 });
 
