@@ -14,6 +14,7 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
 import BodyText from '../components/BodyText';
+import MainButton from '../components/MainButton';
 
 // Theme
 import colors from '../constants/colors';
@@ -88,9 +89,7 @@ const StartGameScreen = ({ onStart }) => {
           <Card style={styles.outputContainer}>
             <BodyText style={styles.outputTitle}>You Selected number</BodyText>
             <NumberContainer>{selectedNumber}</NumberContainer>
-            <View style={styles.outputButton}>
-              <Button title="START GAME" color={colors.primary} onPress={startGameHadler} />
-            </View>
+            <MainButton onPress={startGameHadler}>START GAME</MainButton>
           </Card>
         )}
       </View>
@@ -136,9 +135,6 @@ const styles = StyleSheet.create({
   outputTitle: {
     textTransform: 'uppercase',
     fontSize: 16,
-  },
-  outputButton: {
-    width: '50%',
   },
 });
 
