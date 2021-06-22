@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 // Components
@@ -7,6 +7,7 @@ import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import MainButton from '../components/MainButton';
 import BodyText from '../components/BodyText';
+import colors from '../constants/colors';
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -52,7 +53,7 @@ const GameScreen = ({ userChoice, onGameOver }) => {
 
     const next = generateRandomBetween(lowEdge.current, highEdge.current, currentGuess);
     setCurrentGuess(next);
-    setRounds((rounds) => [next, ...rounds]);
+    setRounds((rounds) => [...rounds, next]);
   };
 
   return (
@@ -68,14 +69,16 @@ const GameScreen = ({ userChoice, onGameOver }) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
-      <ScrollView>
-        {rounds.map((round, idx) => (
-          <View key={round} style={styles.listItem}>
-            <BodyText>{idx + 1}.</BodyText>
-            <BodyText>{round}</BodyText>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.listContainer}>
+        <ScrollView contentContainerStyle={styles.list}>
+          {rounds.map((round, idx) => (
+            <Card key={round} style={styles.listItem}>
+              <BodyText style={styles.idxText}>{idx + 1}.</BodyText>
+              <BodyText style={styles.roundText}>{round}</BodyText>
+            </Card>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -89,10 +92,35 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 24,
+    marginTop: Dimensions.get('window').height > 800 ? 24 : 8,
     width: '90%',
   },
-  listItem: {},
+  listContainer: {
+    width: '100%',
+    flex: 1,
+  },
+  list: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexGrow: 1,
+  },
+  listItem: {
+    marginVertical: 8,
+    backgroundColor: colors.light,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  idxText: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 16,
+    marginRight: 16,
+  },
+  roundText: {
+    fontSize: 16,
+    fontFamily: 'open-sans-bold',
+    color: colors.secondary,
+  },
 });
 
 export default GameScreen;
