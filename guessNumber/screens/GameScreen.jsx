@@ -1,3 +1,4 @@
+// Dependencies
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,19 +22,42 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 const GameScreen = ({ userChoice, onGameOver }) => {
+  // Generate initial guess
   const initialGuess = generateRandomBetween(1, 100, userChoice);
+
+  // Set initial guess and add it to the guesses list
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [rounds, setRounds] = useState([initialGuess]);
 
+  // Set state to control the mode (landscape or portrait) and change layout
+  const [width, setWidth] = useState(Dimensions.get('window').width);
+  const [height, setHeight] = useState(Dimensions.get('window').height);
+
+  // Edges of guesses (current max and min) - not with state (no need re-renders)
   const lowEdge = useRef(1);
   const highEdge = useRef(100);
 
+  // Start listen to the orientation changes
+  useEffect(() => {
+    const updateLayout = () => {
+      setWidth(Dimensions.get('window').width);
+      setHeight(Dimensions.get('window').height);
+    };
+
+    Dimensions.addEventListener('change', updateLayout);
+
+    // Clean Up
+    return () => Dimensions.removeEventListener('change', updateLayout);
+  });
+
+  // On every state change check if the guess is correct to finish the game
   useEffect(() => {
     if (currentGuess === userChoice) {
       onGameOver(rounds.length);
     }
   }, [currentGuess, onGameOver, userChoice]);
 
+  // Generate next attempt and set new edge
   const nextGuesshandler = (direction) => {
     if (
       (direction === 'lower' && currentGuess < userChoice) ||
@@ -56,6 +80,37 @@ const GameScreen = ({ userChoice, onGameOver }) => {
     setRounds((rounds) => [...rounds, next]);
   };
 
+  // Layout for lanscape orientation
+  if (height < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text>You chose: {userChoice}</Text>
+        <Text>Opponents Guess</Text>
+        <View style={styles.controls}>
+          <MainButton onPress={() => nextGuesshandler('lower')}>
+            <Ionicons name="md-remove" size={24} color="white" />
+          </MainButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <MainButton onPress={() => nextGuesshandler('greater')}>
+            <Ionicons name="md-add" size={24} color="white" />
+          </MainButton>
+        </View>
+
+        <View style={styles.listContainer}>
+          <ScrollView contentContainerStyle={styles.list}>
+            {rounds.map((round, idx) => (
+              <Card key={round} style={styles.listItem}>
+                <BodyText style={styles.idxText}>{idx + 1}.</BodyText>
+                <BodyText style={styles.roundText}>{round}</BodyText>
+              </Card>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+    );
+  }
+
+  // Layout for portrait orientation
   return (
     <View style={styles.screen}>
       <Text>You chose: {userChoice}</Text>
@@ -120,6 +175,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'open-sans-bold',
     color: colors.secondary,
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '80%',
+    alignItems: 'center',
   },
 });
 
