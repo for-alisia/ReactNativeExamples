@@ -1,3 +1,4 @@
+// Dependencies
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -26,8 +27,11 @@ const StartGameScreen = ({ onStart }) => {
   const [enteredVal, setEnteredVal] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
+
+  // Control width of the device
   const [buttonWidth, setButtonWidth] = useState(Dimensions.get('window').width * 0.26);
 
+  // Recreate layout on width changing
   useEffect(() => {
     const updateLayout = () => {
       setButtonWidth(Dimensions.get('window').width > 800 ? 120 : 80);
@@ -40,13 +44,18 @@ const StartGameScreen = ({ onStart }) => {
     };
   });
 
+  // validate number input
   const numberInputHandler = (inputText) => {
     setEnteredVal(inputText.replace(/[^0-9]/g, ''));
   };
+
+  // reset values
   const resetInputHandler = () => {
     setEnteredVal('');
     setConfirmed(false);
   };
+
+  // confirm user's input
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredVal);
     if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
@@ -62,6 +71,7 @@ const StartGameScreen = ({ onStart }) => {
     Keyboard.dismiss();
   };
 
+  // Start a game
   const startGameHadler = () => {
     if (!selectedNumber) {
       Alert.alert('Choose a number', 'Number has to be between 1 and 99', [

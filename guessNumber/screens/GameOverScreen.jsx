@@ -1,3 +1,4 @@
+// Dependencies
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 
