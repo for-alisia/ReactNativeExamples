@@ -8,9 +8,7 @@ import { Platform } from 'react-native';
 import theme from '../theme';
 
 // Screens
-import CategoriesScreen from '../screens/CategoriesScreen';
-import CategoryMealsScreen from '../screens/CategoryMealsScreen';
-import MealDetailScreen from '../screens/MealDetailScreen';
+import { CategoriesScreen, CategoryMealsScreen, MealDetailScreen } from '../screens';
 
 const MealsNavigator = createStackNavigator(
   {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 
 // Components
 import CategoryItem from '../components/CategoryItem';
@@ -11,14 +11,18 @@ const CategoriesScreen = ({ navigation }) => {
   const renderItem = (itemData) => {
     return <CategoryItem itemData={itemData} navigation={navigation} />;
   };
-  return <FlatList numColumns={2} data={CATEGORIES} renderItem={renderItem} />;
+  return (
+    <View style={styles.screen}>
+      <FlatList numColumns={2} data={CATEGORIES} renderItem={renderItem} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    margin: 16,
     justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 
