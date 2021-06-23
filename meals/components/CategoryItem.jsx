@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
-import theme from '../theme';
 
 const CategoryItem = ({ itemData, navigation }) => {
   return (
@@ -13,6 +12,7 @@ const CategoryItem = ({ itemData, navigation }) => {
         fadeDuration={300}
       >
         <TouchableOpacity
+          activeOpacity={0.8}
           style={styles.textContainer}
           onPress={() => {
             navigation.navigate({
@@ -45,24 +45,28 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans-bold',
     fontSize: 16,
     textTransform: 'uppercase',
-    color: theme.colors.primary,
+    color: 'white',
   },
   image: {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
     borderRadius: 8,
+    shadowColor: 'black',
+    shadowOpacity: 0.16,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 3,
   },
   textContainer: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   textBack: {
     padding: 8,
-    opacity: 0.8,
-    borderBottomRightRadius: 4,
-    borderBottomLeftRadius: 4,
-    width: '100%',
+    borderRadius: 4,
+    minWidth: '80%',
     alignItems: 'center',
   },
 });

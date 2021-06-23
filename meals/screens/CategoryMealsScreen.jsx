@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
 // Data
-import { CATEGORIES } from '../data/dummy-data';
+import { CATEGORIES, MEALS } from '../data/dummy-data';
 
 const CategoryMealsScreen = ({ navigation }) => {
   const id = navigation.getParam('categoryId');
