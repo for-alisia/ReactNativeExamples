@@ -14,7 +14,14 @@ const CategoryMealsScreen = ({ navigation }) => {
   const mealsByCat = MEALS.filter((meal) => meal.categorIds.indexOf(id) >= 0);
 
   const renderMealItem = (itemData) => {
-    return <MealItem item={itemData.item} onSelectMeal={() => {}} />;
+    return (
+      <MealItem
+        item={itemData.item}
+        onSelectMeal={() => {
+          navigation.navigate({ routeName: 'MealDetail', params: { mealId: itemData.item.id } });
+        }}
+      />
+    );
   };
 
   return (

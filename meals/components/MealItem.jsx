@@ -10,6 +10,9 @@ import { Card } from './ui';
 // Theme
 import theme from '../theme';
 
+// Utils
+import { getRandomInt } from '../utils';
+
 const MealItem = ({ item, onSelectMeal }) => {
   return (
     <Card style={styles.item}>
@@ -21,21 +24,28 @@ const MealItem = ({ item, onSelectMeal }) => {
               resizeMode="cover"
               style={styles.image}
             >
-              <Text style={styles.title}>{item.title}</Text>
+              <Text
+                style={{
+                  ...styles.title,
+                  backgroundColor: theme.randomColors[getRandomInt(0, theme.randomColors.length)],
+                }}
+              >
+                {item.title}
+              </Text>
             </ImageBackground>
           </View>
           <View style={{ ...styles.mealRow, ...styles.mealDetails }}>
             <View style={{ ...styles.mealRow, ...styles.withDash }}>
               <Ionicons name="timer-outline" size={18} color="black" />
-              <Text style={{ marginLeft: 4 }}>{item.duration} min</Text>
+              <Text style={styles.withMargin}>{item.duration} min</Text>
             </View>
             <View style={{ ...styles.mealRow, ...styles.withDash }}>
               <Ionicons name="egg-outline" size={18} color="black" />
-              <Text style={{ marginLeft: 4 }}>{item.complexity} </Text>
+              <Text style={styles.withMargin}>{item.complexity} </Text>
             </View>
             <View style={{ ...styles.mealRow, ...styles.withDash, borderRightWidth: 0 }}>
               <Ionicons name="card-outline" size={18} color="black" />
-              <Text style={{ marginLeft: 4 }}>{item.affordability} </Text>
+              <Text style={styles.withMargin}>{item.affordability} </Text>
             </View>
             <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
               <Ionicons name="heart-outline" size={18} color="black" />
@@ -75,7 +85,6 @@ const styles = StyleSheet.create({
   },
   title: {
     padding: 8,
-    backgroundColor: theme.colors.accentColor,
     fontSize: 14,
     fontFamily: 'open-sans-bold',
     color: 'white',
@@ -87,6 +96,9 @@ const styles = StyleSheet.create({
     borderRightColor: theme.colors.primary,
     borderRightWidth: 1,
     paddingHorizontal: 8,
+  },
+  withMargin: {
+    marginLeft: 4,
   },
 });
 
