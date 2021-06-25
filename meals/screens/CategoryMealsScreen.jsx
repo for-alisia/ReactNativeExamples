@@ -14,11 +14,12 @@ const CategoryMealsScreen = ({ navigation }) => {
   const mealsByCat = MEALS.filter((meal) => meal.categorIds.indexOf(id) >= 0);
 
   const renderMealItem = (itemData) => {
+    const { item } = itemData;
     return (
       <MealItem
-        item={itemData.item}
+        item={item}
         onSelectMeal={() => {
-          navigation.navigate({ routeName: 'MealDetail', params: { mealId: itemData.item.id } });
+          navigation.navigate({ routeName: 'MealDetail', params: { mealId: item.id } });
         }}
       />
     );
