@@ -1,20 +1,22 @@
+// Dependencies
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 
-const FavouritesScreen = (props) => {
+// Components
+import MealList from '../components/MealList';
+
+// Data
+import { MEALS } from '../data/dummy-data';
+
+const FavouritesScreen = ({ navigation }) => {
+  const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2')
   return (
-    <View style={styles.screen}>
-      <Text>Categories</Text>
-    </View>
+    <MealList navigation={navigation} dataList={favMeals}/>
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+
+FavouritesScreen.navigationOptions = {
+  headerTitle: 'Your favourites'
+}
 
 export default FavouritesScreen;
