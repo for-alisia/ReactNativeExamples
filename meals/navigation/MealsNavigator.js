@@ -1,15 +1,16 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
-// import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 
 // Theme
 import theme from '../theme';
 
 // Screens
-import { CategoriesScreen, CategoryMealsScreen, MealDetailScreen } from '../screens';
+import { CategoriesScreen, CategoryMealsScreen, MealDetailScreen, FavouritesScreen } from '../screens';
 
+// Main Navigation (back - forward) in the header
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -33,4 +34,10 @@ const MealsNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(MealsNavigator);
+// Tab Navigation
+const mealsFavTabNavigator = createBottomTabNavigator({
+  Meals: MealsNavigator,
+  Favourites: FavouritesScreen
+});
+
+export default createAppContainer(mealsFavTabNavigator);
