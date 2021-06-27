@@ -4,7 +4,7 @@ import { View, StyleSheet, Button, ScrollView, Image, SafeAreaView } from 'react
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { BodyText, HeaderButton, IconWithText } from '../components/ui';
+import { BodyText, HeaderButton, IconWithText, CustomButton } from '../components/ui';
 import IngredientsList from '../components/IngredientsList';
 import StepsList from '../components/StepsList';
 
@@ -35,12 +35,10 @@ const MealDetailScreen = ({ navigation }) => {
         <StepsList dataList={meal?.steps}/>
       </View>
       <View style={styles.buttonContainer}>
-        <Button color={theme.colors.primary}
-          title="Go to categories"
+        <CustomButton color={theme.colors.accentColor}
           onPress={() => {
             navigation.popToTop();
-          }}
-        />
+          }}>Go to Categories </CustomButton>
       </View>
       </ScrollView>
     </SafeAreaView>
@@ -88,7 +86,8 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   buttonContainer: {
-
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });
 
