@@ -1,13 +1,16 @@
 // Dependencies
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, ScrollView, Image, SafeAreaView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { HeaderButton } from '../components/ui';
+import { BodyText, HeaderButton, IconWithText } from '../components/ui';
+import IngredientsList from '../components/IngredientsList';
+import StepsList from '../components/StepsList';
 
 // Data
 import { MEALS } from '../data/dummy-data';
+import theme from '../theme';
 
 const MealDetailScreen = ({ navigation }) => {
   const mealId = navigation.getParam('mealId');
@@ -15,15 +18,32 @@ const MealDetailScreen = ({ navigation }) => {
   const meal = MEALS.find((meal) => meal.id === mealId);
 
   return (
-    <View style={styles.screen}>
-      <Text>{meal && meal.title}</Text>
-      <Button
-        title="Go to categories"
-        onPress={() => {
-          navigation.popToTop();
-        }}
-      />
-    </View>
+    <SafeAreaView style={styles.screen}>
+      <ScrollView>
+      <Image source={{ uri: meal?.imageUrl}} resizeMode="cover" style={styles.image}/>
+      <View style={styles.row}>
+        <IconWithText text={meal?.duration} icon="timer-outline"/>
+        <IconWithText text={meal?.complexity} icon="egg-outline"/>
+        <IconWithText text={meal?.affordability} icon="card-outline" style={{ borderRightWidth: 0}}/>
+      </View>
+      <View style={styles.block}>
+        <BodyText style={styles.title}>Ingredients</BodyText>
+        <IngredientsList dataList={meal?.ingredients}/>
+      </View>
+      <View style={styles.block}>
+        <BodyText style={styles.title}>How to cook</BodyText>
+        <StepsList dataList={meal?.steps}/>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button color={theme.colors.primary}
+          title="Go to categories"
+          onPress={() => {
+            navigation.popToTop();
+          }}
+        />
+      </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -45,9 +65,31 @@ MealDetailScreen.navigationOptions = (navigationData) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
+  scrollView: {
+  },
+  image: {
+    width: '100%',
+    height: 300
+  },
+  row: {
+    flexDirection: 'row',
+    padding: 8,
+  },
+  block: {
+    marginVertical: 16,
+    alignItems: 'center',
+    paddingHorizontal: 16
+  },
+  title: {
+    fontSize: 24,
+    color: theme.colors.primary,
+    marginBottom: 8,
+    textTransform: 'uppercase'
+  },
+  buttonContainer: {
+
+  }
 });
 
 export default MealDetailScreen;

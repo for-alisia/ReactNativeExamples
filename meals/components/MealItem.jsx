@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 import { Ionicons } from '@expo/vector-icons';
 
 // Components
-import { Card } from './ui';
+import { Card, BodyText, IconWithText } from './ui';
 
 // Theme
 import theme from '../theme';
@@ -24,29 +24,20 @@ const MealItem = ({ item, onSelectMeal }) => {
               resizeMode="cover"
               style={styles.image}
             >
-              <Text
+              <BodyText
                 style={{
                   ...styles.title,
                   backgroundColor: theme.randomColors[getRandomInt(0, theme.randomColors.length)],
                 }}
               >
                 {item.title}
-              </Text>
+              </BodyText>
             </ImageBackground>
           </View>
           <View style={{ ...styles.mealRow, ...styles.mealDetails }}>
-            <View style={{ ...styles.mealRow, ...styles.withDash }}>
-              <Ionicons name="timer-outline" size={18} color="black" />
-              <Text style={styles.withMargin}>{item.duration} min</Text>
-            </View>
-            <View style={{ ...styles.mealRow, ...styles.withDash }}>
-              <Ionicons name="egg-outline" size={18} color="black" />
-              <Text style={styles.withMargin}>{item.complexity} </Text>
-            </View>
-            <View style={{ ...styles.mealRow, ...styles.withDash, borderRightWidth: 0 }}>
-              <Ionicons name="card-outline" size={18} color="black" />
-              <Text style={styles.withMargin}>{item.affordability} </Text>
-            </View>
+            <IconWithText text={item?.duration} icon="timer-outline"/>
+            <IconWithText text={item?.complexity} icon="egg-outline"/>
+            <IconWithText text={item?.affordability} icon="card-outline" style={{ borderRightWidth: 0}}/>
             <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
               <Ionicons name="heart-outline" size={18} color="black" />
             </View>
@@ -91,14 +82,6 @@ const styles = StyleSheet.create({
     maxWidth: 170,
     borderBottomRightRadius: 8,
     textAlign: 'center',
-  },
-  withDash: {
-    borderRightColor: theme.colors.primary,
-    borderRightWidth: 1,
-    paddingHorizontal: 8,
-  },
-  withMargin: {
-    marginLeft: 4,
   },
 });
 
