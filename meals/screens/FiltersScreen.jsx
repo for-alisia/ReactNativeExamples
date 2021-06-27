@@ -1,14 +1,29 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { HeaderButton } from '../components/ui';
+import { HeaderButton, TitleText, BodyText } from '../components/ui';
+import FilterSwitch from '../components/FilterSwitch';
 
-const FiltersScreen = (props) => {
+// Theme
+import theme from '../theme';
+
+const FiltersScreen = () => {
+  const [isGluten, setIsGluten] = useState(false);
+  const [isLactose, setIsLactose] = useState(false);
+  const [isVegan, setIsVegan] = useState(false);
+  const [isVegetarian, setIsVegetarian] = useState(false);
+
   return (
     <View style={styles.screen}>
-      <Text>Categories</Text>
+      <TitleText color={theme.colors.accentColor}>Filters</TitleText>
+      <View style={styles.filtersWrapper}>
+        <FilterSwitch label="Gluten-free" value={isGluten} onChange={(newVal) => setIsGluten(newVal)}/>
+        <FilterSwitch label="Lactose-free" value={isLactose} onChange={(newVal) => setIsLactose(newVal)}/>
+        <FilterSwitch label="Vegan" value={isVegan} onChange={(newVal) => setIsVegan(newVal)}/>
+        <FilterSwitch label="Vegetarian" value={isVegetarian} onChange={(newVal) => setIsVegetarian(newVal)}/>
+      </View>     
     </View>
   );
 };
@@ -16,9 +31,12 @@ const FiltersScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    padding: 32
   },
+  filtersWrapper: {
+    alignItems: 'center'
+  }
 });
 
 FiltersScreen.navigationOptions = (navData) => {
