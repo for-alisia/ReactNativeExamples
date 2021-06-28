@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View,  StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 // Icons
 import { Ionicons } from '@expo/vector-icons';
@@ -13,7 +14,15 @@ import theme from '../theme';
 // Utils
 import { getRandomInt } from '../utils';
 
-const MealItem = ({ item, onSelectMeal }) => {
+// Actions
+import {toggleFavourite} from '../store/actions/meals.actions';
+
+const MealItem = ({ item, onSelectMeal, isFav }) => {
+  const dispatch = useDispatch();
+
+  const addToFavHandler = () => {
+    dispatch(toggleFavourite(item.id))
+  }
   return (
     <Card style={styles.item}>
       <TouchableOpacity onPress={onSelectMeal} activeOpacity={0.75}>
@@ -38,9 +47,9 @@ const MealItem = ({ item, onSelectMeal }) => {
             <IconWithText text={item?.duration} icon="timer-outline"/>
             <IconWithText text={item?.complexity} icon="egg-outline"/>
             <IconWithText text={item?.affordability} icon="card-outline" style={{ borderRightWidth: 0}}/>
-            <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
-              <Ionicons name="heart-outline" size={18} color="black" />
-            </View>
+            <TouchableOpacity onPress={addToFavHandler} activeOpacity={0.75} style={{ flexGrow: 1, alignItems: 'flex-end' }}>            
+              <Ionicons name={isFav ? 'heart' : "heart-outline"} size={18} color={theme.colors.primary} />       
+            </TouchableOpacity>           
           </View>
         </View>
       </TouchableOpacity>

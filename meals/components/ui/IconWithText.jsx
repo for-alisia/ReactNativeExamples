@@ -14,7 +14,7 @@ const IconWithText = (props) => {
   const { icon, text } = props;
   return (
     <View style={{...styles.container, ...props.style}}>
-      <Ionicons name={icon} size={18} color="black" />
+      <Ionicons name={icon} size={18} color={theme.colors.primary} />
       <BodyText style={styles.text}>{text}</BodyText>
     </View>
   )
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   text: {
-    marginLeft: 4
+    marginLeft: 4,
+    color: theme.colors.primary
   }
 });
 

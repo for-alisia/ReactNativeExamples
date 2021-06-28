@@ -1,27 +1,41 @@
 // Dependencies
-import React, { useEffect} from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import { HeaderButton, IconWithText, CustomButton, TitleText } from '../components/ui';
 import IngredientsList from '../components/IngredientsList';
 import StepsList from '../components/StepsList';
 
+// Actions
+import { toggleFavourite } from '../store/actions/meals.actions';
+
 import theme from '../theme';
 
 const MealDetailScreen = ({ navigation }) => {
   const mealId = navigation.getParam('mealId');
-
+  // @ts-ignore
+  const isFavMeals = useSelector(state => state.meals.favouriteMeals.some(meal => meal.id === mealId))
   // @ts-ignore
   const availableMeals = useSelector(( state ) => state.meals.meals);
 
   const meal = availableMeals.find((meal) => meal.id === mealId);
 
-  // useEffect(() => {
-  //   navigation.setParams({ title: meal.title})
-  // }, [meal])
+  const dispatch = useDispatch();
+
+  const toggleFavouriteHandler = useCallback(() => {
+    dispatch(toggleFavourite(mealId))
+  }, [mealId, dispatch])
+
+  useEffect(() => {
+    navigation.setParams({ toggleFav: toggleFavouriteHandler})
+  }, [toggleFavouriteHandler]);
+
+  useEffect(() => {
+    navigation.setParams({isFav: isFavMeals})
+  }, [isFavMeals])
   
 
   return (
@@ -54,13 +68,15 @@ const MealDetailScreen = ({ navigation }) => {
 
 MealDetailScreen.navigationOptions = (navigationData) => {
   const mealTitle = navigationData.navigation.getParam('mealTitle');
+  const toggleFav = navigationData.navigation.getParam('toggleFav');
+  const isFav = navigationData.navigation.getParam('isFav');
 
   return {
     headerTitle: mealTitle,
     headerRight: () => (
       // Button in a header
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title="Favourite" iconName="heart-outline" onPress={() => {}} />
+        <Item title="Favourite" iconName={isFav ? "heart" : "heart-outline"} onPress={toggleFav} />
       </HeaderButtons>
     ),
   };
