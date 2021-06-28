@@ -1,6 +1,7 @@
 // Dependencies
 import React from 'react';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 // Components
 import MealList from '../components/MealList';
@@ -10,7 +11,8 @@ import { HeaderButton } from '../components/ui';
 import { MEALS } from '../data/dummy-data';
 
 const FavouritesScreen = ({ navigation }) => {
-  const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2');
+  // @ts-ignore
+  const favMeals = useSelector((state) => state.meals.favouriteMeals);
 
   return (
     <MealList navigation={navigation} dataList={favMeals}/>

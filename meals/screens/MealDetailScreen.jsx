@@ -1,21 +1,28 @@
 // Dependencies
-import React from 'react';
-import { View, StyleSheet, Button, ScrollView, Image, SafeAreaView, ColorPropType } from 'react-native';
+import React, { useEffect} from 'react';
+import { View, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 // Components
-import { BodyText, HeaderButton, IconWithText, CustomButton, TitleText } from '../components/ui';
+import { HeaderButton, IconWithText, CustomButton, TitleText } from '../components/ui';
 import IngredientsList from '../components/IngredientsList';
 import StepsList from '../components/StepsList';
 
-// Data
-import { MEALS } from '../data/dummy-data';
 import theme from '../theme';
 
 const MealDetailScreen = ({ navigation }) => {
   const mealId = navigation.getParam('mealId');
 
-  const meal = MEALS.find((meal) => meal.id === mealId);
+  // @ts-ignore
+  const availableMeals = useSelector(( state ) => state.meals.meals);
+
+  const meal = availableMeals.find((meal) => meal.id === mealId);
+
+  // useEffect(() => {
+  //   navigation.setParams({ title: meal.title})
+  // }, [meal])
+  
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -46,11 +53,10 @@ const MealDetailScreen = ({ navigation }) => {
 };
 
 MealDetailScreen.navigationOptions = (navigationData) => {
-  const mealId = navigationData.navigation.getParam('mealId');
-  const meal = MEALS.find((meal) => meal.id === mealId);
+  const mealTitle = navigationData.navigation.getParam('mealTitle');
 
   return {
-    headerTitle: meal && meal.title,
+    headerTitle: mealTitle,
     headerRight: () => (
       // Button in a header
       <HeaderButtons HeaderButtonComponent={HeaderButton}>

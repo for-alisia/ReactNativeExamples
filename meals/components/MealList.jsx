@@ -13,7 +13,7 @@ const MealList = ( {navigation, dataList} ) => {
       <MealItem
         item={item}
         onSelectMeal={() => {
-          navigation.navigate({ routeName: 'MealDetail', params: { mealId: item.id } });
+          navigation.navigate({ routeName: 'MealDetail', params: { mealId: item.id, mealTitle: item.title } });
         }}
       />
     );
