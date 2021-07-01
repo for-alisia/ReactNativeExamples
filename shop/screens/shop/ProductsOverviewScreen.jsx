@@ -3,7 +3,8 @@ import React from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
-// Redux
+// Components
+import { ProductItem } from '../../components/shop';
 
 const ProductsOverviewScreen = () => {
   // @ts-ignore
@@ -12,14 +13,14 @@ const ProductsOverviewScreen = () => {
   const renderItem = (itemData) => {
     const { item } = itemData;
 
-    return (
-      <View>
-        <Text>{item.title}</Text>
-      </View>
-    );
+    return <ProductItem item={item} />;
   };
 
   return <FlatList data={products} renderItem={renderItem} />;
+};
+
+ProductsOverviewScreen.navigationOptions = {
+  headerTitle: 'All Products',
 };
 
 export default ProductsOverviewScreen;

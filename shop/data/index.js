@@ -4,50 +4,50 @@ const PRODUCTS = [
   new Product(
     'p1',
     'u1',
-    'Red Shirt',
-    'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
-    'A red t-shirt, perfect for days with non-red weather.',
-    29.99
+    'Купальник с длинным рукавом Grishko',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114403/ballet/product_1_pl7hoy.png',
+    'Удобный базовый купальник, рекомендованный для девочек до 12 лет',
+    1830
   ),
   new Product(
     'p2',
     'u1',
-    'Blue Carpet',
-    'https://images.pexels.com/photos/6292/blue-pattern-texture-macro.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-    'Fits your red shirt perfectly. To stand on. Not to wear it.',
-    99.99
+    'Купальник на тонких бретельках с юбкой Blissom',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_2_wplsk7.png',
+    'Стильный и качественный купальник для девочек всех возрастов',
+    2300
   ),
   new Product(
     'p3',
     'u2',
-    'Coffee Mug',
-    'https://images.pexels.com/photos/160834/coffee-cup-and-saucer-black-coffee-loose-coffee-beans-160834.jpeg?cs=srgb&dl=bean-beans-black-coffee-160834.jpg&fm=jpg',
-    'Can also be used for tea!',
-    8.99
+    'Купальник с коротким рукавом и юбкой Grishko',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_3_fj4hxd.jpg',
+    'Нежный и стильный купальник для девочек с многослойной юбкой и оборкой по вороту',
+    1950
   ),
   new Product(
     'p4',
     'u3',
-    'The Book - Limited Edition',
-    'https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?cs=srgb&dl=blur-blurred-book-pages-46274.jpg&fm=jpg',
-    "What the content is? Why would that matter? It's a limited edition!",
-    15.99
+    'Купальник на тонких бретельках Grishko',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_4_nxxtfn.jpg',
+    'Базовый стильный купальник, подходит для девочек всех возрастов',
+    1970
   ),
   new Product(
     'p5',
     'u3',
-    'PowerBook',
-    'https://get.pxhere.com/photo/laptop-computer-macbook-mac-screen-water-board-keyboard-technology-air-mouse-photo-airport-aircraft-tablet-aviation-office-black-monitor-keys-graphic-hardware-image-pc-exhibition-multimedia-calculator-vector-water-cooling-floppy-disk-phased-out-desktop-computer-netbook-personal-computer-computer-monitor-electronic-device-computer-hardware-display-device-448748.jpg',
-    'Awesome hardware, crappy keyboard and a hefty price. Buy now before a new one is released!',
-    2299.99
+    'Купальник с длинным рукавом и юбкой Intos',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_5_zxzspf.jpg',
+    'Строгий и качественный купальник с юбкой для девочек всех возрастов',
+    1990
   ),
   new Product(
     'p6',
     'u1',
-    'Pen & Paper',
-    'https://cdn.pixabay.com/photo/2015/10/03/02/14/pen-969298_1280.jpg',
-    "Can be used for role-playing (not the kind of role-playing you're thinking about...).",
-    5.49
+    'Купальник с коротким рукавом и юбкой-сеткой Grishko',
+    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_6_wco9xk.png',
+    'Очаровательный купальник для маленьких балерин и не только',
+    1990
   ),
 ];
 
