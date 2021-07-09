@@ -7,9 +7,11 @@ const theme = {
     accent: '#CA5454',
     accentDark: '#6B5344',
     light: '#F6F6F6',
+    white: '#ffffff',
     grey: '#685E59',
     greyLight: '#ADA19B',
     dark: '#3C3735',
+    yellow: '#FF9921',
   },
 
   fonts: {

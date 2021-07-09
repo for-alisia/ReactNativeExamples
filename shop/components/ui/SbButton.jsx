@@ -1,9 +1,27 @@
+// @ts-nocheck
 // Dependencies
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+} from 'react-native';
 
-const SbButton = () => {
-  return <View style={styles.container}>Button Component</View>;
+// Components
+import SbText from './SbText';
+
+const SbButton = ({ onPress, children }) => {
+  let TouchableComponent = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
+
+  return (
+    <TouchableComponent onPress={onPress} activeOpacity={0.75}>
+      <View style={styles.container}>
+        <SbText>{children}</SbText>
+      </View>
+    </TouchableComponent>
+  );
 };
 
 const styles = StyleSheet.create({

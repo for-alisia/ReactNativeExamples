@@ -1,13 +1,22 @@
 // Dependencies
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-const SbTitle = () => {
-  return <View style={styles.container}>Title Component</View>;
+// Theme
+import theme from '../../theme';
+
+const SbTitle = (props) => {
+  const { style, children } = props;
+
+  return <Text style={{ ...styles.title, ...style }}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  title: {
+    fontFamily: theme.fonts.monserratBold,
+    fontSize: theme.fontSize.s,
+    color: theme.colors.primary,
+  },
 });
 
 export default SbTitle;
