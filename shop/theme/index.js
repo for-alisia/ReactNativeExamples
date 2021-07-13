@@ -53,6 +53,8 @@ const theme = {
     m: 16,
     l: 24,
   },
+
+  activeOpacity: 0.75,
 };
 
 export default theme;

@@ -1,9 +1,9 @@
 // Dependencies
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 // Components
-import { SbText, SbTitle, SbCard, SbStarRate } from '../ui';
+import { SbText, SbTitle, SbCard, SbStarRate, SbImage, SbTouchable } from '../ui';
 
 // Icons
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -15,21 +15,30 @@ const ProductItem = ({ item }) => {
   return (
     <View style={styles.container}>
       <SbCard>
-        <Image source={{ uri: item.imageUrl }} resizeMode="cover" style={styles.image} />
-        <View style={styles.description}>
-          <View style={styles.priceRow}>
-            <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
-            <FontAwesome
-              name="heart-o"
-              size={24}
-              color={theme.colors.primary}
-              style={styles.icons}
-            />
-            <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+        <TouchableOpacity
+          onPress={() => console.log('To the details')}
+          activeOpacity={theme.activeOpacity}
+        >
+          <SbImage source={item.imageUrl} style={styles.image} />
+          <View style={styles.description}>
+            <View style={styles.priceRow}>
+              <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
+              <SbTouchable onPress={() => console.log('To favorite')}>
+                <FontAwesome
+                  name="heart-o"
+                  size={24}
+                  color={theme.colors.primary}
+                  style={styles.icons}
+                />
+              </SbTouchable>
+              <SbTouchable onPress={() => console.log('To the cart')}>
+                <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+              </SbTouchable>
+            </View>
+            <SbText style={styles.title}>{item.title}</SbText>
+            <SbStarRate color={theme.colors.yellow} rate={item.rate} />
           </View>
-          <SbText style={styles.title}>{item.title}</SbText>
-          <SbStarRate color={theme.colors.yellow} rate={item.rate} />
-        </View>
+        </TouchableOpacity>
       </SbCard>
     </View>
   );
@@ -41,8 +50,8 @@ const styles = StyleSheet.create({
     width: '50%',
     flex: 1,
   },
+  // Set image height
   image: {
-    width: '100%',
     height: 220,
   },
   // Whole description block
