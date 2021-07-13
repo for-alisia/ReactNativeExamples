@@ -11,19 +11,16 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 // Theme
 import theme from '../../theme';
 
-const ProductItem = ({ item }) => {
+const ProductItem = ({ item, onViewDetail, onAddToFavorite, onAddToCart }) => {
   return (
     <View style={styles.container}>
       <SbCard>
-        <TouchableOpacity
-          onPress={() => console.log('To the details')}
-          activeOpacity={theme.activeOpacity}
-        >
+        <TouchableOpacity onPress={onViewDetail} activeOpacity={theme.activeOpacity}>
           <SbImage source={item.imageUrl} style={styles.image} />
           <View style={styles.description}>
             <View style={styles.priceRow}>
               <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
-              <SbTouchable onPress={() => console.log('To favorite')}>
+              <SbTouchable onPress={onAddToFavorite}>
                 <FontAwesome
                   name="heart-o"
                   size={24}
@@ -31,7 +28,7 @@ const ProductItem = ({ item }) => {
                   style={styles.icons}
                 />
               </SbTouchable>
-              <SbTouchable onPress={() => console.log('To the cart')}>
+              <SbTouchable onPress={onAddToCart}>
                 <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
               </SbTouchable>
             </View>

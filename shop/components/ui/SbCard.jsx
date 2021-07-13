@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.16,
     shadowOffset: { width: 0, height: 2 },
+    borderRadius: theme.borderRadius.xs,
     elevation: 4,
     backgroundColor: theme.colors.white,
     flex: 1,

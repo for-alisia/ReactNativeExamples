@@ -9,7 +9,7 @@ import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
 
 // Screens
-import { ProductsOverviewScreen } from '../screens/shop';
+import { ProductsOverviewScreen, ProductDetailScreen } from '../screens/shop';
 
 // Theme
 import theme from '../theme';
@@ -17,6 +17,7 @@ import theme from '../theme';
 const ProductsNavigator = createStackNavigator(
   {
     ProductsOverview: ProductsOverviewScreen,
+    ProductDetail: ProductDetailScreen,
   },
   {
     defaultNavigationOptions: {
