@@ -1,6 +1,6 @@
 // Dependencies
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 // Components
 import { SbText, SbTitle, SbCard, SbStarRate, SbImage, SbTouchable } from '../ui';
@@ -15,27 +15,29 @@ const ProductItem = ({ item, onViewDetail, onAddToFavorite, onAddToCart }) => {
   return (
     <View style={styles.container}>
       <SbCard>
-        <TouchableOpacity onPress={onViewDetail} activeOpacity={theme.activeOpacity}>
-          <SbImage source={item.imageUrl} style={styles.image} />
-          <View style={styles.description}>
-            <View style={styles.priceRow}>
-              <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
-              <SbTouchable onPress={onAddToFavorite}>
-                <FontAwesome
-                  name="heart-o"
-                  size={24}
-                  color={theme.colors.primary}
-                  style={styles.icons}
-                />
-              </SbTouchable>
-              <SbTouchable onPress={onAddToCart}>
-                <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
-              </SbTouchable>
+        <SbTouchable onPress={onViewDetail} activeOpacity={theme.activeOpacity}>
+          <View>
+            <SbImage source={item.imageUrl} style={styles.image} />
+            <View style={styles.description}>
+              <View style={styles.priceRow}>
+                <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
+                <SbTouchable onPress={onAddToFavorite}>
+                  <FontAwesome
+                    name="heart-o"
+                    size={24}
+                    color={theme.colors.primary}
+                    style={styles.icons}
+                  />
+                </SbTouchable>
+                <SbTouchable onPress={onAddToCart}>
+                  <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+                </SbTouchable>
+              </View>
+              <SbText style={styles.title}>{item.title}</SbText>
+              <SbStarRate color={theme.colors.yellow} rate={item.rate} />
             </View>
-            <SbText style={styles.title}>{item.title}</SbText>
-            <SbStarRate color={theme.colors.yellow} rate={item.rate} />
           </View>
-        </TouchableOpacity>
+        </SbTouchable>
       </SbCard>
     </View>
   );
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
     padding: theme.padding.xs,
     width: '50%',
     flex: 1,
+    overflow: 'hidden',
   },
   // Set image height
   image: {

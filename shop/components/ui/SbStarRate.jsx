@@ -16,9 +16,9 @@ const SbStarRate = (props) => {
     // Full start we get if rate > 0.5 (for example, if rate === 4.6 => we'll get 5 stars)
     for (let i = 1; i < 6; i++) {
       if (rate > i || (i - rate < 0.5 && rate < i)) {
-        stars.push(<FontAwesome name="star" size={16} color={color} />);
+        stars.push(<FontAwesome name="star" size={16} color={color || theme.colors.yellow} />);
       } else {
-        stars.push(<FontAwesome name="star-o" size={16} color={color} />);
+        stars.push(<FontAwesome name="star-o" size={16} color={color || theme.colors.yellow} />);
       }
     }
 

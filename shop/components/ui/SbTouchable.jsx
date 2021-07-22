@@ -7,9 +7,16 @@ import theme from '../../theme';
 
 const SbTouchable = (props) => {
   const { activeOpacity, onPress, children } = props;
-  const TComponent = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
+  const TComponent =
+    Platform.OS === 'android' && Platform.Version >= 21
+      ? TouchableNativeFeedback
+      : TouchableOpacity;
   return (
-    <TComponent activeOpacity={activeOpacity || theme.activeOpacity} onPress={onPress}>
+    <TComponent
+      activeOpacity={activeOpacity || theme.activeOpacity}
+      onPress={onPress}
+      useForeground
+    >
       {children}
     </TComponent>
   );

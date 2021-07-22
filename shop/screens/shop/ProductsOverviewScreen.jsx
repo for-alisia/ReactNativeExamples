@@ -15,20 +15,20 @@ const ProductsOverviewScreen = (props) => {
   // @ts-ignore
   const products = useSelector((state) => state.products.availableProducts);
 
-  const viewDetailHandler = () => {
-    navigation.navigate({ routeName: 'ProductDetail' });
-  };
-
-  const addtoFavoriteHandler = () => {
-    console.log('To Favorite');
-  };
-
-  const addToCartHandler = () => {
-    console.log('To Cart');
-  };
-
   const renderItem = (itemData) => {
     const { item } = itemData;
+
+    const viewDetailHandler = () => {
+      navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.title });
+    };
+
+    const addtoFavoriteHandler = () => {
+      console.log('To Favorite');
+    };
+
+    const addToCartHandler = () => {
+      console.log('To Cart');
+    };
 
     return (
       <ProductItem
