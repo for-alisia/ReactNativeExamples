@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
 // Components
-import { SbText, SbImage, SbStarRate, SbTitle, SbTouchable, SbCard } from '../../components/ui';
+import { SbText, SbImage, SbStarRate, SbTitle, SbBottomButton, SbCard } from '../../components/ui';
 
 // Icons
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -23,39 +23,51 @@ const ProductDetailScreen = (props) => {
   );
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <View style={styles.titleWrapper}>
-            <SbTitle style={styles.title}>{product.title}</SbTitle>
+    <View style={styles.wrapper}>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.titleContainer}>
+            <View style={styles.titleWrapper}>
+              <SbTitle style={styles.title}>{product.title}</SbTitle>
+            </View>
+          </View>
+          <View style={styles.imageContainer}>
+            <SbCard>
+              <SbImage source={product.imageUrl} style={styles.image} />
+              <FontAwesome
+                name="heart-o"
+                size={32}
+                color={theme.colors.primary}
+                style={styles.iconHeart}
+              />
+            </SbCard>
+          </View>
+          <View style={styles.infoContainer}>
+            <SbTitle style={styles.priceTitle}>{product.price} руб.</SbTitle>
+            <View style={styles.rateContainer}>
+              <SbStarRate
+                color={theme.colors.yellow}
+                rate={product.rate}
+                style={styles.rateStars}
+              />
+              <SbText style={styles.reviewText}>
+                {product.reviews.length} отзыв{getWordEndByQty(product.reviews.length)}
+              </SbText>
+            </View>
+          </View>
+          <View style={styles.descContainer}>
+            <SbTitle style={styles.descTitle}>Описание</SbTitle>
+            <SbText>{product.description}</SbText>
           </View>
         </View>
-        <View style={styles.imageContainer}>
-          <SbCard>
-            <SbImage source={product.imageUrl} style={styles.image} />
-            <FontAwesome
-              name="heart-o"
-              size={32}
-              color={theme.colors.primary}
-              style={styles.iconHeart}
-            />
-          </SbCard>
+      </ScrollView>
+      <SbBottomButton onPress={() => console.log('Add product to cart!')}>
+        <View style={styles.addToCartButton}>
+          <SbTitle style={styles.addToCartTitle}>В корзину</SbTitle>
+          <MaterialIcons name="add-shopping-cart" size={20} color={theme.colors.light} />
         </View>
-        <View style={styles.infoContainer}>
-          <SbTitle style={styles.priceTitle}>{product.price} руб.</SbTitle>
-          <View style={styles.rateContainer}>
-            <SbStarRate color={theme.colors.yellow} rate={product.rate} style={styles.rateStars} />
-            <SbText style={styles.reviewText}>
-              {product.reviews.length} отзыв{getWordEndByQty(product.reviews.length)}
-            </SbText>
-          </View>
-        </View>
-        <View style={styles.descContainer}>
-          <SbTitle style={styles.descTitle}>Описание</SbTitle>
-          <SbText>{product.description}</SbText>
-        </View>
-      </View>
-    </ScrollView>
+      </SbBottomButton>
+    </View>
   );
 };
 
@@ -66,6 +78,9 @@ ProductDetailScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
   container: {
     alignItems: 'center',
   },
@@ -126,6 +141,16 @@ const styles = StyleSheet.create({
   },
   descTitle: {
     marginBottom: theme.margin.m,
+  },
+  addToCartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  addToCartTitle: {
+    color: theme.colors.light,
+    fontFamily: theme.fonts.montserratReg,
+    textTransform: 'uppercase',
+    marginRight: theme.margin.s,
   },
 });
 
