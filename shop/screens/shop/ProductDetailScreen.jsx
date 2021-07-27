@@ -3,7 +3,15 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
 // Components
-import { SbText, SbImage, SbStarRate, SbTitle, SbBottomButton, SbCard } from '../../components/ui';
+import {
+  SbText,
+  SbImage,
+  SbStarRate,
+  SbTitle,
+  SbBottomButton,
+  SbCard,
+  SbTouchable,
+} from '../../components/ui';
 
 // Icons
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -34,12 +42,14 @@ const ProductDetailScreen = (props) => {
           <View style={styles.imageContainer}>
             <SbCard>
               <SbImage source={product.imageUrl} style={styles.image} />
-              <FontAwesome
-                name="heart-o"
-                size={32}
-                color={theme.colors.primary}
-                style={styles.iconHeart}
-              />
+              <SbTouchable onPress={() => console.log('Add item to favourite!')}>
+                <FontAwesome
+                  name="heart-o"
+                  size={32}
+                  color={theme.colors.primary}
+                  style={styles.iconHeart}
+                />
+              </SbTouchable>
             </SbCard>
           </View>
           <View style={styles.infoContainer}>
