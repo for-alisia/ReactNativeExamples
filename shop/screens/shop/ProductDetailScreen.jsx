@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import {
@@ -22,6 +22,9 @@ import theme from '../../theme';
 // Utils
 import { getWordEndByQty } from '../../utils';
 
+// Actions
+import { addToCart } from '../../store/actions/cart.actions';
+
 const ProductDetailScreen = (props) => {
   const productId = props.navigation.getParam('productId');
 
@@ -29,6 +32,8 @@ const ProductDetailScreen = (props) => {
     // @ts-ignore
     state.products.availableProducts.find((product) => product.id === productId)
   );
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.wrapper}>
@@ -71,7 +76,12 @@ const ProductDetailScreen = (props) => {
           </View>
         </View>
       </ScrollView>
-      <SbBottomButton onPress={() => console.log('Add product to cart!')}>
+      <SbBottomButton
+        onPress={() => {
+          console.log('Add product to cart!');
+          dispatch(addToCart(product));
+        }}
+      >
         <View style={styles.addToCartButton}>
           <SbTitle style={styles.addToCartTitle}>В корзину</SbTitle>
           <MaterialIcons name="add-shopping-cart" size={20} color={theme.colors.light} />

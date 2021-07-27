@@ -8,34 +8,31 @@ const initialState = {
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    // ADD ITEM TO CART
     case ADD_TO_CART:
       const addedProduct = action.payload;
       const id = addedProduct.id;
       const productPrice = addedProduct.price;
       const productTitle = addedProduct.title;
+      let cartItem;
 
       if (state.items[id]) {
-        const updatedCartItem = new CartItem(
+        // HAVE AN ITEM IN THE CART -> UPDATE QTY AND TOTAL
+        cartItem = new CartItem(
           state.items[id].quantity + 1,
           productPrice,
           productTitle,
           state.items[id].sum + productPrice
         );
-
-        return {
-          ...state,
-          items: { ...state.items, [id]: updatedCartItem },
-          total: state.total + productPrice,
-        };
       } else {
-        const newCartItem = new CartItem(1, productPrice, productTitle, productPrice);
-
-        return {
-          ...state,
-          items: { ...state.items, [id]: newCartItem },
-          total: state.total + newCartItem.sum,
-        };
+        // ADD TOTAL NEW ITEM TO THE CART
+        cartItem = new CartItem(1, productPrice, productTitle, productPrice);
       }
+      return {
+        ...state,
+        items: { ...state.items, [id]: cartItem },
+        total: state.total + productPrice,
+      };
 
     default:
       return state;
