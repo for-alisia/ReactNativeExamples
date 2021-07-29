@@ -55,15 +55,15 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = () => ({
+ProductsOverviewScreen.navigationOptions = (navData) => ({
   headerTitle: 'Все товары',
   headerRight: () => (
     <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
       <Item
         iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-        title="cart"
+        title="Корзина"
         onPress={() => {
-          console.log('Pressed the cart icon!');
+          navData.navigation.navigate('Cart');
         }}
       />
     </HeaderButtons>
