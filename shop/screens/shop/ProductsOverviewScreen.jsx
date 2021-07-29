@@ -1,10 +1,12 @@
 // Dependencies
 import React from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Platform, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item, HeaderButton } from 'react-navigation-header-buttons';
 
 // Components
 import { ProductItem } from '../../components/shop';
+import { SbHeaderButton } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
@@ -53,9 +55,20 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = {
-  headerTitle: 'All Products',
-};
+ProductsOverviewScreen.navigationOptions = () => ({
+  headerTitle: 'Все товары',
+  headerRight: () => (
+    <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+      <Item
+        iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+        title="cart"
+        onPress={() => {
+          console.log('Pressed the cart icon!');
+        }}
+      />
+    </HeaderButtons>
+  ),
+});
 
 const styles = StyleSheet.create({
   container: {
