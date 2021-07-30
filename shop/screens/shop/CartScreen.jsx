@@ -11,14 +11,24 @@ import theme from '../../theme';
 const CartScreen = () => {
   // @ts-ignore
   const cartTotal = useSelector((state) => state.cart.total);
+  const cartAmount = useSelector((state) => {
+    // @ts-ignore
+    return Object.keys(state.cart.items).length;
+  });
 
   return (
     <View style={styles.container}>
       <View style={styles.summary}>
-        <SbTitle>К оплате: {cartTotal.toFixed(2)} руб.</SbTitle>
+        <SbText style={styles.amountText}>
+          Всего позиций в заказе: <SbTitle>{cartAmount}</SbTitle>
+        </SbText>
+        <SbText style={styles.totalText}>
+          На сумму: <SbTitle>{cartTotal.toFixed(2)} руб.</SbTitle>
+        </SbText>
         <SbButton onPress={() => console.log('Order')}>Оформить заказ</SbButton>
       </View>
       <View>
+        <SbTitle>Детали заказа</SbTitle>
         <SbText>List of items here</SbText>
       </View>
     </View>
@@ -31,11 +41,14 @@ const styles = StyleSheet.create({
     margin: theme.margin.s,
   },
   summary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: theme.margin.s,
     padding: theme.padding.xs,
+  },
+  amountText: {
+    marginBottom: theme.margin.s,
+  },
+  totalText: {
+    marginBottom: theme.margin.m,
   },
 });
 

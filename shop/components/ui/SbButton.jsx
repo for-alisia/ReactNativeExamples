@@ -1,31 +1,55 @@
 // @ts-nocheck
 // Dependencies
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 // Components
 import SbText from './SbText';
+import SbTouchable from './SbTouchable';
 
-const SbButton = ({ onPress, children }) => {
-  let TouchableComponent = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
+// Theme
+import theme from '../../theme';
+
+const SbButton = (props) => {
+  const { children, onPress, type, style } = props;
+
+  const typeStyles = type || 'solid';
+  const textStyles = typeStyles === 'solid' ? 'textSolid' : 'textOutlined';
 
   return (
-    <TouchableComponent onPress={onPress} activeOpacity={0.75}>
-      <View style={styles.container}>
-        <SbText>{children}</SbText>
+    <SbTouchable onPress={onPress}>
+      <View style={{ ...styles.container, ...styles[typeStyles], ...style }}>
+        <SbText style={{ ...styles.text, ...styles[textStyles] }}>{children}</SbText>
       </View>
-    </TouchableComponent>
+    </SbTouchable>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingVertical: theme.padding.s,
+    paddingHorizontal: theme.padding.m,
+    borderRadius: theme.borderRadius.l,
+  },
+  solid: {
+    backgroundColor: theme.colors.primary,
+  },
+  outline: {
+    backgroundColor: 'transparent',
+    borderColor: theme.colors.primary,
+    borderWidth: 1,
+  },
+  text: {
+    textTransform: 'uppercase',
+    fontSize: theme.fontSize.s,
+    textAlign: 'center',
+  },
+  textSolid: {
+    color: theme.colors.light,
+  },
+  textOutlined: {
+    color: theme.colors.primary,
+  },
 });
 
 export default SbButton;
