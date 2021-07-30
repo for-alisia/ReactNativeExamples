@@ -15,6 +15,20 @@ const CartScreen = () => {
     // @ts-ignore
     return Object.keys(state.cart.items).length;
   });
+  const cartItems = useSelector((state) => {
+    const transformedItems = [];
+
+    // @ts-ignore
+    for (let key in state.cart.items) {
+      transformedItems.push({
+        id: key,
+        // @ts-ignore
+        ...state.cart.items[key],
+      });
+    }
+
+    return transformedItems;
+  });
 
   return (
     <View style={styles.container}>
@@ -50,6 +64,10 @@ const styles = StyleSheet.create({
   totalText: {
     marginBottom: theme.margin.m,
   },
+});
+
+CartScreen.navigationOptions = (navData) => ({
+  headerTitle: 'Корзина',
 });
 
 export default CartScreen;
