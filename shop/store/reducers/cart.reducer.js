@@ -14,6 +14,7 @@ const cartReducer = (state = initialState, action) => {
       const id = addedProduct.id;
       const productPrice = addedProduct.price;
       const productTitle = addedProduct.title;
+      const productImage = addedProduct.imageUrl;
       let cartItem;
 
       if (state.items[id]) {
@@ -22,11 +23,12 @@ const cartReducer = (state = initialState, action) => {
           state.items[id].quantity + 1,
           productPrice,
           productTitle,
-          state.items[id].sum + productPrice
+          state.items[id].sum + productPrice,
+          productImage
         );
       } else {
         // ADD TOTAL NEW ITEM TO THE CART
-        cartItem = new CartItem(1, productPrice, productTitle, productPrice);
+        cartItem = new CartItem(1, productPrice, productTitle, productPrice, productImage);
       }
       return {
         ...state,

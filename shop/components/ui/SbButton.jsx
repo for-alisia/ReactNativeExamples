@@ -11,14 +11,21 @@ import SbTouchable from './SbTouchable';
 import theme from '../../theme';
 
 const SbButton = (props) => {
-  const { children, onPress, type, style } = props;
+  const { children, onPress, type, style, disabled } = props;
 
   const typeStyles = type || 'solid';
   const textStyles = typeStyles === 'solid' ? 'textSolid' : 'textOutlined';
 
   return (
-    <SbTouchable onPress={onPress}>
-      <View style={{ ...styles.container, ...styles[typeStyles], ...style }}>
+    <SbTouchable onPress={!disabled ? onPress : () => {}}>
+      <View
+        style={{
+          ...styles.container,
+          ...styles[typeStyles],
+          ...style,
+          opacity: disabled ? 0.68 : 1,
+        }}
+      >
         <SbText style={{ ...styles.text, ...styles[textStyles] }}>{children}</SbText>
       </View>
     </SbTouchable>

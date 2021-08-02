@@ -2,16 +2,16 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 // Components
-import { SbText, SbTitle, SbCard } from '../ui';
+import { SbText, SbTitle, SbCard, SbImage } from '../ui';
 
 // Theme
 import theme from '../../theme';
 
-const CartItem = () => {
+const CartItem = ({ item }) => {
   return (
     <View style={styles.container}>
       <SbCard>
-        <SbTitle>Cart Item here</SbTitle>
+        <SbTitle>{item.productTitle}</SbTitle>
       </SbCard>
     </View>
   );
