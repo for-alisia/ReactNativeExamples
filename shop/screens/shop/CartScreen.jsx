@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 // Components
 import { SbText, SbButton, SbTitle, SbLink, SbHeading, SbBottomButton } from '../../components/ui';
+import { CartItem } from '../../components/shop';
 
 // Theme
 import theme from '../../theme';
@@ -30,6 +31,10 @@ const CartScreen = ({ navigation }) => {
     return transformedItems;
   });
 
+  const renderItem = (itemData) => {
+    return <CartItem item={itemData.item} navigation={navigation} />;
+  };
+
   return (
     <View style={styles.container}>
       {cartTotal > 0 ? (
@@ -37,15 +42,25 @@ const CartScreen = ({ navigation }) => {
           <View style={styles.innerContainer}>
             <SbHeading>Детали заказа</SbHeading>
             <View style={styles.summary}>
-              <SbText style={styles.amountText}>
-                Всего позиций в заказе: <SbTitle>{cartAmount}</SbTitle>
-              </SbText>
-              <SbText style={styles.totalText}>
-                На сумму: <SbTitle>{cartTotal.toFixed(2)} руб.</SbTitle>
-              </SbText>
+              <View style={styles.summaryRow}>
+                <View style={styles.colLarge}>
+                  <SbText>Всего позиций в заказе:</SbText>
+                </View>
+                <View style={styles.colNarrow}>
+                  <SbTitle>{cartAmount}</SbTitle>
+                </View>
+              </View>
+              <View style={styles.summaryRow}>
+                <View style={styles.colLarge}>
+                  <SbText>На сумму:</SbText>
+                </View>
+                <View style={styles.colNarrow}>
+                  <SbTitle>{cartTotal.toFixed(2)} руб.</SbTitle>
+                </View>
+              </View>
             </View>
             <View>
-              <SbText>List of items here</SbText>
+              <FlatList numColumns={1} data={cartItems} renderItem={renderItem} />
             </View>
           </View>
           <SbBottomButton
@@ -96,11 +111,17 @@ const styles = StyleSheet.create({
   summary: {
     marginBottom: theme.margin.s,
   },
-  amountText: {
+  summaryRow: {
     marginBottom: theme.margin.s,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  totalText: {
-    marginBottom: theme.margin.m,
+  colLarge: {
+    width: '60%',
+  },
+  colNarrow: {
+    width: '40%',
+    paddingLeft: theme.padding.s,
   },
   emptyCartText: {
     textAlign: 'center',

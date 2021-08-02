@@ -23,6 +23,7 @@ const SbLink = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'center',
+    padding: theme.padding.s,
   },
   link: {
     fontFamily: theme.fonts.montserratReg,
