@@ -8,3 +8,4 @@ export { default as SbTouchable } from './SbTouchable';
 export { default as SbBottomButton } from './SbBottomButton';
 export { default as SbHeaderButton } from './SbHeaderButton';
 export { default as SbLink } from './SbLink';
+export { default as SbHeading } from './SbHeading';

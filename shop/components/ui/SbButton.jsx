@@ -35,8 +35,9 @@ const SbButton = (props) => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: theme.padding.s,
-    paddingHorizontal: theme.padding.m,
+    paddingHorizontal: theme.padding.xl,
     borderRadius: theme.borderRadius.l,
+    alignSelf: 'center',
   },
   solid: {
     backgroundColor: theme.colors.primary,

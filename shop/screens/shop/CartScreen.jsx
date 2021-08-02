@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
 // Components
-import { SbText, SbButton, SbTitle, SbLink } from '../../components/ui';
+import { SbText, SbButton, SbTitle, SbLink, SbHeading, SbBottomButton } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
@@ -33,23 +33,27 @@ const CartScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {cartTotal > 0 ? (
-        <View>
-          <View style={styles.summary}>
-            <SbText style={styles.amountText}>
-              Всего позиций в заказе: <SbTitle>{cartAmount}</SbTitle>
-            </SbText>
-            <SbText style={styles.totalText}>
-              На сумму: <SbTitle>{cartTotal.toFixed(2)} руб.</SbTitle>
-            </SbText>
-
-            <SbButton onPress={() => console.log('Order')} disabled={cartTotal > 0 ? false : true}>
-              Оформить заказ
-            </SbButton>
+        <View style={styles.detailsContainer}>
+          <View style={styles.innerContainer}>
+            <SbHeading>Детали заказа</SbHeading>
+            <View style={styles.summary}>
+              <SbText style={styles.amountText}>
+                Всего позиций в заказе: <SbTitle>{cartAmount}</SbTitle>
+              </SbText>
+              <SbText style={styles.totalText}>
+                На сумму: <SbTitle>{cartTotal.toFixed(2)} руб.</SbTitle>
+              </SbText>
+            </View>
+            <View>
+              <SbText>List of items here</SbText>
+            </View>
           </View>
-          <View>
-            <SbTitle>Детали заказа</SbTitle>
-            <SbText>List of items here</SbText>
-          </View>
+          <SbBottomButton
+            onPress={() => console.log('Order')}
+            disabled={cartTotal > 0 ? false : true}
+          >
+            <SbTitle style={styles.confirmOredertext}>Оформить заказ</SbTitle>
+          </SbBottomButton>
         </View>
       ) : (
         <View style={styles.emptyContainer}>
@@ -70,8 +74,19 @@ const CartScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: theme.margin.s,
   },
+  detailsContainer: {
+    flex: 1,
+  },
+  innerContainer: {
+    padding: theme.padding.s,
+  },
+  confirmOredertext: {
+    color: theme.colors.light,
+    textTransform: 'uppercase',
+    fontFamily: theme.fonts.montserratReg,
+  },
+
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -80,7 +95,6 @@ const styles = StyleSheet.create({
   },
   summary: {
     marginBottom: theme.margin.s,
-    padding: theme.padding.xs,
   },
   amountText: {
     marginBottom: theme.margin.s,
