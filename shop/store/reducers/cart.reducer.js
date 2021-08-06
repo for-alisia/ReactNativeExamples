@@ -1,4 +1,9 @@
-import { ADD_TO_CART } from '../actions/cart.actions';
+import {
+  ADD_TO_CART,
+  DELETE_FROM_CART,
+  SUBSTRACT_IN_CART,
+  ADD_IN_CART,
+} from '../actions/cart.actions';
 import { CartItem } from '../../models';
 
 const initialState = {
@@ -35,7 +40,39 @@ const cartReducer = (state = initialState, action) => {
         items: { ...state.items, [id]: cartItem },
         total: state.total + productPrice,
       };
+    case DELETE_FROM_CART:
+      // Find an element to delete
+      const itemToDelete = state.items[action.payload];
+      // Reduce total
+      const newTotal = state.total - itemToDelete.sum;
+      // Delete element
+      const updatedItems = { ...state.items };
+      delete updatedItems[action.payload];
+      return { ...state, items: updatedItems, total: newTotal };
+    case SUBSTRACT_IN_CART:
+      const selectedCartItem = state.items[action.payload];
+      const currentQty = selectedCartItem.quantity;
+      const currentPrice = selectedCartItem.productPrice;
+      let updItems = { ...state.items };
+      // If we need to update a qty
+      if (currentQty > 1) {
+        updItems[action.payload].quantity--;
+        updItems[action.payload].sum = updItems[action.payload].quantity * currentPrice;
+      } else {
+        // Delete item from cart
+        delete updItems[action.payload];
+      }
+      const updTotal = state.total - currentPrice;
+      return { ...state, items: updItems, total: updTotal };
+    case ADD_IN_CART:
+      const selectItem = state.items[action.payload];
+      const newSumTotal = state.total + selectItem.productPrice;
+      const updItemsInState = { ...state.items };
+      updItemsInState[action.payload].quantity++;
+      updItemsInState[action.payload].sum =
+        updItemsInState[action.payload].quantity * selectItem.productPrice;
 
+      return { ...state, items: updItemsInState, total: newSumTotal };
     default:
       return state;
   }

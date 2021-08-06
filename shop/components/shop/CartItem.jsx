@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 // Components
-import { SbText, SbCard, SbImage, SbTouchable } from '../ui';
+import { SbText, SbCard, SbImage, SbTouchable, SbQtyControl } from '../ui';
 
 // Icons
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,40 +10,37 @@ import { FontAwesome } from '@expo/vector-icons';
 // Theme
 import theme from '../../theme';
 
-const CartItem = ({ item, navigation }) => {
-  console.log(item);
+const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem }) => {
   return (
-    <View style={styles.container}>
-      <SbCard style={styles.card}>
-        <View style={styles.imageContainer}>
-          <SbImage source={item.image} style={styles.image} />
-        </View>
-        <View style={styles.detailsContainer}>
-          <SbText style={styles.cardTitle}>{item.productTitle}</SbText>
-          <View style={styles.row}>
-            <SbText>Количество:</SbText>
-            <View style={styles.range}>
-              <SbText>{item.quantity}</SbText>
+    <SbTouchable onPress={onViewDetail}>
+      <View style={styles.container}>
+        <SbCard style={styles.card}>
+          <View style={styles.imageContainer}>
+            <SbImage source={item.image} style={styles.image} />
+          </View>
+          <View style={styles.detailsContainer}>
+            <SbText style={styles.cardTitle}>{item.productTitle}</SbText>
+            <View style={styles.row}>
+              <SbText>Количество:</SbText>
+              <View style={styles.range}>
+                <SbQtyControl qty={item.quantity} onAdd={onAddItem} onSubstract={onSubstractItem} />
+              </View>
+            </View>
+            <View style={styles.row}>
+              <SbText>Цена:</SbText>
+              <SbText>{item.productPrice} руб.</SbText>
+            </View>
+            <View style={styles.row}>
+              <SbText>Всего:</SbText>
+              <SbText style={styles.bolded}>{item.sum} руб.</SbText>
+              <SbTouchable onPress={onDeleteItem}>
+                <FontAwesome name="trash" size={26} color={theme.colors.primary} />
+              </SbTouchable>
             </View>
           </View>
-          <View style={styles.row}>
-            <SbText>Цена:</SbText>
-            <SbText>{item.productPrice} руб.</SbText>
-          </View>
-          <View style={styles.row}>
-            <SbText>Всего:</SbText>
-            <SbText style={styles.bolded}>{item.sum} руб.</SbText>
-            <SbTouchable
-              onPress={() => {
-                console.log('Delete item from cart');
-              }}
-            >
-              <FontAwesome name="trash" size={26} color={theme.colors.primary} />
-            </SbTouchable>
-          </View>
-        </View>
-      </SbCard>
-    </View>
+        </SbCard>
+      </View>
+    </SbTouchable>
   );
 };
 

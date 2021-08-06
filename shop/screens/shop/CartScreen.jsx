@@ -1,21 +1,26 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import { SbText, SbButton, SbTitle, SbLink, SbHeading, SbBottomButton } from '../../components/ui';
+import { SbText, SbTitle, SbLink, SbHeading, SbBottomButton } from '../../components/ui';
 import { CartItem } from '../../components/shop';
 
 // Theme
 import theme from '../../theme';
 
+// Actions
+import { deleteFromCart, addInCart, substractInCart } from '../../store/actions/cart.actions';
+
+const getTotalQty = (items) => {
+  return items.reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+};
+
 const CartScreen = ({ navigation }) => {
   // @ts-ignore
   const cartTotal = useSelector((state) => state.cart.total);
-  const cartAmount = useSelector((state) => {
-    // @ts-ignore
-    return Object.keys(state.cart.items).length;
-  });
   const cartItems = useSelector((state) => {
     const transformedItems = [];
 
@@ -31,8 +36,39 @@ const CartScreen = ({ navigation }) => {
     return transformedItems;
   });
 
+  const dispatch = useDispatch();
+
+  // Deleting item from cart
+  const itemDeleteFromCartHandler = (id) => {
+    dispatch(deleteFromCart(id));
+  };
+  // Adding item in the cart
+  const itemAddInCartHandler = (id) => {
+    dispatch(addInCart(id));
+    console.log('ADDING');
+  };
+  // Substracting item in the cart
+  const itemSubstractInCartHandler = (id) => {
+    dispatch(substractInCart(id));
+    console.log('SUBSTRACTING');
+  };
+  // Render item in a list
   const renderItem = (itemData) => {
-    return <CartItem item={itemData.item} navigation={navigation} />;
+    const { item } = itemData;
+
+    const viewDetailHandler = () => {
+      navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.productTitle });
+    };
+
+    return (
+      <CartItem
+        item={item}
+        onViewDetail={viewDetailHandler}
+        onDeleteItem={itemDeleteFromCartHandler.bind(null, item.id)}
+        onAddItem={itemAddInCartHandler.bind(null, item.id)}
+        onSubstractItem={itemSubstractInCartHandler.bind(null, item.id)}
+      />
+    );
   };
 
   return (
@@ -47,7 +83,7 @@ const CartScreen = ({ navigation }) => {
                   <SbText>Всего позиций в заказе:</SbText>
                 </View>
                 <View style={styles.colNarrow}>
-                  <SbTitle>{cartAmount}</SbTitle>
+                  <SbTitle>{getTotalQty(cartItems)}</SbTitle>
                 </View>
               </View>
               <View style={styles.summaryRow}>
@@ -59,7 +95,7 @@ const CartScreen = ({ navigation }) => {
                 </View>
               </View>
             </View>
-            <View>
+            <View style={{ paddingBottom: 280 }}>
               <FlatList numColumns={1} data={cartItems} renderItem={renderItem} />
             </View>
           </View>

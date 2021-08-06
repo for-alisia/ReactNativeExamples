@@ -9,3 +9,4 @@ export { default as SbBottomButton } from './SbBottomButton';
 export { default as SbHeaderButton } from './SbHeaderButton';
 export { default as SbLink } from './SbLink';
 export { default as SbHeading } from './SbHeading';
+export { default as SbQtyControl } from './SbQtyControl';
