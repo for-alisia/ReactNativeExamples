@@ -11,71 +11,65 @@ const initialState = {
   total: 0,
 };
 
-const cartReducer = (state = initialState, action) => {
-  switch (action.type) {
-    // ADD ITEM TO CART
+const cartReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case ADD_TO_CART:
-      const addedProduct = action.payload;
-      const id = addedProduct.id;
-      const productPrice = addedProduct.price;
-      const productTitle = addedProduct.title;
-      const productImage = addedProduct.imageUrl;
-      let cartItem;
+      const id = payload.id;
 
       if (state.items[id]) {
-        // HAVE AN ITEM IN THE CART -> UPDATE QTY AND TOTAL
-        cartItem = new CartItem(
-          state.items[id].quantity + 1,
-          productPrice,
-          productTitle,
-          state.items[id].sum + productPrice,
-          productImage
-        );
+        return changeQty({ id, state });
       } else {
         // ADD TOTAL NEW ITEM TO THE CART
-        cartItem = new CartItem(1, productPrice, productTitle, productPrice, productImage);
+        const cartItem = new CartItem(
+          1,
+          payload.price,
+          payload.title,
+          payload.price,
+          payload.imageUrl
+        );
+        return {
+          ...state,
+          items: { ...state.items, [id]: cartItem },
+          total: state.total + payload.price,
+        };
       }
-      return {
-        ...state,
-        items: { ...state.items, [id]: cartItem },
-        total: state.total + productPrice,
-      };
-    case DELETE_FROM_CART:
-      // Find an element to delete
-      const itemToDelete = state.items[action.payload];
-      // Reduce total
-      const newTotal = state.total - itemToDelete.sum;
-      // Delete element
-      const updatedItems = { ...state.items };
-      delete updatedItems[action.payload];
-      return { ...state, items: updatedItems, total: newTotal };
-    case SUBSTRACT_IN_CART:
-      const selectedCartItem = state.items[action.payload];
-      const currentQty = selectedCartItem.quantity;
-      const currentPrice = selectedCartItem.productPrice;
-      let updItems = { ...state.items };
-      // If we need to update a qty
-      if (currentQty > 1) {
-        updItems[action.payload].quantity--;
-        updItems[action.payload].sum = updItems[action.payload].quantity * currentPrice;
-      } else {
-        // Delete item from cart
-        delete updItems[action.payload];
-      }
-      const updTotal = state.total - currentPrice;
-      return { ...state, items: updItems, total: updTotal };
-    case ADD_IN_CART:
-      const selectItem = state.items[action.payload];
-      const newSumTotal = state.total + selectItem.productPrice;
-      const updItemsInState = { ...state.items };
-      updItemsInState[action.payload].quantity++;
-      updItemsInState[action.payload].sum =
-        updItemsInState[action.payload].quantity * selectItem.productPrice;
 
-      return { ...state, items: updItemsInState, total: newSumTotal };
+    case DELETE_FROM_CART:
+      return changeQty({ id: payload, state, toBeDeleted: true });
+
+    case SUBSTRACT_IN_CART:
+      if (state.items[payload].quantity > 1) {
+        return changeQty({ id: payload, state, substract: true });
+      } else {
+        return changeQty({ id: payload, state, toBeDeleted: true });
+      }
+
+    case ADD_IN_CART:
+      return changeQty({ id: payload, state });
+
     default:
       return state;
   }
 };
+
+// To add, substract or delete existing items in cart
+function changeQty(config) {
+  const { id, state, toBeDeleted = false, substract = false, qty = 1 } = config;
+  const selectedItem = state.items[id];
+  const price = selectedItem.productPrice;
+  const sum = selectedItem.sum;
+  const updatedItems = { ...state.items };
+  if (toBeDeleted) {
+    delete updatedItems[id];
+    return { ...state, items: updatedItems, total: state.total - sum };
+  }
+  updatedItems[id].quantity = substract
+    ? updatedItems[id].quantity - qty
+    : updatedItems[id].quantity + qty;
+  updatedItems[id].summ = updatedItems[id].quantity * price;
+  const newTotal = substract ? state.total - price : state.total + price * qty;
+
+  return { ...state, items: updatedItems, total: newTotal };
+}
 
 export default cartReducer;

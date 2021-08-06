@@ -48,12 +48,14 @@ const ProductDetailScreen = (props) => {
             <SbCard>
               <SbImage source={product.imageUrl} style={styles.image} />
               <SbTouchable onPress={() => console.log('Add item to favourite!')}>
-                <FontAwesome
-                  name="heart-o"
-                  size={32}
-                  color={theme.colors.primary}
-                  style={styles.iconHeart}
-                />
+                <View style={styles.iconContainer}>
+                  <FontAwesome
+                    name="heart-o"
+                    size={30}
+                    color={theme.colors.primary}
+                    style={styles.iconHeart}
+                  />
+                </View>
               </SbTouchable>
             </SbCard>
           </View>
@@ -126,7 +128,12 @@ const styles = StyleSheet.create({
   image: {
     height: 450,
   },
-  iconHeart: {
+  iconHeart: {},
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 32,
+    height: 32,
     position: 'absolute',
     bottom: theme.margin.s,
     right: theme.margin.s,

@@ -22,15 +22,18 @@ const ProductItem = ({ item, onViewDetail, onAddToFavorite, onAddToCart }) => {
               <View style={styles.priceRow}>
                 <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
                 <SbTouchable onPress={onAddToFavorite}>
-                  <FontAwesome
-                    name="heart-o"
-                    size={24}
-                    color={theme.colors.primary}
-                    style={styles.icons}
-                  />
+                  <View style={styles.iconContainer}>
+                    <FontAwesome name="heart-o" size={24} color={theme.colors.primary} />
+                  </View>
                 </SbTouchable>
                 <SbTouchable onPress={onAddToCart}>
-                  <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+                  <View style={styles.iconContainer}>
+                    <MaterialIcons
+                      name="add-shopping-cart"
+                      size={24}
+                      color={theme.colors.primary}
+                    />
+                  </View>
                 </SbTouchable>
               </View>
               <SbText style={styles.title}>{item.title}</SbText>
@@ -66,13 +69,16 @@ const styles = StyleSheet.create({
   price: {
     flexGrow: 1,
   },
-  icons: {
-    marginRight: theme.margin.s,
-  },
   title: {
     fontSize: theme.fontSize.xs,
     fontFamily: theme.fonts.monserratBold,
     marginBottom: theme.margin.s,
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 32,
+    height: 24,
   },
 });
 

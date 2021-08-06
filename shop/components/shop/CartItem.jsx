@@ -22,7 +22,7 @@ const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem
             <SbText style={styles.cardTitle}>{item.productTitle}</SbText>
             <View style={styles.row}>
               <SbText>Количество:</SbText>
-              <View style={styles.range}>
+              <View>
                 <SbQtyControl qty={item.quantity} onAdd={onAddItem} onSubstract={onSubstractItem} />
               </View>
             </View>
@@ -34,7 +34,9 @@ const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem
               <SbText>Всего:</SbText>
               <SbText style={styles.bolded}>{item.sum} руб.</SbText>
               <SbTouchable onPress={onDeleteItem}>
-                <FontAwesome name="trash" size={26} color={theme.colors.primary} />
+                <View style={styles.iconContainer}>
+                  <FontAwesome name="trash" size={26} color={theme.colors.primary} />
+                </View>
               </SbTouchable>
             </View>
           </View>
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     width: '30%',
   },
   image: {
-    height: 150,
+    height: 160,
   },
   detailsContainer: {
     padding: theme.padding.s,
@@ -73,7 +75,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  range: {},
+  iconContainer: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   bolded: {
     fontFamily: theme.fonts.monserratBold,
   },

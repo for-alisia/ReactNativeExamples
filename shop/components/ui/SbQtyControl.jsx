@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 // Components
 import SbTouchable from './SbTouchable';
 import SbText from './SbText';
+import SbIconContainer from './SbIconContainer';
 
 // Theme
 import theme from '../../theme';

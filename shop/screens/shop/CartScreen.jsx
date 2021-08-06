@@ -45,12 +45,10 @@ const CartScreen = ({ navigation }) => {
   // Adding item in the cart
   const itemAddInCartHandler = (id) => {
     dispatch(addInCart(id));
-    console.log('ADDING');
   };
   // Substracting item in the cart
   const itemSubstractInCartHandler = (id) => {
     dispatch(substractInCart(id));
-    console.log('SUBSTRACTING');
   };
   // Render item in a list
   const renderItem = (itemData) => {
