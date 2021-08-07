@@ -1,8 +1,8 @@
 // Dependencies
 import React from 'react';
-import { FlatList, StyleSheet, View, Platform, Button } from 'react-native';
+import { FlatList, StyleSheet, View, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { HeaderButtons, Item, HeaderButton } from 'react-navigation-header-buttons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
 import { ProductItem } from '../../components/shop';
@@ -57,6 +57,17 @@ const ProductsOverviewScreen = (props) => {
 
 ProductsOverviewScreen.navigationOptions = (navData) => ({
   headerTitle: 'Все товары',
+  headerLeft: () => (
+    <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+      <Item
+        iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+        title="Меню"
+        onPress={() => {
+          navData.navigation.toggleDrawer();
+        }}
+      />
+    </HeaderButtons>
+  ),
   headerRight: () => (
     <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
       <Item

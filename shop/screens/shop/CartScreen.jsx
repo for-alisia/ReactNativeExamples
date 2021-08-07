@@ -10,13 +10,16 @@ import { CartItem } from '../../components/shop';
 import theme from '../../theme';
 
 // Actions
-import { deleteFromCart, addInCart, substractInCart } from '../../store/actions/cart.actions';
+import {
+  deleteFromCart,
+  addInCart,
+  substractInCart,
+  clearCart,
+} from '../../store/actions/cart.actions';
+import { addOrder } from '../../store/actions/orders.actions';
 
-const getTotalQty = (items) => {
-  return items.reduce((sum, item) => {
-    return sum + item.quantity;
-  }, 0);
-};
+// Utils
+import { getTotalPositions } from '../../utils';
 
 const CartScreen = ({ navigation }) => {
   // @ts-ignore
@@ -50,6 +53,11 @@ const CartScreen = ({ navigation }) => {
   const itemSubstractInCartHandler = (id) => {
     dispatch(substractInCart(id));
   };
+  // Create new Order
+  const addNewOrderHandler = () => {
+    dispatch(addOrder(cartItems, cartTotal));
+    dispatch(clearCart());
+  };
   // Render item in a list
   const renderItem = (itemData) => {
     const { item } = itemData;
@@ -81,7 +89,7 @@ const CartScreen = ({ navigation }) => {
                   <SbText>Всего позиций в заказе:</SbText>
                 </View>
                 <View style={styles.colNarrow}>
-                  <SbTitle>{getTotalQty(cartItems)}</SbTitle>
+                  <SbTitle>{getTotalPositions(cartItems)}</SbTitle>
                 </View>
               </View>
               <View style={styles.summaryRow}>
@@ -97,10 +105,7 @@ const CartScreen = ({ navigation }) => {
               <FlatList numColumns={1} data={cartItems} renderItem={renderItem} />
             </View>
           </View>
-          <SbBottomButton
-            onPress={() => console.log('Order')}
-            disabled={cartTotal > 0 ? false : true}
-          >
+          <SbBottomButton onPress={addNewOrderHandler} disabled={cartTotal > 0 ? false : true}>
             <SbTitle style={styles.confirmOredertext}>Оформить заказ</SbTitle>
           </SbBottomButton>
         </View>

@@ -3,6 +3,7 @@ import {
   DELETE_FROM_CART,
   SUBSTRACT_IN_CART,
   ADD_IN_CART,
+  CLEAR_CART,
 } from '../actions/cart.actions';
 import { CartItem } from '../../models';
 
@@ -46,6 +47,9 @@ const cartReducer = (state = initialState, { type, payload }) => {
 
     case ADD_IN_CART:
       return changeQty({ id: payload, state });
+
+    case CLEAR_CART:
+      return initialState;
 
     default:
       return state;

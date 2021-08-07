@@ -1,18 +1,41 @@
+import React from 'react';
 // Navigation
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 // import { createBottomTabNavigator } from 'react-navigation-tabs';
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-// import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+
+import { Ionicons } from '@expo/vector-icons';
 
 // Dependencies
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 
 // Screens
-import { ProductsOverviewScreen, ProductDetailScreen, CartScreen } from '../screens/shop';
+import {
+  ProductsOverviewScreen,
+  ProductDetailScreen,
+  CartScreen,
+  OrdersScreen,
+} from '../screens/shop';
 
 // Theme
 import theme from '../theme';
+
+const defaultStackOptions = {
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? theme.colors.primary : theme.colors.light,
+  },
+  headerTitleStyle: {
+    fontFamily: theme.fonts.montserratReg,
+    fontSize: theme.fontSize.s,
+  },
+  headerBackTitleStyle: {
+    fontFamily: theme.fonts.montserratReg,
+    fontSize: theme.fontSize.s,
+  },
+  headerTintColor: Platform.OS === 'android' ? theme.colors.light : theme.colors.primary,
+};
 
 const ProductsNavigator = createStackNavigator(
   {
@@ -21,21 +44,57 @@ const ProductsNavigator = createStackNavigator(
     Cart: CartScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? theme.colors.primary : theme.colors.light,
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => {
+        return (
+          <View style={{ marginTop: 40 }}>
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              size={24}
+              color={drawerConfig.tintColor}
+            />
+          </View>
+        );
       },
-      headerTitleStyle: {
-        fontFamily: theme.fonts.montserratReg,
-        fontSize: theme.fontSize.s,
+    },
+    defaultNavigationOptions: defaultStackOptions,
+  }
+);
+
+const OrdersNavigator = createStackNavigator(
+  {
+    Orders: OrdersScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => {
+        return (
+          <Ionicons
+            name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+            size={24}
+            color={drawerConfig.tintColor}
+          />
+        );
       },
-      headerBackTitleStyle: {
-        fontFamily: theme.fonts.montserratReg,
-        fontSize: theme.fontSize.s,
+    },
+    defaultNavigationOptions: defaultStackOptions,
+  }
+);
+
+const ShopNavigator = createDrawerNavigator(
+  {
+    Products: ProductsNavigator,
+    Orders: OrdersNavigator,
+  },
+  {
+    contentOptions: {
+      activeTintColor: theme.colors.primary,
+      labelStyle: {
+        marginTop: 40,
+        fontSize: 20,
       },
-      headerTintColor: Platform.OS === 'android' ? theme.colors.light : theme.colors.primary,
     },
   }
 );
 
-export default createAppContainer(ProductsNavigator);
+export default createAppContainer(ShopNavigator);
