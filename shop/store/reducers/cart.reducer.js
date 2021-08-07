@@ -57,11 +57,11 @@ function changeQty(config) {
   const { id, state, toBeDeleted = false, substract = false, qty = 1 } = config;
   const selectedItem = state.items[id];
   const price = selectedItem.productPrice;
-  const sum = selectedItem.sum;
   const updatedItems = { ...state.items };
   if (toBeDeleted) {
+    const updTotal = state.total - selectedItem.quantity * price;
     delete updatedItems[id];
-    return { ...state, items: updatedItems, total: state.total - sum };
+    return { ...state, items: updatedItems, total: updTotal };
   }
   updatedItems[id].quantity = substract
     ? updatedItems[id].quantity - qty

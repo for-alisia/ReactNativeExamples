@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 // Components
-import { SbText, SbTitle, SbCard, SbStarRate, SbImage, SbTouchable } from '../ui';
+import { SbText, SbTitle, SbCard, SbStarRate, SbImage, SbTouchable, SbIconContainer } from '../ui';
 
 // Icons
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -21,20 +21,12 @@ const ProductItem = ({ item, onViewDetail, onAddToFavorite, onAddToCart }) => {
             <View style={styles.description}>
               <View style={styles.priceRow}>
                 <SbTitle style={styles.price}>{item.price} руб.</SbTitle>
-                <SbTouchable onPress={onAddToFavorite}>
-                  <View style={styles.iconContainer}>
-                    <FontAwesome name="heart-o" size={24} color={theme.colors.primary} />
-                  </View>
-                </SbTouchable>
-                <SbTouchable onPress={onAddToCart}>
-                  <View style={styles.iconContainer}>
-                    <MaterialIcons
-                      name="add-shopping-cart"
-                      size={24}
-                      color={theme.colors.primary}
-                    />
-                  </View>
-                </SbTouchable>
+                <SbIconContainer onPress={onAddToFavorite} width={32} height={24}>
+                  <FontAwesome name="heart-o" size={24} color={theme.colors.primary} />
+                </SbIconContainer>
+                <SbIconContainer onPress={onAddToCart} width={32} height={24}>
+                  <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+                </SbIconContainer>
               </View>
               <SbText style={styles.title}>{item.title}</SbText>
               <SbStarRate color={theme.colors.yellow} rate={item.rate} />
@@ -73,12 +65,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSize.xs,
     fontFamily: theme.fonts.monserratBold,
     marginBottom: theme.margin.s,
-  },
-  iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 32,
-    height: 24,
   },
 });
 

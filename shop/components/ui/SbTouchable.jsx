@@ -6,7 +6,7 @@ import { TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-nativ
 import theme from '../../theme';
 
 const SbTouchable = (props) => {
-  const { activeOpacity, onPress, children } = props;
+  const { activeOpacity, onPress, children, style } = props;
   const TComponent =
     Platform.OS === 'android' && Platform.Version >= 21
       ? TouchableNativeFeedback
@@ -16,6 +16,8 @@ const SbTouchable = (props) => {
       activeOpacity={activeOpacity || theme.activeOpacity}
       onPress={onPress}
       useForeground
+      style={style}
+      background={TouchableNativeFeedback.Ripple(theme.colors.greyLight, true)}
     >
       {children}
     </TComponent>

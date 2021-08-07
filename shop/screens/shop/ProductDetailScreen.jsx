@@ -11,6 +11,7 @@ import {
   SbBottomButton,
   SbCard,
   SbTouchable,
+  SbIconContainer,
 } from '../../components/ui';
 
 // Icons

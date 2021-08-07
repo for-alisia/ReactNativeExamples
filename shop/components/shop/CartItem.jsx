@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 // Components
-import { SbText, SbCard, SbImage, SbTouchable, SbQtyControl } from '../ui';
+import { SbText, SbCard, SbImage, SbTouchable, SbQtyControl, SbIconContainer } from '../ui';
 
 // Icons
 import { FontAwesome } from '@expo/vector-icons';
@@ -33,11 +33,9 @@ const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem
             <View style={styles.row}>
               <SbText>Всего:</SbText>
               <SbText style={styles.bolded}>{item.sum} руб.</SbText>
-              <SbTouchable onPress={onDeleteItem}>
-                <View style={styles.iconContainer}>
-                  <FontAwesome name="trash" size={26} color={theme.colors.primary} />
-                </View>
-              </SbTouchable>
+              <SbIconContainer onPress={onDeleteItem} width={30} height={30}>
+                <FontAwesome name="trash" size={26} color={theme.colors.primary} />
+              </SbIconContainer>
             </View>
           </View>
         </SbCard>
@@ -73,12 +71,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  iconContainer: {
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   bolded: {

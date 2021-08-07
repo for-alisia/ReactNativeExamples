@@ -1,19 +1,31 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-const SbIconContainer = ({ children, width, height }) => {
+// Components
+import SbTouchable from './SbTouchable';
+
+// Theme
+import theme from '../../theme';
+
+const SbIconContainer = ({ children, width, height, onPress }) => {
   return (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        width,
-        height,
-      }}
-    >
-      {children}
+    <View style={{ borderRadius: width / 2, width, height }}>
+      <SbTouchable onPress={onPress} style={styles.touchable}>
+        <View style={{ ...styles.container, width, height }}>{children}</View>
+      </SbTouchable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  touchable: {
+    borderRadius: 100,
+    overflow: 'hidden',
+  },
+});
 
 export default SbIconContainer;
