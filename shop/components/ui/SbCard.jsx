@@ -8,7 +8,11 @@ import theme from '../../theme';
 const SbCard = (props) => {
   const { style, children } = props;
 
-  return <View style={{ ...styles.container, ...style }}>{children}</View>;
+  return (
+    <View style={{ ...styles.container, ...style }} testID="ui-card">
+      {children}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

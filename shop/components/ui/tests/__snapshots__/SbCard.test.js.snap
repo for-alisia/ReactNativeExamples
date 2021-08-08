@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbCard tests renders a card with a child 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 4,
+      "elevation": 3,
+      "flex": 1,
+      "overflow": "hidden",
+      "shadowColor": "black",
+      "shadowOffset": Object {
+        "height": 2,
+        "width": 0,
+      },
+      "shadowOpacity": 0.16,
+    }
+  }
+  testID="ui-card"
+>
+  <Text>
+    Hello
+  </Text>
+</View>
+`;

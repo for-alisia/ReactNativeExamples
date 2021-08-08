@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbText UI Component renders a text 1`] = `
+<Text
+  style={
+    Object {
+      "color": "#3C3735",
+      "fontFamily": "montserrat-regular",
+      "fontSize": 16,
+    }
+  }
+>
+  Hello
+</Text>
+`;
