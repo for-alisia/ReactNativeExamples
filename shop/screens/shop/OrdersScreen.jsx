@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbText, SbHeaderButton, SbHeading } from '../../components/ui';
+import { SbHeaderButton, SbHeading } from '../../components/ui';
 import { OrderItem } from '../../components/shop';
 
 // Theme
 import theme from '../../theme';
 
-const OrdersScreen = () => {
+const OrdersScreen = ({ navigation }) => {
   // @ts-ignore
   const orders = useSelector((state) => state.orders.orders);
 

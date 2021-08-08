@@ -10,6 +10,8 @@ import SbTouchable from './SbTouchable';
 // Theme
 import theme from '../../theme';
 
+// Supportes types: 'solid' and 'outline'
+
 const SbButton = (props) => {
   const { children, onPress, type, style, disabled } = props;
 
@@ -19,6 +21,7 @@ const SbButton = (props) => {
   return (
     <SbTouchable onPress={!disabled ? onPress : () => {}}>
       <View
+        testID="btn-container"
         style={{
           ...styles.container,
           ...styles[typeStyles],
