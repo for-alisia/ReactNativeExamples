@@ -6,14 +6,23 @@ import { StyleSheet, Text } from 'react-native';
 import theme from '../../theme';
 
 const SbText = (props) => {
-  const { style, children } = props;
+  const { style, children, bold } = props;
 
-  return <Text style={{ ...styles.text, ...style }}>{children}</Text>;
+  return (
+    <Text
+      style={{
+        ...styles.text,
+        fontFamily: bold ? theme.fonts.monserratBold : theme.fonts.montserratReg,
+        ...style,
+      }}
+    >
+      {children}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: theme.fonts.montserratReg,
     fontSize: theme.fontSize.s,
     color: theme.colors.dark,
   },

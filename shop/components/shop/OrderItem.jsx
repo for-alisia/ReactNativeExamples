@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList } from 'react-native';
 
 // Components
 import { SbText, SbTitle, SbLink } from '../ui';
-import TableItem from './TableItem';
+import TableList from './TableList';
 
 // Theme
 import theme from '../../theme';
@@ -14,18 +14,22 @@ import { getTotalPositions, dateFormat } from '../../utils';
 const OrderItem = ({ id, items, total, date, status }) => {
   const [showDetails, setShowDetails] = useState(false);
 
+  const showDetailsHandler = () => {
+    setShowDetails((prev) => !prev);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.description}>
         <View style={styles.row}>
           <View>
-            <SbText>{dateFormat(date)}</SbText>
+            <SbText bold>{dateFormat(date)}</SbText>
           </View>
           <View>
-            <SbText>{status}</SbText>
+            <SbText bold>{status}</SbText>
           </View>
           <View>
-            <SbTitle>{total} руб.</SbTitle>
+            <SbTitle>{total}&#x20bd;</SbTitle>
           </View>
         </View>
         <View style={styles.row}>
@@ -33,16 +37,11 @@ const OrderItem = ({ id, items, total, date, status }) => {
             <SbText>В заказе позиций: {getTotalPositions(items)}</SbText>
           </View>
           <View>
-            <SbLink>Подробнее</SbLink>
+            <SbLink onPress={showDetailsHandler}>{showDetails ? 'Скрыть' : 'Подробнее'}</SbLink>
           </View>
         </View>
       </View>
-      <View style={styles.details}>
-        <FlatList
-          data={items}
-          renderItem={({ item, index }) => <TableItem item={item} idx={index} />}
-        />
-      </View>
+      {showDetails && <TableList items={items} />}
     </View>
   );
 };
@@ -57,7 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  details: {},
 });
 
 export default OrderItem;

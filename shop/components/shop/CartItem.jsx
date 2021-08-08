@@ -11,6 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import theme from '../../theme';
 
 const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem }) => {
+  console.log(item.sum);
   return (
     <SbTouchable onPress={onViewDetail}>
       <View style={styles.container}>

@@ -10,7 +10,7 @@ import theme from '../../theme';
 const SbIconContainer = ({ children, width, height, onPress }) => {
   return (
     <View style={{ borderRadius: width / 2, width, height }}>
-      <SbTouchable onPress={onPress} style={styles.touchable}>
+      <SbTouchable onPress={onPress} style={styles.touchable} round>
         <View style={{ ...styles.container, width, height }}>{children}</View>
       </SbTouchable>
     </View>
