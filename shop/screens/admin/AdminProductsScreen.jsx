@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Platform, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -18,19 +18,22 @@ const AdminProductsScreen = ({ navigation }) => {
   // @ts-ignore
   const products = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
+
+  const deleteHandler = (id) => {
+    Alert.alert('Удаление продукта', 'Вы уверены, что хотите удалить продукт?', [
+      { text: 'Отмена', style: 'default' },
+      { text: 'Удалить', style: 'destructive', onPress: () => dispatch(deleteProduct(id)) },
+    ]);
+  };
+
+  const editProductHandler = (id) => {
+    navigation.navigate('EditProduct', { productId: id });
+  };
+
   const renderItem = ({ item }) => {
-    const editProductHandler = (id) => {
-      navigation.navigate('EditProduct', { productId: id });
-    };
     return (
       <ProductItem item={item} onSelect={editProductHandler.bind(null, item.id)}>
-        <SbIconContainer
-          onPress={() => {
-            dispatch(deleteProduct(item.id));
-          }}
-          width={32}
-          height={24}
-        >
+        <SbIconContainer onPress={deleteHandler.bind(null, item.id)} width={32} height={24}>
           <FontAwesome name="trash" size={24} color={theme.colors.primary} />
         </SbIconContainer>
         <SbIconContainer onPress={editProductHandler.bind(null, item.id)} width={32} height={24}>

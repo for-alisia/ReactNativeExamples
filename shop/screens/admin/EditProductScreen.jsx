@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet, TextInput, ScrollView, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbText, SbBottomButton, SbTitle } from '../../components/ui';
+import { SbText, SbBottomButton, SbTitle, SbHeaderButton } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
 
 // Actions
+import { updateProduct, createProduct } from '../../store/actions/products.actions';
 
 const EditProductScreen = ({ navigation }) => {
   const productId = navigation.getParam('productId');
@@ -17,10 +19,24 @@ const EditProductScreen = ({ navigation }) => {
     // @ts-ignore
     (state) => state.products.availableProducts.find((item) => item.id === productId)
   );
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(product ? product.title : '');
   const [imageURL, setImageURL] = useState(product ? product.imageUrl : '');
   const [description, setDescription] = useState(product ? product.description : '');
   const [price, setPrice] = useState(product ? product.price.toString() : '');
+
+  const submitHandler = useCallback(() => {
+    if (productId) {
+      dispatch(updateProduct(productId, title, description, imageURL, price));
+    } else {
+      dispatch(createProduct(title, description, imageURL, price));
+    }
+    navigation.goBack();
+  }, [productId, title, description, imageURL, price]);
+
+  useEffect(() => {
+    navigation.setParams({ submit: submitHandler });
+  }, [submitHandler]);
 
   return (
     <>
@@ -52,11 +68,7 @@ const EditProductScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      <SbBottomButton
-        onPress={() => {
-          console.log('Save product!');
-        }}
-      >
+      <SbBottomButton onPress={submitHandler}>
         <View style={styles.submitButton}>
           <SbTitle style={styles.buttonTitle}>Сохранить</SbTitle>
           <MaterialIcons name="save" size={20} color={theme.colors.light} />
@@ -67,10 +79,20 @@ const EditProductScreen = ({ navigation }) => {
 };
 
 EditProductScreen.navigationOptions = (navData) => {
+  const submitHandler = navData.navigation.getParam('submit');
   return {
     headerTitle: navData.navigation.getParam('productId')
       ? 'Редактирование продукта'
       : 'Создание продукта',
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+        <Item
+          iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+          title="Сохранить"
+          onPress={submitHandler}
+        />
+      </HeaderButtons>
+    ),
   };
 };
 
