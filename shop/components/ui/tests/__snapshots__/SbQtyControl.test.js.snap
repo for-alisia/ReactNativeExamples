@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbQtyControl UI Component renders correctly with passed quantity 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "borderColor": "#ADA19B",
+      "borderRadius": 16,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "minWidth": 100,
+      "paddingHorizontal": 12,
+      "paddingVertical": 4,
+    }
+  }
+  testID="control-ui"
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 12,
+        "height": 24,
+        "width": 24,
+      }
+    }
+    testID="control-minus"
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "borderRadius": 100,
+          "opacity": 1,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 24,
+            "justifyContent": "center",
+            "width": 24,
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "#ADA19B",
+        "fontFamily": "montserrat-regular",
+        "fontSize": 16,
+      }
+    }
+  >
+    5
+  </Text>
+  <View
+    style={
+      Object {
+        "borderRadius": 12,
+        "height": 24,
+        "width": 24,
+      }
+    }
+    testID="control-plus"
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "borderRadius": 100,
+          "opacity": 1,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 24,
+            "justifyContent": "center",
+            "width": 24,
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+</View>
+`;

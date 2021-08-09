@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbLink UI Component renders a link with a passed text 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "center",
+        "padding": 8,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#DC8080",
+          "fontFamily": "montserrat-regular",
+          "fontSize": 16,
+        }
+      }
+    >
+      Hello
+    </Text>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#D8C496",
+          "height": 1,
+        }
+      }
+    />
+  </View>
+</View>
+`;

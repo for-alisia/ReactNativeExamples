@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SbCard tests renders a card with a child 1`] = `
+exports[`SbCard UI Component renders a card with a child 1`] = `
 <View
   style={
     Object {

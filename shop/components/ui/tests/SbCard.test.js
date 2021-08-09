@@ -7,7 +7,7 @@ import { render } from '@testing-library/react-native';
 // Component
 import SbCard from '../SbCard';
 
-describe('SbCard tests', () => {
+describe('SbCard UI Component', () => {
   const testText = 'Hello';
   const testElement = <Text>{testText}</Text>;
 

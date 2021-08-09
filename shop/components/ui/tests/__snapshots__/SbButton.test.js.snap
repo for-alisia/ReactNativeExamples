@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SbButton tests renders a button with correct text 1`] = `
+exports[`SbButton UI Component renders a button with correct text 1`] = `
 <View
   accessible={true}
   focusable={false}
@@ -47,7 +47,7 @@ exports[`SbButton tests renders a button with correct text 1`] = `
 </View>
 `;
 
-exports[`SbButton tests renders outlined styled button 1`] = `
+exports[`SbButton UI Component renders outlined styled button 1`] = `
 <View
   accessible={true}
   focusable={false}

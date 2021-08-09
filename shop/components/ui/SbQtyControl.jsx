@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 // Components
-import SbTouchable from './SbTouchable';
 import SbText from './SbText';
 import SbIconContainer from './SbIconContainer';
 
@@ -12,12 +11,12 @@ import theme from '../../theme';
 
 const SbQtyControl = ({ qty, onAdd, onSubstract }) => {
   return (
-    <View style={styles.container}>
-      <SbIconContainer width={24} height={24} onPress={onSubstract}>
+    <View style={styles.container} testID="control-ui">
+      <SbIconContainer width={24} height={24} onPress={onSubstract} testID="control-minus">
         <AntDesign name="minus" size={16} color={theme.colors.greyLight} />
       </SbIconContainer>
       <SbText style={styles.text}>{qty}</SbText>
-      <SbIconContainer onPress={onAdd} width={24} height={24}>
+      <SbIconContainer onPress={onAdd} width={24} height={24} testID="control-plus">
         <AntDesign name="plus" size={16} color={theme.colors.greyLight} />
       </SbIconContainer>
     </View>

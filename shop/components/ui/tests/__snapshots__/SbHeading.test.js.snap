@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbHeading UI Component renders a heading component with correct text 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 16,
+      "marginTop": 16,
+      "position": "relative",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "flex-start",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#3C3735",
+          "fontFamily": "montserrat-regular",
+          "fontSize": 16,
+        }
+      }
+    >
+      Hello
+    </Text>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#D8C496",
+          "height": 2,
+        }
+      }
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "#ECBDBC",
+        "fontFamily": "montserrat-bold",
+        "fontSize": 40,
+        "left": -6,
+        "opacity": 0.25,
+        "position": "absolute",
+        "textTransform": "uppercase",
+        "top": -28,
+      }
+    }
+  >
+    Hello
+  </Text>
+</View>
+`;

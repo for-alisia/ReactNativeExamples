@@ -10,7 +10,7 @@ import SbButton from '../SbButton';
 // Theme
 import theme from '../../../theme';
 
-describe('SbButton tests', () => {
+describe('SbButton UI Component', () => {
   // To use toHaveStyle
   expect.extend({ toHaveStyle });
   const testText = 'Hello';
