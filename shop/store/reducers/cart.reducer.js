@@ -5,6 +5,7 @@ import {
   ADD_IN_CART,
   CLEAR_CART,
 } from '../actions/cart.actions';
+import { DELETE_PRODUCT } from '../actions/products.actions';
 import { CartItem } from '../../models';
 
 const initialState = {
@@ -50,6 +51,10 @@ const cartReducer = (state = initialState, { type, payload }) => {
 
     case CLEAR_CART:
       return initialState;
+
+    case DELETE_PRODUCT:
+      if (!state.items[payload]) return state;
+      return changeQty({ id: payload, state, toBeDeleted: true });
 
     default:
       return state;

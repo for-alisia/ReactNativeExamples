@@ -3,10 +3,11 @@ import React from 'react';
 import { FlatList, StyleSheet, View, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 // Components
 import { ProductItem } from '../../components/shop';
-import { SbHeaderButton } from '../../components/ui';
+import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
@@ -24,27 +25,26 @@ const ProductsOverviewScreen = (props) => {
 
   const renderItem = (itemData) => {
     const { item } = itemData;
-
-    const viewDetailHandler = () => {
-      navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.title });
-    };
-
-    const addtoFavoriteHandler = () => {
-      console.log('To Favorite');
-    };
-
-    const addToCartHandler = () => {
-      console.log('To Cart');
-      dispatch(addToCart(item));
-    };
-
     return (
       <ProductItem
         item={item}
-        onAddToCart={addToCartHandler}
-        onAddToFavorite={addtoFavoriteHandler}
-        onViewDetail={viewDetailHandler}
-      />
+        onSelect={() => {
+          navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.title });
+        }}
+      >
+        <SbIconContainer onPress={() => console.log('Added to favourite!')} width={32} height={24}>
+          <FontAwesome name="heart-o" size={24} color={theme.colors.primary} />
+        </SbIconContainer>
+        <SbIconContainer
+          onPress={() => {
+            dispatch(addToCart(item));
+          }}
+          width={32}
+          height={24}
+        >
+          <MaterialIcons name="add-shopping-cart" size={24} color={theme.colors.primary} />
+        </SbIconContainer>
+      </ProductItem>
     );
   };
 

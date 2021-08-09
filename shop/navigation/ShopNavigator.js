@@ -18,6 +18,7 @@ import {
   CartScreen,
   OrdersScreen,
 } from '../screens/shop';
+import { AdminProductsScreen, EditProductScreen } from '../screens/admin';
 
 // Theme
 import theme from '../theme';
@@ -81,10 +82,32 @@ const OrdersNavigator = createStackNavigator(
   }
 );
 
+const AdminNavigator = createStackNavigator(
+  {
+    Admin: AdminProductsScreen,
+    EditProduct: EditProductScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => {
+        return (
+          <Ionicons
+            name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+            size={24}
+            color={drawerConfig.tintColor}
+          />
+        );
+      },
+    },
+    defaultNavigationOptions: defaultStackOptions,
+  }
+);
+
 const ShopNavigator = createDrawerNavigator(
   {
     Products: ProductsNavigator,
     Orders: OrdersNavigator,
+    Admin: AdminNavigator,
   },
   {
     contentOptions: {

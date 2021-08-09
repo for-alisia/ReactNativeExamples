@@ -43,7 +43,7 @@ const PRODUCTS = [
   ),
   new Product(
     'p5',
-    'u3',
+    'u1',
     'Купальник с длинным рукавом и юбкой Intos',
     'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_5_zxzspf.jpg',
     'Строгий и качественный купальник с юбкой для девочек всех возрастов',
