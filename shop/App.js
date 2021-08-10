@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Dependencies
 import React, { useState } from 'react';
 import * as Font from 'expo-font';
@@ -5,27 +6,24 @@ import AppLoading from 'expo-app-loading';
 import { enableScreens } from 'react-native-screens';
 
 // Redux
-import { createStore, combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import productsReducer from './store/reducers/products.reducer';
-import cartReducer from './store/reducers/cart.reducer';
-
-// Redux-devtools
-import { composeWithDevTools } from 'redux-devtools-extension';
+import productsReducer from './store/products.duck';
+import cartReducer from './store/cart.duck';
+import ordersReducer from './store/orders.duck';
 
 // Navigation
 import ShopNavigator from './navigation/ShopNavigator';
-import ordersReducer from './store/reducers/orders';
 
 enableScreens();
 
-const rootReducer = combineReducers({
-  products: productsReducer,
-  cart: cartReducer,
-  orders: ordersReducer,
+const store = configureStore({
+  reducer: {
+    products: productsReducer,
+    cart: cartReducer,
+    orders: ordersReducer,
+  },
 });
-
-const store = createStore(rootReducer, composeWithDevTools());
 
 const fetchFonts = () => {
   return Font.loadAsync({

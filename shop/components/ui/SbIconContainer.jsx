@@ -7,7 +7,8 @@ import SbTouchable from './SbTouchable';
 // Theme
 import theme from '../../theme';
 
-const SbIconContainer = ({ children, width, height, onPress, testID }) => {
+const SbIconContainer = (props) => {
+  const { children, width, height, onPress, testID } = props;
   return (
     <View style={{ borderRadius: width / 2, width, height }} testID={testID}>
       <SbTouchable onPress={onPress} style={styles.touchable} round>

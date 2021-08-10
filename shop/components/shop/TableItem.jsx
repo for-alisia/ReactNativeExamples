@@ -11,13 +11,13 @@ const TableItem = ({ item, idx }) => {
   return (
     <View style={{ ...styles.container, borderTopWidth: idx === 0 ? 1 : 0 }}>
       <View style={styles.imageContainer}>
-        <SbImage source={item.image} style={styles.image} />
+        <SbImage source={item.imageUrl} style={styles.image} />
       </View>
       <View style={styles.colLarge}>
-        <SbText>{item.productTitle}</SbText>
+        <SbText>{item.title}</SbText>
       </View>
       <View>
-        <SbText>{item.productPrice}&#x20bd;</SbText>
+        <SbText>{item.price}&#x20bd;</SbText>
       </View>
       <View>
         <SbText>{item.quantity}шт.</SbText>

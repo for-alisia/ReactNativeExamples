@@ -11,16 +11,15 @@ import { FontAwesome } from '@expo/vector-icons';
 import theme from '../../theme';
 
 const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem }) => {
-  console.log(item.sum);
   return (
     <SbTouchable onPress={onViewDetail}>
       <View style={styles.container}>
         <SbCard style={styles.card}>
           <View style={styles.imageContainer}>
-            <SbImage source={item.image} style={styles.image} />
+            <SbImage source={item.imageUrl} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
-            <SbText style={styles.cardTitle}>{item.productTitle}</SbText>
+            <SbText style={styles.cardTitle}>{item.title}</SbText>
             <View style={styles.row}>
               <SbText>Количество:</SbText>
               <View>
@@ -29,7 +28,7 @@ const CartItem = ({ item, onViewDetail, onDeleteItem, onAddItem, onSubstractItem
             </View>
             <View style={styles.row}>
               <SbText>Цена:</SbText>
-              <SbText>{item.productPrice} руб.</SbText>
+              <SbText>{item.price} руб.</SbText>
             </View>
             <View style={styles.row}>
               <SbText>Всего:</SbText>

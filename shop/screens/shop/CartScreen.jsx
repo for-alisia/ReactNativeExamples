@@ -10,13 +10,8 @@ import { CartItem } from '../../components/shop';
 import theme from '../../theme';
 
 // Actions
-import {
-  deleteFromCart,
-  addInCart,
-  substractInCart,
-  clearCart,
-} from '../../store/actions/cart.actions';
-import { addOrder } from '../../store/actions/orders.actions';
+import { cartActions } from '../../store/cart.duck';
+import { orderActions } from '../../store/orders.duck';
 
 // Utils
 import { getTotalPositions } from '../../utils';
@@ -43,27 +38,27 @@ const CartScreen = ({ navigation }) => {
 
   // Deleting item from cart
   const itemDeleteFromCartHandler = (id) => {
-    dispatch(deleteFromCart(id));
+    dispatch(cartActions.deleteFromCart(id));
   };
   // Adding item in the cart
   const itemAddInCartHandler = (id) => {
-    dispatch(addInCart(id));
+    dispatch(cartActions.increaseInCart(id));
   };
   // Substracting item in the cart
   const itemSubstractInCartHandler = (id) => {
-    dispatch(substractInCart(id));
+    dispatch(cartActions.substractFromCart(id));
   };
   // Create new Order
   const addNewOrderHandler = () => {
-    dispatch(addOrder(cartItems, cartTotal));
-    dispatch(clearCart());
+    dispatch(orderActions.addOrder({ items: cartItems, total: cartTotal }));
+    dispatch(cartActions.clearCart());
   };
   // Render item in a list
   const renderItem = (itemData) => {
     const { item } = itemData;
 
     const viewDetailHandler = () => {
-      navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.productTitle });
+      navigation.navigate('ProductDetail', { productId: item.id, productTitle: item.title });
     };
 
     return (

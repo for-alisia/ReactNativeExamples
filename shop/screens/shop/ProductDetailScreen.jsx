@@ -23,7 +23,7 @@ import theme from '../../theme';
 import { getWordEndByQty } from '../../utils';
 
 // Actions
-import { addToCart } from '../../store/actions/cart.actions';
+import { cartActions } from '../../store/cart.duck';
 
 const ProductDetailScreen = (props) => {
   const productId = props.navigation.getParam('productId');
@@ -81,7 +81,7 @@ const ProductDetailScreen = (props) => {
       <SbBottomButton
         onPress={() => {
           console.log('Add product to cart!');
-          dispatch(addToCart(product));
+          dispatch(cartActions.addToCart(product));
         }}
       >
         <View style={styles.addToCartButton}>

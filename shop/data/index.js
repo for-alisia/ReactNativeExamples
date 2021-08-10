@@ -1,66 +1,70 @@
-import { Product } from '../models';
-
 const PRODUCTS = [
-  new Product(
-    'p1',
-    'u1',
-    'Купальник с длинным рукавом Grishko',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114403/ballet/product_1_pl7hoy.png',
-    'Удобный базовый купальник, рекомендованный для девочек до 12 лет',
-    1830,
-    4.6,
-    ['1 review', '2 review', '3 review']
-  ),
-  new Product(
-    'p2',
-    'u1',
-    'Купальник на тонких бретельках с юбкой Blissom',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_2_wplsk7.png',
-    'Стильный и качественный купальник для девочек всех возрастов',
-    2300,
-    4.2,
-    ['1 review', '2 review', '3 review']
-  ),
-  new Product(
-    'p3',
-    'u2',
-    'Купальник с коротким рукавом и юбкой Grishko',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_3_fj4hxd.jpg',
-    'Нежный и стильный купальник для девочек с многослойной юбкой и оборкой по вороту',
-    1950,
-    4.9,
-    ['1 review', '2 review', '3 review']
-  ),
-  new Product(
-    'p4',
-    'u3',
-    'Купальник на тонких бретельках Grishko',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_4_nxxtfn.jpg',
-    'Базовый стильный купальник, подходит для девочек всех возрастов',
-    1970,
-    3.4,
-    ['1 review', '2 review', '3 review']
-  ),
-  new Product(
-    'p5',
-    'u1',
-    'Купальник с длинным рукавом и юбкой Intos',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_5_zxzspf.jpg',
-    'Строгий и качественный купальник с юбкой для девочек всех возрастов',
-    1990,
-    3.8,
-    ['1 review', '2 review', '3 review']
-  ),
-  new Product(
-    'p6',
-    'u1',
-    'Купальник с коротким рукавом и юбкой-сеткой Grishko',
-    'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_6_wco9xk.png',
-    'Очаровательный купальник для маленьких балерин и не только',
-    1990,
-    5,
-    ['1 review', '2 review', '3 review']
-  ),
+  {
+    id: 'p1',
+    title: 'Купальник с длинным рукавом Grishko',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114403/ballet/product_1_pl7hoy.png',
+    price: 1830,
+    rate: 4.6,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
+  {
+    id: 'p2',
+    title: 'Купальник на тонких бретельках с юбкой Blissom',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_2_wplsk7.png',
+    price: 2300,
+    rate: 4.2,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
+  {
+    id: 'p3',
+    title: 'Купальник с коротким рукавом и юбкой Grishko',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_3_fj4hxd.jpg',
+    price: 1950,
+    rate: 4.9,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
+  {
+    id: 'p4',
+    title: 'Купальник на тонких бретельках Grishko',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_4_nxxtfn.jpg',
+    price: 1970,
+    rate: 3.4,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
+  {
+    id: 'p5',
+    title: 'Купальник с длинным рукавом и юбкой Intos',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_5_zxzspf.jpg',
+    price: 1990,
+    rate: 3.8,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
+  {
+    id: 'p6',
+    title: 'Купальник с коротким рукавом и юбкой-сеткой Grishko',
+    imageUrl:
+      'https://res.cloudinary.com/for-alisia/image/upload/v1625114399/ballet/product_6_wco9xk.png',
+    price: 1990,
+    rate: 5,
+    reviews: ['1', '2', '3'],
+    description:
+      'Интересный купальник с длинным рукавом от известного бренда. Удобный, износостойкий и обязательно понравится вашей девочке ',
+  },
 ];
 
 export default PRODUCTS;

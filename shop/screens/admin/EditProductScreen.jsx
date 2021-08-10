@@ -11,7 +11,7 @@ import { SbText, SbBottomButton, SbTitle, SbHeaderButton } from '../../component
 import theme from '../../theme';
 
 // Actions
-import { updateProduct, createProduct } from '../../store/actions/products.actions';
+import { productActions } from '../../store/products.duck';
 
 const EditProductScreen = ({ navigation }) => {
   const productId = navigation.getParam('productId');
@@ -21,18 +21,21 @@ const EditProductScreen = ({ navigation }) => {
   );
   const dispatch = useDispatch();
   const [title, setTitle] = useState(product ? product.title : '');
-  const [imageURL, setImageURL] = useState(product ? product.imageUrl : '');
+  const [imageUrl, setImageUrl] = useState(product ? product.imageUrl : '');
   const [description, setDescription] = useState(product ? product.description : '');
   const [price, setPrice] = useState(product ? product.price.toString() : '');
+  console.log(description);
 
   const submitHandler = useCallback(() => {
     if (productId) {
-      dispatch(updateProduct(productId, title, description, imageURL, price));
+      dispatch(
+        productActions.updateProduct({ id: productId, title, description, imageUrl, price })
+      );
     } else {
-      dispatch(createProduct(title, description, imageURL, price));
+      dispatch(productActions.createProduct({ title, description, imageUrl, price }));
     }
     navigation.goBack();
-  }, [productId, title, description, imageURL, price]);
+  }, [productId, title, description, imageUrl, price]);
 
   useEffect(() => {
     navigation.setParams({ submit: submitHandler });
@@ -50,8 +53,8 @@ const EditProductScreen = ({ navigation }) => {
             <SbText style={styles.label}>Картинка (URL):</SbText>
             <TextInput
               style={styles.input}
-              value={imageURL}
-              onChangeText={(text) => setImageURL(text)}
+              value={imageUrl}
+              onChangeText={(text) => setImageUrl(text)}
             />
           </View>
           <View style={styles.formControl}>

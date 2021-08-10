@@ -12,17 +12,21 @@ import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 import theme from '../../theme';
 
 // Actions
-import { deleteProduct } from '../../store/actions/products.actions';
+import { productActions } from '../../store/products.duck';
 
 const AdminProductsScreen = ({ navigation }) => {
   // @ts-ignore
-  const products = useSelector((state) => state.products.userProducts);
+  const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
 
   const deleteHandler = (id) => {
     Alert.alert('Удаление продукта', 'Вы уверены, что хотите удалить продукт?', [
       { text: 'Отмена', style: 'default' },
-      { text: 'Удалить', style: 'destructive', onPress: () => dispatch(deleteProduct(id)) },
+      {
+        text: 'Удалить',
+        style: 'destructive',
+        onPress: () => dispatch(productActions.deleteProduct(id)),
+      },
     ]);
   };
 
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
 
 AdminProductsScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: 'Ваши продукты',
+    headerTitle: 'Редактирование товаров',
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
         <Item

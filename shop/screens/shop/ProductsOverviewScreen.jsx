@@ -13,7 +13,7 @@ import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 import theme from '../../theme';
 
 // Actions
-import { addToCart } from '../../store/actions/cart.actions';
+import { cartActions } from '../../store/cart.duck';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
@@ -37,7 +37,7 @@ const ProductsOverviewScreen = (props) => {
         </SbIconContainer>
         <SbIconContainer
           onPress={() => {
-            dispatch(addToCart(item));
+            dispatch(cartActions.addToCart(item));
           }}
           width={32}
           height={24}
