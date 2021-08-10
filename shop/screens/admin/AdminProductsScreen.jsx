@@ -12,7 +12,7 @@ import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 import theme from '../../theme';
 
 // Actions
-import { productActions } from '../../store/products.duck';
+import { productActions } from '../../store/products.slice';
 
 const AdminProductsScreen = ({ navigation }) => {
   // @ts-ignore

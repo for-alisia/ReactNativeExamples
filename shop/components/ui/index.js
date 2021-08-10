@@ -11,3 +11,4 @@ export { default as SbLink } from './SbLink';
 export { default as SbHeading } from './SbHeading';
 export { default as SbQtyControl } from './SbQtyControl';
 export { default as SbIconContainer } from './SbIconContainer';
+export { default as SbInput } from './SbInput';

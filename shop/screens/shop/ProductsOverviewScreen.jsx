@@ -13,7 +13,7 @@ import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 import theme from '../../theme';
 
 // Actions
-import { cartActions } from '../../store/cart.duck';
+import { cartActions } from '../../store/cart.slice';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;

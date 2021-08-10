@@ -8,9 +8,9 @@ import { enableScreens } from 'react-native-screens';
 // Redux
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import productsReducer from './store/products.duck';
-import cartReducer from './store/cart.duck';
-import ordersReducer from './store/orders.duck';
+import productsReducer from './store/products.slice';
+import cartReducer from './store/cart.slice';
+import ordersReducer from './store/orders.slice';
 
 // Navigation
 import ShopNavigator from './navigation/ShopNavigator';

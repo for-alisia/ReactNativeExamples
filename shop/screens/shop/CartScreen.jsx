@@ -10,8 +10,8 @@ import { CartItem } from '../../components/shop';
 import theme from '../../theme';
 
 // Actions
-import { cartActions } from '../../store/cart.duck';
-import { orderActions } from '../../store/orders.duck';
+import { cartActions } from '../../store/cart.slice';
+import { orderActions } from '../../store/orders.slice';
 
 // Utils
 import { getTotalPositions } from '../../utils';

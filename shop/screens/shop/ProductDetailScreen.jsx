@@ -23,7 +23,7 @@ import theme from '../../theme';
 import { getWordEndByQty } from '../../utils';
 
 // Actions
-import { cartActions } from '../../store/cart.duck';
+import { cartActions } from '../../store/cart.slice';
 
 const ProductDetailScreen = (props) => {
   const productId = props.navigation.getParam('productId');
