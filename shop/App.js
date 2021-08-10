@@ -9,7 +9,6 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import productsReducer from './store/reducers/products.reducer';
 import cartReducer from './store/reducers/cart.reducer';
-import orderReducer from './store/reducers/orders';
 
 // Redux-devtools
 import { composeWithDevTools } from 'redux-devtools-extension';
