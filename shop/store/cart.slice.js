@@ -14,6 +14,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, { payload }) => {
       const { price, title, imageUrl, id } = payload;
+
       if (state.items[id]) {
         state.items[id].quantity++;
         state.items[id].sum += price;

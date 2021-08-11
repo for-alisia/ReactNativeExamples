@@ -19,6 +19,7 @@ import { getTotalPositions } from '../../utils';
 const CartScreen = ({ navigation }) => {
   // @ts-ignore
   const cartTotal = useSelector((state) => state.cart.total);
+  console.log(cartTotal);
   const cartItems = useSelector((state) => {
     const transformedItems = [];
 
@@ -33,6 +34,7 @@ const CartScreen = ({ navigation }) => {
 
     return transformedItems;
   });
+  console.log(cartItems);
 
   const dispatch = useDispatch();
 

@@ -67,9 +67,13 @@ const ProductDetailScreen = (props) => {
                 rate={product.rate}
                 style={styles.rateStars}
               />
-              <SbText style={styles.reviewText}>
-                {product.reviews.length} отзыв{getWordEndByQty(product.reviews.length)}
-              </SbText>
+              {product.reviews ? (
+                <SbText style={styles.reviewText}>
+                  {product.reviews.length} отзыв{getWordEndByQty(product.reviews.length)}
+                </SbText>
+              ) : (
+                <SbText style={styles.reviewText}>0 отзывов</SbText>
+              )}
             </View>
           </View>
           <View style={styles.descContainer}>

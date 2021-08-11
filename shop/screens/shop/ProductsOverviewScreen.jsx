@@ -1,5 +1,5 @@
 // Dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -14,6 +14,7 @@ import theme from '../../theme';
 
 // Actions
 import { cartActions } from '../../store/cart.slice';
+import { fetchProducts } from '../../store/products.slice';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
@@ -22,6 +23,10 @@ const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;

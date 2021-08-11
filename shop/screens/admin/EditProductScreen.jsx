@@ -1,17 +1,17 @@
-import React, { useEffect, useCallback, useReducer } from 'react';
-import { View, StyleSheet, TextInput, ScrollView, Platform, Alert } from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import { View, StyleSheet, ScrollView, Platform, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbText, SbBottomButton, SbTitle, SbHeaderButton, SbInput } from '../../components/ui';
+import { SbBottomButton, SbTitle, SbHeaderButton, SbInput } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
 
 // Actions
-import { productActions } from '../../store/products.slice';
+import { productActions, createProduct } from '../../store/products.slice';
 
 // Validators
 import { isLonger, isRequired } from '../../utils/validators';
@@ -56,7 +56,7 @@ const EditProductScreen = ({ navigation }) => {
       );
     } else {
       dispatch(
-        productActions.createProduct({
+        createProduct({
           title: title.value,
           description: description.value,
           imageUrl: imageUrl.value,
@@ -112,6 +112,7 @@ const EditProductScreen = ({ navigation }) => {
           />
         </View>
       </ScrollView>
+
       <SbBottomButton onPress={submitHandler}>
         <View style={styles.submitButton}>
           <SbTitle style={styles.buttonTitle}>Сохранить</SbTitle>
