@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
-import PRODUCTS from '../data';
+import { productsAPI } from '../fetchAPI';
 
 const initialState = {
   availableProducts: [],
@@ -23,26 +23,27 @@ const productsSlice = createSlice({
         description,
         imageUrl,
         price: +price,
-        rate: 0,
+        rate: 3.5,
         reviews: [],
       };
 
       state.availableProducts.push(newProduct);
     },
-    updateProduct: (state, { payload }) => {
+    productUpdated: (state, { payload }) => {
+      const { id, title, description, imageUrl, price } = payload;
       const idx = state.availableProducts.findIndex((el) => el.id === payload.id);
       const newProduct = {
-        id: payload.id,
-        title: payload.title,
-        description: payload.description,
-        imageUrl: payload.imageUrl,
-        price: +payload.price,
+        id,
+        title,
+        description,
+        imageUrl,
+        price: +price,
         rate: state.availableProducts[idx].rate,
         reviews: state.availableProducts[idx].reviews,
       };
       state.availableProducts[idx] = newProduct;
     },
-    deleteProduct: (state, { payload }) => {
+    productDeleted: (state, { payload }) => {
       state.availableProducts = state.availableProducts.filter((el) => el.id !== payload);
     },
   },
@@ -50,43 +51,56 @@ const productsSlice = createSlice({
 
 export const productActions = productsSlice.actions;
 
+// Fetch products from server
 export const fetchProducts = () => async (dispatch) => {
   try {
-    const response = await fetch(
-      'https://react-4866c-default-rtdb.europe-west1.firebasedatabase.app/products.json'
-    );
-    const resData = await response.json();
-
-    const loadedProducts = [];
-
-    for (let key in resData) {
-      loadedProducts.push({ id: key, ...resData[key], price: +resData[key].price });
-    }
-
-    dispatch(productActions.setProducts(loadedProducts));
-  } catch (err) {}
+    const products = await productsAPI.getProducts();
+    dispatch(productActions.setProducts(products));
+  } catch (err) {
+    throw err;
+  }
 };
-
+// Create new product
 export const createProduct =
   ({ title, description, imageUrl, price }) =>
   async (dispatch) => {
     try {
-      const response = await fetch(
-        'https://react-4866c-default-rtdb.europe-west1.firebasedatabase.app/products.json',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ title, description, imageUrl, price, rate: 3.5, reviews: [] }),
-        }
-      );
-      const resData = await response.json();
-
-      dispatch(
-        productActions.productCreated({ id: resData.name, title, description, imageUrl, price })
-      );
-    } catch (err) {}
+      const product = await productsAPI.createProduct({ title, description, imageUrl, price });
+      dispatch(productActions.productCreated(product));
+    } catch (err) {
+      throw err;
+    }
   };
+// Updating product
+export const updateProduct =
+  ({ title, description, imageUrl, id, price }) =>
+  async (dispatch) => {
+    try {
+      const isSuccessed = await productsAPI.updateProduct({
+        title,
+        description,
+        imageUrl,
+        id,
+        price,
+      });
+      if (isSuccessed) {
+        dispatch(productActions.productUpdated({ title, description, imageUrl, id, price }));
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+// Deleting product
+export const deleteProduct = (productId) => async (dispatch) => {
+  try {
+    const isSuccessed = await fetchAPI.deleteProduct(productId);
+    if (isSuccessed) {
+      dispatch(productActions.productDeleted(productId));
+    }
+  } catch (err) {
+    throw err;
+  }
+};
 
 export default productsSlice.reducer;

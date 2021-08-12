@@ -12,7 +12,7 @@ import { SbHeaderButton, SbIconContainer } from '../../components/ui';
 import theme from '../../theme';
 
 // Actions
-import { productActions } from '../../store/products.slice';
+import { deleteProduct } from '../../store/products.slice';
 
 const AdminProductsScreen = ({ navigation }) => {
   // @ts-ignore
@@ -25,7 +25,7 @@ const AdminProductsScreen = ({ navigation }) => {
       {
         text: 'Удалить',
         style: 'destructive',
-        onPress: () => dispatch(productActions.deleteProduct(id)),
+        onPress: () => dispatch(deleteProduct(id)),
       },
     ]);
   };

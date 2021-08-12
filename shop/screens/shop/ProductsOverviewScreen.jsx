@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, StyleSheet, View, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -7,7 +7,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 // Components
 import { ProductItem } from '../../components/shop';
-import { SbHeaderButton, SbIconContainer } from '../../components/ui';
+import { SbHeaderButton, SbIconContainer, SbLoading, SbText, SbError } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
@@ -18,15 +18,39 @@ import { fetchProducts } from '../../store/products.slice';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // @ts-ignore
   const products = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
 
+  const loadProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await dispatch(fetchProducts());
+    } catch (err) {
+      setError(err);
+    }
+
+    setIsLoading(false);
+  }, []);
+
+  // Fetch products initially
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    loadProducts();
+  }, [dispatch, loadProducts]);
+
+  // Refetch products on every return to this screen
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener('willFocus', loadProducts);
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadProducts]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;
@@ -52,6 +76,18 @@ const ProductsOverviewScreen = (props) => {
       </ProductItem>
     );
   };
+
+  if (isLoading) return <SbLoading color={theme.colors.primary} />;
+  if (error) {
+    return (
+      <SbError
+        // @ts-ignore
+        errorText={error.message}
+        buttonText="Попробовать снова"
+        buttonHandler={loadProducts}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>

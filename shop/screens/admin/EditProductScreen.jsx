@@ -1,17 +1,18 @@
-import React, { useEffect, useCallback } from 'react';
+// @ts-nocheck
+import React, { useEffect, useCallback, useState } from 'react';
 import { View, StyleSheet, ScrollView, Platform, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbBottomButton, SbTitle, SbHeaderButton, SbInput } from '../../components/ui';
+import { SbBottomButton, SbTitle, SbHeaderButton, SbInput, SbLoading } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
 
 // Actions
-import { productActions, createProduct } from '../../store/products.slice';
+import { createProduct, updateProduct } from '../../store/products.slice';
 
 // Validators
 import { isLonger, isRequired } from '../../utils/validators';
@@ -26,6 +27,8 @@ const EditProductScreen = ({ navigation }) => {
     (state) => state.products.availableProducts.find((item) => item.id === productId)
   );
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const title = useInput(isLonger.bind(null, 5), product ? product.title : '');
   const imageUrl = useInput(isRequired, product ? product.imageUrl : '');
@@ -34,7 +37,7 @@ const EditProductScreen = ({ navigation }) => {
 
   const formIsValid = title.isValid && imageUrl.isValid && description.isValid && price.isValid;
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback(async () => {
     if (!formIsValid) {
       Alert.alert(
         'Проверьте данные',
@@ -43,33 +46,48 @@ const EditProductScreen = ({ navigation }) => {
       );
       return;
     }
-
-    if (productId) {
-      dispatch(
-        productActions.updateProduct({
-          id: productId,
-          title: title.value,
-          description: description.value,
-          imageUrl: imageUrl.value,
-          price: price.value,
-        })
-      );
-    } else {
-      dispatch(
-        createProduct({
-          title: title.value,
-          description: description.value,
-          imageUrl: imageUrl.value,
-          price: price.value,
-        })
-      );
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (productId) {
+        await dispatch(
+          updateProduct({
+            id: productId,
+            title: title.value,
+            description: description.value,
+            imageUrl: imageUrl.value,
+            price: price.value,
+          })
+        );
+      } else {
+        await dispatch(
+          createProduct({
+            title: title.value,
+            description: description.value,
+            imageUrl: imageUrl.value,
+            price: price.value,
+          })
+        );
+      }
+      navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
-    navigation.goBack();
+
+    setIsLoading(false);
   }, [productId, formIsValid, title.value, price.value, imageUrl.value, description.value]);
 
   useEffect(() => {
     navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Ошибка!', error, [{ text: 'OK' }]);
+    }
+  }, [error]);
+
+  if (isLoading) return <SbLoading color={theme.colors.primary} />;
 
   return (
     <>

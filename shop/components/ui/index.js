@@ -12,3 +12,5 @@ export { default as SbHeading } from './SbHeading';
 export { default as SbQtyControl } from './SbQtyControl';
 export { default as SbIconContainer } from './SbIconContainer';
 export { default as SbInput } from './SbInput';
+export { default as SbLoading } from './SbLoading';
+export { default as SbError } from './SbError';

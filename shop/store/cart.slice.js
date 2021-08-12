@@ -57,7 +57,7 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(productActions.deleteProduct, (state, { payload }) => {
+    builder.addCase(productActions.productDeleted, (state, { payload }) => {
       const id = payload;
       if (state.items[id]) {
         deleteItem(id, state);
