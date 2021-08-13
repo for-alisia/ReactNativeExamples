@@ -7,7 +7,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 // Components
 import { ProductItem } from '../../components/shop';
-import { SbHeaderButton, SbIconContainer, SbLoading, SbText, SbError } from '../../components/ui';
+import { SbHeaderButton, SbIconContainer, SbLoading, SbError } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
@@ -18,39 +18,31 @@ import { fetchProducts } from '../../store/products.slice';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
 
   // @ts-ignore
   const products = useSelector((state) => state.products.availableProducts);
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.products.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.products.error);
 
   const dispatch = useDispatch();
 
-  const loadProducts = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      await dispatch(fetchProducts());
-    } catch (err) {
-      setError(err);
-    }
-
-    setIsLoading(false);
-  }, []);
-
   // Fetch products initially
   useEffect(() => {
-    loadProducts();
-  }, [dispatch, loadProducts]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   // Refetch products on every return to this screen
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener('willFocus', loadProducts);
+    const willFocusSub = props.navigation.addListener('willFocus', () => dispatch(fetchProducts()));
 
     return () => {
       willFocusSub.remove();
     };
-  }, [loadProducts]);
+  }, [dispatch]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;
@@ -82,9 +74,9 @@ const ProductsOverviewScreen = (props) => {
     return (
       <SbError
         // @ts-ignore
-        errorText={error.message}
+        errorText={error}
         buttonText="Попробовать снова"
-        buttonHandler={loadProducts}
+        buttonHandler={() => dispatch(fetchProducts())}
       />
     );
   }

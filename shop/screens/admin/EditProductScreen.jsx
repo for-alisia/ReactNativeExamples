@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, Platform, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,10 +26,14 @@ const EditProductScreen = ({ navigation }) => {
     // @ts-ignore
     (state) => state.products.availableProducts.find((item) => item.id === productId)
   );
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.products.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.products.error);
+  // @ts-ignore
+  const isSuccessed = useSelector((state) => state.products.isSuccessed);
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
+  // Inputs
   const title = useInput(isLonger.bind(null, 5), product ? product.title : '');
   const imageUrl = useInput(isRequired, product ? product.imageUrl : '');
   const description = useInput(isLonger.bind(null, 10), product ? product.description : '');
@@ -46,35 +50,26 @@ const EditProductScreen = ({ navigation }) => {
       );
       return;
     }
-    setIsLoading(true);
-    setError(null);
-    try {
-      if (productId) {
-        await dispatch(
-          updateProduct({
-            id: productId,
-            title: title.value,
-            description: description.value,
-            imageUrl: imageUrl.value,
-            price: price.value,
-          })
-        );
-      } else {
-        await dispatch(
-          createProduct({
-            title: title.value,
-            description: description.value,
-            imageUrl: imageUrl.value,
-            price: price.value,
-          })
-        );
-      }
-      navigation.goBack();
-    } catch (err) {
-      setError(err.message);
+    if (productId) {
+      await dispatch(
+        updateProduct({
+          id: productId,
+          title: title.value,
+          description: description.value,
+          imageUrl: imageUrl.value,
+          price: price.value,
+        })
+      );
+    } else {
+      await dispatch(
+        createProduct({
+          title: title.value,
+          description: description.value,
+          imageUrl: imageUrl.value,
+          price: price.value,
+        })
+      );
     }
-
-    setIsLoading(false);
   }, [productId, formIsValid, title.value, price.value, imageUrl.value, description.value]);
 
   useEffect(() => {
@@ -83,9 +78,15 @@ const EditProductScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert('Ошибка!', error, [{ text: 'OK' }]);
+      Alert.alert('Произошла ошибка!', error, [{ text: 'OK' }]);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (isSuccessed && !error) {
+      navigation.goBack();
+    }
+  }, [error, isSuccessed]);
 
   if (isLoading) return <SbLoading color={theme.colors.primary} />;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Platform, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,18 +6,35 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 // Components
 import { ProductItem } from '../../components/shop';
-import { SbHeaderButton, SbIconContainer } from '../../components/ui';
+import { SbHeaderButton, SbIconContainer, SbLoading, SbError } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
 
 // Actions
-import { deleteProduct } from '../../store/products.slice';
+import { deleteProduct, fetchProducts } from '../../store/products.slice';
 
 const AdminProductsScreen = ({ navigation }) => {
   // @ts-ignore
   const products = useSelector((state) => state.products.availableProducts);
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.products.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.products.error);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  // Force to refetch products on each refresh
+  useEffect(() => {
+    const willFocusSub = navigation.addListener('willFocus', () => dispatch(fetchProducts()));
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [dispatch]);
 
   const deleteHandler = (id) => {
     Alert.alert('Удаление продукта', 'Вы уверены, что хотите удалить продукт?', [
@@ -46,6 +63,16 @@ const AdminProductsScreen = ({ navigation }) => {
       </ProductItem>
     );
   };
+
+  if (isLoading) return <SbLoading color={theme.colors.primary} />;
+  if (error)
+    return (
+      <SbError
+        errorText={error}
+        buttonText="Попробовать снова"
+        buttonHandler={() => dispatch(fetchProducts())}
+      />
+    );
   return (
     <View style={styles.container}>
       <FlatList data={products} renderItem={renderItem} numColumns={2} />

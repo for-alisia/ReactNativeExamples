@@ -1,18 +1,28 @@
-import React from 'react';
+// @ts-nocheck
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Platform } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbHeaderButton, SbHeading } from '../../components/ui';
+import { SbHeaderButton, SbHeading, SbLoading, SbError } from '../../components/ui';
 import { OrderItem } from '../../components/shop';
+
+// Actions
+import { getOrders } from '../../store/orders.slice';
 
 // Theme
 import theme from '../../theme';
 
 const OrdersScreen = ({ navigation }) => {
-  // @ts-ignore
   const orders = useSelector((state) => state.orders.orders);
+  const isLoading = useSelector((state) => state.orders.isLoading);
+  const error = useSelector((state) => state.orders.error);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrders());
+  }, [dispatch]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;
@@ -26,6 +36,17 @@ const OrdersScreen = ({ navigation }) => {
       />
     );
   };
+  if (isLoading) return <SbLoading color={theme.colors.primary} />;
+  if (error)
+    return (
+      <SbError
+        errorText={error}
+        buttonText="Попробовать снова"
+        buttonHandler={() => {
+          dispatch(getOrders());
+        }}
+      />
+    );
   return (
     <View style={styles.container}>
       <SbHeading>Ваши заказы</SbHeading>

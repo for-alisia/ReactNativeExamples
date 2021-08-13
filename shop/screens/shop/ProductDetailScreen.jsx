@@ -84,7 +84,6 @@ const ProductDetailScreen = (props) => {
       </ScrollView>
       <SbBottomButton
         onPress={() => {
-          console.log('Add product to cart!');
           dispatch(cartActions.addToCart(product));
         }}
       >

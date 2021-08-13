@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+// @ts-nocheck
+import React, { useEffect } from 'react';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
@@ -11,7 +12,7 @@ import theme from '../../theme';
 
 // Actions
 import { cartActions } from '../../store/cart.slice';
-import { orderActions } from '../../store/orders.slice';
+import { addOrder } from '../../store/orders.slice';
 
 // Utils
 import { getTotalPositions } from '../../utils';
@@ -19,7 +20,6 @@ import { getTotalPositions } from '../../utils';
 const CartScreen = ({ navigation }) => {
   // @ts-ignore
   const cartTotal = useSelector((state) => state.cart.total);
-  console.log(cartTotal);
   const cartItems = useSelector((state) => {
     const transformedItems = [];
 
@@ -34,7 +34,9 @@ const CartScreen = ({ navigation }) => {
 
     return transformedItems;
   });
-  console.log(cartItems);
+  const isLoadingOrder = useSelector((state) => state.orders.isLoading);
+  const isAddingOrderSuccess = useSelector((state) => state.orders.isSuccessed);
+  const error = useSelector((state) => state.orders.error);
 
   const dispatch = useDispatch();
 
@@ -52,9 +54,18 @@ const CartScreen = ({ navigation }) => {
   };
   // Create new Order
   const addNewOrderHandler = () => {
-    dispatch(orderActions.addOrder({ items: cartItems, total: cartTotal }));
-    dispatch(cartActions.clearCart());
+    dispatch(addOrder({ items: cartItems, total: cartTotal }));
   };
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Произошла ошибка', 'При размещении заказа произошла ошибка', [{ text: 'OK' }]);
+      return;
+    }
+    if (!error && isAddingOrderSuccess) {
+      dispatch(cartActions.clearCart());
+    }
+  }, [error, isAddingOrderSuccess]);
   // Render item in a list
   const renderItem = (itemData) => {
     const { item } = itemData;

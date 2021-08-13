@@ -5,7 +5,8 @@ import { productsAPI } from '../fetchAPI';
 const initialState = {
   availableProducts: [],
   isLoading: false,
-  hasError: false,
+  error: null,
+  isSuccessed: false,
 };
 
 const productsSlice = createSlice({
@@ -14,6 +15,19 @@ const productsSlice = createSlice({
   reducers: {
     setProducts: (state, { payload }) => {
       state.availableProducts = payload;
+      state.isLoading = false;
+      state.error = null;
+      state.isSuccessed = false;
+    },
+    startLoading: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.isSuccessed = false;
+    },
+    setError: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+      state.isSuccessed = false;
     },
     productCreated: (state, { payload }) => {
       const { title, description, imageUrl, price, id } = payload;
@@ -28,6 +42,9 @@ const productsSlice = createSlice({
       };
 
       state.availableProducts.push(newProduct);
+      state.isLoading = false;
+      state.error = null;
+      state.isSuccessed = true;
     },
     productUpdated: (state, { payload }) => {
       const { id, title, description, imageUrl, price } = payload;
@@ -42,39 +59,49 @@ const productsSlice = createSlice({
         reviews: state.availableProducts[idx].reviews,
       };
       state.availableProducts[idx] = newProduct;
+      state.isLoading = false;
+      state.error = null;
+      state.isSuccessed = true;
     },
     productDeleted: (state, { payload }) => {
       state.availableProducts = state.availableProducts.filter((el) => el.id !== payload);
+      state.isLoading = false;
+      state.error = null;
+      state.isSuccessed = true;
     },
   },
 });
 
 export const productActions = productsSlice.actions;
 
-// Fetch products from server
+// Fetching products
 export const fetchProducts = () => async (dispatch) => {
+  dispatch(productActions.startLoading());
   try {
     const products = await productsAPI.getProducts();
     dispatch(productActions.setProducts(products));
   } catch (err) {
-    throw err;
+    dispatch(productActions.setError(err.message));
   }
 };
+
 // Create new product
 export const createProduct =
   ({ title, description, imageUrl, price }) =>
   async (dispatch) => {
+    dispatch(productActions.startLoading());
     try {
       const product = await productsAPI.createProduct({ title, description, imageUrl, price });
       dispatch(productActions.productCreated(product));
     } catch (err) {
-      throw err;
+      dispatch(productActions.setError(err.message));
     }
   };
 // Updating product
 export const updateProduct =
   ({ title, description, imageUrl, id, price }) =>
   async (dispatch) => {
+    dispatch(productActions.startLoading());
     try {
       const isSuccessed = await productsAPI.updateProduct({
         title,
@@ -87,19 +114,20 @@ export const updateProduct =
         dispatch(productActions.productUpdated({ title, description, imageUrl, id, price }));
       }
     } catch (err) {
-      throw err;
+      dispatch(productActions.setError(err.message));
     }
   };
 
 // Deleting product
 export const deleteProduct = (productId) => async (dispatch) => {
+  dispatch(productActions.startLoading());
   try {
-    const isSuccessed = await fetchAPI.deleteProduct(productId);
+    const isSuccessed = await productsAPI.deleteProduct(productId);
     if (isSuccessed) {
       dispatch(productActions.productDeleted(productId));
     }
   } catch (err) {
-    throw err;
+    dispatch(productActions.setError(err.message));
   }
 };
 
