@@ -50,7 +50,14 @@ const OrdersScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SbHeading>Ваши заказы</SbHeading>
-      <FlatList data={orders} renderItem={renderItem} />
+      <FlatList
+        data={orders}
+        renderItem={renderItem}
+        refreshing={isLoading}
+        onRefresh={() => {
+          dispatch(getOrders());
+        }}
+      />
     </View>
   );
 };

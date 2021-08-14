@@ -18,8 +18,6 @@ import { fetchProducts } from '../../store/products.slice';
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
 
   // @ts-ignore
   const products = useSelector((state) => state.products.availableProducts);
@@ -83,7 +81,13 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <FlatList data={products} renderItem={renderItem} numColumns={2} />
+      <FlatList
+        data={products}
+        renderItem={renderItem}
+        numColumns={2}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(fetchProducts())}
+      />
     </View>
   );
 };
