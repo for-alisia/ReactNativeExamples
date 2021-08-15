@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import productsReducer from './store/products.slice';
 import cartReducer from './store/cart.slice';
 import ordersReducer from './store/orders.slice';
+import userReducer from './store/auth.slice';
 
 // Navigation
 import ShopNavigator from './navigation/ShopNavigator';
@@ -22,6 +23,7 @@ const store = configureStore({
     products: productsReducer,
     cart: cartReducer,
     orders: ordersReducer,
+    user: userReducer,
   },
 });
 

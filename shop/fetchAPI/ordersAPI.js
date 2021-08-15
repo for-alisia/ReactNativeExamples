@@ -3,9 +3,11 @@ const ordersAPI = {
   headers: {
     'Content-Type': 'application/json',
   },
-  async getOrders() {
+  async getOrders(userId, token) {
     try {
-      const response = await fetch(`${this.baseUrl}orders.json`);
+      const response = await fetch(
+        `${this.baseUrl}orders.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`
+      );
       if (!response.ok) {
         throw new Error('Ошибка получения заказов');
       }

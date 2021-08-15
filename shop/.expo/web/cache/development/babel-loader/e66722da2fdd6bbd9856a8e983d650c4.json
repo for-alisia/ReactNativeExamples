@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default as AuthScreen } from \"./AuthScreen\";","map":{"version":3,"sources":["/Users/alisia/Projects/ReactNative/shop/screens/user/index.js"],"names":["default","AuthScreen"],"mappings":"AAAA,SAASA,OAAO,IAAIC,UAApB","sourcesContent":["export { default as AuthScreen } from './AuthScreen';\n"]},"metadata":{},"sourceType":"module"}

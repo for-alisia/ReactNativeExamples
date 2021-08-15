@@ -23,9 +23,9 @@ const productsAPI = {
       throw err;
     }
   },
-  async createProduct({ title, description, imageUrl, price }) {
+  async createProduct({ title, description, imageUrl, price, token }) {
     try {
-      const response = await fetch(`${this.baseUrl}products.json`, {
+      const response = await fetch(`${this.baseUrl}products.json?auth=${token}`, {
         method: 'POST',
         headers: this.headers,
         body: JSON.stringify({ title, description, imageUrl, price, rate: 3.5, reviews: [] }),
@@ -41,9 +41,9 @@ const productsAPI = {
       throw err;
     }
   },
-  async updateProduct({ title, description, imageUrl, price, id }) {
+  async updateProduct({ title, description, imageUrl, price, id, token }) {
     try {
-      const response = await fetch(`${this.baseUrl}products/${id}.json`, {
+      const response = await fetch(`${this.baseUrl}products/${id}.json?auth=${token}`, {
         method: 'PATCH',
         headers: this.headers,
         body: JSON.stringify({ title, description, imageUrl, price }),
@@ -59,9 +59,9 @@ const productsAPI = {
     }
   },
 
-  async deleteProduct(id) {
+  async deleteProduct(id, token) {
     try {
-      const response = await fetch(`${this.baseUrl}products/${id}.json`, {
+      const response = await fetch(`${this.baseUrl}products/${id}.json?auth=${token}`, {
         method: 'DELETE',
       });
 

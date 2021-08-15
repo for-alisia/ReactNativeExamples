@@ -50,14 +50,18 @@ const OrdersScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SbHeading>Ваши заказы</SbHeading>
-      <FlatList
-        data={orders}
-        renderItem={renderItem}
-        refreshing={isLoading}
-        onRefresh={() => {
-          dispatch(getOrders());
-        }}
-      />
+      {orders.length > 0 ? (
+        <FlatList
+          data={orders}
+          renderItem={renderItem}
+          refreshing={isLoading}
+          onRefresh={() => {
+            dispatch(getOrders());
+          }}
+        />
+      ) : (
+        <SbText>Похоже вы еще не сделали ни одного заказа</SbText>
+      )}
     </View>
   );
 };

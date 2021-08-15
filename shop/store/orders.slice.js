@@ -42,10 +42,11 @@ const orderSlice = createSlice({
 export const orderActions = orderSlice.actions;
 
 export const addOrder = ({ items, total }) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(orderActions.startLoading());
+    const userId = getState().user.user && getState().user.user.localId;
     try {
-      const orderToCreate = { items, total, status: 'Оформлен', date: +new Date() };
+      const orderToCreate = { items, total, status: 'Оформлен', date: +new Date(), userId };
       const newOrder = await ordersAPI.addOrder(orderToCreate);
       dispatch(orderActions.orderAdded(newOrder));
     } catch (err) {
@@ -54,10 +55,12 @@ export const addOrder = ({ items, total }) => {
   };
 };
 
-export const getOrders = () => async (dispatch) => {
+export const getOrders = () => async (dispatch, getState) => {
   dispatch(orderActions.startLoading());
+  const userId = getState().user.user && getState().user.user.localId;
+  const token = getState().user.user && getState().user.user.idToken;
   try {
-    const ordersFromServer = await ordersAPI.getOrders();
+    const ordersFromServer = await ordersAPI.getOrders(userId, token);
     dispatch(orderActions.setOrders(ordersFromServer));
   } catch (err) {
     dispatch(orderActions.setError(err.message));

@@ -88,10 +88,17 @@ export const fetchProducts = () => async (dispatch) => {
 // Create new product
 export const createProduct =
   ({ title, description, imageUrl, price }) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     dispatch(productActions.startLoading());
+    const token = getState().user.user && getState().user.user.idToken;
     try {
-      const product = await productsAPI.createProduct({ title, description, imageUrl, price });
+      const product = await productsAPI.createProduct({
+        title,
+        description,
+        imageUrl,
+        price,
+        token,
+      });
       dispatch(productActions.productCreated(product));
     } catch (err) {
       dispatch(productActions.setError(err.message));
@@ -100,8 +107,10 @@ export const createProduct =
 // Updating product
 export const updateProduct =
   ({ title, description, imageUrl, id, price }) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     dispatch(productActions.startLoading());
+    console.log(getState());
+    const token = getState().user.user && getState().user.user.idToken;
     try {
       const isSuccessed = await productsAPI.updateProduct({
         title,
@@ -109,6 +118,7 @@ export const updateProduct =
         imageUrl,
         id,
         price,
+        token,
       });
       if (isSuccessed) {
         dispatch(productActions.productUpdated({ title, description, imageUrl, id, price }));
@@ -119,10 +129,11 @@ export const updateProduct =
   };
 
 // Deleting product
-export const deleteProduct = (productId) => async (dispatch) => {
+export const deleteProduct = (productId) => async (dispatch, getState) => {
   dispatch(productActions.startLoading());
+  const token = getState().user.user && getState().user.user.idToken;
   try {
-    const isSuccessed = await productsAPI.deleteProduct(productId);
+    const isSuccessed = await productsAPI.deleteProduct(productId, token);
     if (isSuccessed) {
       dispatch(productActions.productDeleted(productId));
     }

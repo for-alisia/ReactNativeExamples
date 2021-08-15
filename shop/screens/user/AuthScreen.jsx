@@ -1,9 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Conmponents
-import { SbText, SbInput, SbCard, SbHeading, SbBottomButton, SbLink } from '../../components/ui';
+import {
+  SbText,
+  SbInput,
+  SbCard,
+  SbHeading,
+  SbBottomButton,
+  SbLink,
+  SbLoading,
+} from '../../components/ui';
 
 // Hooks
 import useInput from '../../hooks/useInput';
@@ -11,19 +20,51 @@ import useInput from '../../hooks/useInput';
 // Validators
 import { isRequired, isLonger, isEmail } from '../../utils/validators';
 
+// Actions
+import { signup, login as loginAction } from '../../store/auth.slice';
+
 // Theme
 import theme from '../../theme';
 
-const AuthScreen = () => {
-  const login = useInput(isEmail);
-  const password = useInput(isLonger.bind(null, 5));
-  const name = useInput(isRequired);
+const softReset = (input) => {
+  if (input.hasError && input.value.trim() === '') {
+    input.reset();
+  }
+};
 
+const AuthScreen = ({ navigation }) => {
+  // Inputs
+  const login = useInput(isEmail);
+  const password = useInput(isLonger.bind(null, 6));
+  const name = useInput(isRequired);
+  // Mode (login or signup)
   const [isLoginMode, setIsLoginMode] = useState(true);
 
+  const dispatch = useDispatch();
+  // @ts-ignore
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.user.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.user.error);
+
+  // Form validity
   const isValid = isLoginMode
     ? login.isValid && password.isValid
     : login.isValid && password.isValid && name.isValid;
+
+  const toSignupHandler = () => {
+    setIsLoginMode(false);
+    softReset(login);
+    softReset(password);
+  };
+
+  const toLoginHandler = () => {
+    setIsLoginMode(true);
+    softReset(name);
+    softReset(login);
+    softReset(password);
+  };
 
   const submitHandler = useCallback(() => {
     if (!isValid) {
@@ -32,11 +73,11 @@ const AuthScreen = () => {
       ]);
       return;
     }
-    // Submit form and go to main page
-    console.log('Submit form!');
-    login.reset();
-    password.reset();
-    name.reset();
+    if (!isLoginMode) {
+      dispatch(signup(login.value, password.value, name.value));
+    } else {
+      dispatch(loginAction(login.value, password.value));
+    }
   }, [
     isValid,
     login.value,
@@ -45,8 +86,22 @@ const AuthScreen = () => {
     password.isValid,
     name.value,
     name.isValid,
+    isLoginMode,
   ]);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.navigate('Shop');
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Ошибка авторизации', error, [{ text: 'OK' }]);
+    }
+  }, [error]);
+
+  if (isLoading) return <SbLoading />;
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-200} style={styles.screen}>
       <ScrollView>
@@ -76,7 +131,7 @@ const AuthScreen = () => {
               />
               <SbInput
                 label="Пароль"
-                errorText="Укажите пароль (более 5 символов)"
+                errorText="Укажите пароль (более 6 символов)"
                 value={password.value}
                 hasError={password.hasError}
                 onChangeHandler={password.onChangeText}
@@ -85,11 +140,11 @@ const AuthScreen = () => {
                 secureTextEntry
               />
               {isLoginMode ? (
-                <SbLink style={styles.linkStyle} onPress={() => setIsLoginMode(false)}>
+                <SbLink style={styles.linkStyle} onPress={toSignupHandler}>
                   Нет аккаунта? Зарегистрироваться
                 </SbLink>
               ) : (
-                <SbLink style={styles.linkStyle} onPress={() => setIsLoginMode(true)}>
+                <SbLink style={styles.linkStyle} onPress={toLoginHandler}>
                   Есть аккаунт? Войти
                 </SbLink>
               )}
