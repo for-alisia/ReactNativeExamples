@@ -57,6 +57,7 @@ export const addOrder = ({ items, total }) => {
 
 export const getOrders = () => async (dispatch, getState) => {
   dispatch(orderActions.startLoading());
+  console.log(getState().user);
   const userId = getState().user.user && getState().user.user.localId;
   const token = getState().user.user && getState().user.user.idToken;
   try {

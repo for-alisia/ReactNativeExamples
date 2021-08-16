@@ -8,10 +8,13 @@ const ordersAPI = {
       const response = await fetch(
         `${this.baseUrl}orders.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`
       );
+
+      const resData = await response.json();
+      console.log(token);
+      console.log(resData);
       if (!response.ok) {
         throw new Error('Ошибка получения заказов');
       }
-      const resData = await response.json();
 
       const loadedOrders = [];
 

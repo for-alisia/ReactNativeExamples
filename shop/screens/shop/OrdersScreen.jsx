@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Components
-import { SbHeaderButton, SbHeading, SbLoading, SbError } from '../../components/ui';
+import { SbHeaderButton, SbHeading, SbLoading, SbError, SbText } from '../../components/ui';
 import { OrderItem } from '../../components/shop';
 
 // Actions
