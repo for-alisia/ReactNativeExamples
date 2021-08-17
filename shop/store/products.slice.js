@@ -109,7 +109,6 @@ export const updateProduct =
   ({ title, description, imageUrl, id, price }) =>
   async (dispatch, getState) => {
     dispatch(productActions.startLoading());
-    console.log(getState());
     const token = getState().user.user && getState().user.user.idToken;
     try {
       const isSuccessed = await productsAPI.updateProduct({

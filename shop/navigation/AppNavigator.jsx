@@ -7,7 +7,7 @@ import StartupScreen from '../screens/StartupScreen';
 
 const AppNavigator = (props) => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const didTryAutoLogin = useSelector((state) => state.user.didTryAutoLogin);
+  const didTryAutoLogin = useSelector((state) => state.user.didTryAutologin);
 
   return (
     <NavigationContainer>

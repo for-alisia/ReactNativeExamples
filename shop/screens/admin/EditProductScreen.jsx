@@ -21,7 +21,7 @@ import { isLonger, isRequired } from '../../utils/validators';
 import useInput from '../../hooks/useInput';
 
 const EditProductScreen = ({ navigation, route }) => {
-  const productId = route.params.productId;
+  const productId = route.params && route.params.productId;
   const product = useSelector(
     // @ts-ignore
     (state) => state.products.availableProducts.find((item) => item.id === productId)
@@ -73,7 +73,17 @@ const EditProductScreen = ({ navigation, route }) => {
   }, [productId, formIsValid, title.value, price.value, imageUrl.value, description.value]);
 
   useEffect(() => {
-    navigation.setParams({ submit: submitHandler });
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+          <Item
+            iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+            title="Сохранить"
+            onPress={submitHandler}
+          />
+        </HeaderButtons>
+      ),
+    });
   }, [submitHandler]);
 
   useEffect(() => {
@@ -143,18 +153,9 @@ const EditProductScreen = ({ navigation, route }) => {
 };
 
 export const screenOptions = ({ navigation, route }) => {
-  const submitHandler = route.params.submit;
   return {
-    headerTitle: route.params.productId ? 'Редактирование продукта' : 'Создание продукта',
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
-        <Item
-          iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-          title="Сохранить"
-          onPress={submitHandler}
-        />
-      </HeaderButtons>
-    ),
+    headerTitle:
+      route.params && route.params.productId ? 'Редактирование продукта' : 'Создание продукта',
   };
 };
 

@@ -27,8 +27,6 @@ const usersAPI = {
 
       const userData = await response.json();
 
-      console.log(userData);
-
       return userData;
     } catch (err) {
       throw err;
@@ -44,8 +42,6 @@ const usersAPI = {
       });
 
       const userData = await response.json();
-
-      console.log(userData);
 
       if (!response.ok) {
         throw new Error(this.errors[userData.error.message] || 'Непредвиденная ошибка');

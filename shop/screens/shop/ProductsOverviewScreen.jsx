@@ -34,13 +34,13 @@ const ProductsOverviewScreen = (props) => {
   }, [dispatch]);
 
   // Refetch products on every return to this screen
-  // useEffect(() => {
-  //   const willFocusSub = props.navigation.addListener('willFocus', () => dispatch(fetchProducts()));
+  useEffect(() => {
+    const unsubscibe = props.navigation.addListener('focus', () => dispatch(fetchProducts()));
 
-  //   return () => {
-  //     willFocusSub.remove();
-  //   };
-  // }, [dispatch]);
+    return () => {
+      unsubscibe();
+    };
+  }, [dispatch]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;

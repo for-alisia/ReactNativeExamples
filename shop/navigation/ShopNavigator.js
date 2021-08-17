@@ -125,6 +125,7 @@ export const ShopNavigator = () => {
     <ShopDrawerNavigator.Navigator
       screenOptions={{
         drawerActiveTintColor: theme.colors.primary,
+        headerShown: false,
       }}
       drawerContent={(props) => {
         return (
@@ -161,10 +162,10 @@ export const ShopNavigator = () => {
         }}
       />
       <ShopDrawerNavigator.Screen
-        name="Orders"
+        name="UserOrders"
         component={OrdersNavigator}
         options={{
-          title: 'Заказы',
+          title: 'Ваши заказы',
           drawerIcon: (props) => {
             return (
               <Ionicons
@@ -177,7 +178,7 @@ export const ShopNavigator = () => {
         }}
       />
       <ShopDrawerNavigator.Screen
-        name="Admin"
+        name="AdminBar"
         component={AdminNavigator}
         options={{
           title: 'Администрирование',

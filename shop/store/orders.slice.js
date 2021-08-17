@@ -13,7 +13,6 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     startLoading: (state) => {
-      console.log('Is Loading was set');
       state.isLoading = true;
       state.error = null;
       state.isSuccessed = false;
@@ -57,7 +56,7 @@ export const addOrder = ({ items, total }) => {
 
 export const getOrders = () => async (dispatch, getState) => {
   dispatch(orderActions.startLoading());
-  console.log(getState().user);
+
   const userId = getState().user.user && getState().user.user.localId;
   const token = getState().user.user && getState().user.user.idToken;
   try {

@@ -10,8 +10,7 @@ const ordersAPI = {
       );
 
       const resData = await response.json();
-      console.log(token);
-      console.log(resData);
+
       if (!response.ok) {
         throw new Error('Ошибка получения заказов');
       }

@@ -36,9 +36,13 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
       state.error = null;
+      state.didTryAutologin = true;
     },
     setAutoLogin: (state) => {
       state.didTryAutologin = true;
+      state.isLoggedIn = false;
+      state.isLoading = false;
+      state.error = null;
     },
   },
 });
@@ -96,7 +100,6 @@ const setLogoutTimer = (expirationTime) => async (dispatch) => {
 };
 
 const saveDataToStorage = (token, userId, expirationDate) => {
-  console.log('Set user Data');
   AsyncStorage.setItem(
     'userData',
     JSON.stringify({ token, userId, expireDate: expirationDate.toISOString() })

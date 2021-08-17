@@ -19,9 +19,9 @@ const StartupScreen = (props) => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData');
 
-      console.log(userData);
       if (!userData) {
         //props.navigation.navigate('Auth');
+        console.log('No user data here');
         dispatch(userActions.setAutoLogin());
         return;
       }
@@ -31,12 +31,14 @@ const StartupScreen = (props) => {
       if (expirationDate <= new Date() || !token || !userId) {
         //props.navigation.navigate('Auth');
         dispatch(userActions.setAutoLogin());
+        console.log('Token has expired');
         return;
       }
 
       const expirationTime = expirationDate.getTime() - new Date().getTime();
 
       //props.navigation.navigate('Shop');
+      console.log('Try to login from store');
       dispatch(
         authenticateFromStore({ idToken: token, localId: userId, expireDate }, expirationTime)
       );
