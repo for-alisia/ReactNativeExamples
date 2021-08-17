@@ -2,10 +2,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { ShopNavigator, AuthNavigator } from './ShopNavigator';
+
+// Navigators
+import { ShopNavigator } from './ShopNavigator';
+import { AuthNavigator } from './StackNavigators';
+
+// Screens
 import StartupScreen from '../screens/StartupScreen';
 
-const AppNavigator = (props) => {
+const AppNavigator = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const didTryAutoLogin = useSelector((state) => state.user.didTryAutologin);
 

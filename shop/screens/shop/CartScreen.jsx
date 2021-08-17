@@ -176,8 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-CartScreen.navigationOptions = (navData) => ({
-  headerTitle: 'Корзина',
-});
-
 export default CartScreen;
