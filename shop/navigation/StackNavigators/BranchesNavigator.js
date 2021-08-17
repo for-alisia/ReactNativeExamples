@@ -6,7 +6,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { defaultStackOptions } from '../options';
 
 // Screens and screens options
-import { BranchesScreen, branchesScreenOptions } from '../../screens/studios';
+import {
+  BranchesScreen,
+  branchesScreenOptions,
+  BranchDetailScreen,
+  BranchCreateScreen,
+  branchCreateScreenOptions,
+  BranchMapScreen,
+} from '../../screens/studios';
 
 const BranchesStackNavigator = createStackNavigator();
 
@@ -18,6 +25,13 @@ const BranchesNavigator = () => {
         component={BranchesScreen}
         options={branchesScreenOptions}
       />
+      <BranchesStackNavigator.Screen name="BranchDetail" component={BranchDetailScreen} />
+      <BranchesStackNavigator.Screen
+        name="BranchCreate"
+        component={BranchCreateScreen}
+        options={branchCreateScreenOptions}
+      />
+      <BranchesStackNavigator.Screen name="BranchMap" component={BranchMapScreen} />
     </BranchesStackNavigator.Navigator>
   );
 };

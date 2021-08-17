@@ -12,6 +12,7 @@ import productsReducer from './store/products.slice';
 import cartReducer from './store/cart.slice';
 import ordersReducer from './store/orders.slice';
 import userReducer from './store/auth.slice';
+import branchesReducer from './store/branches.slice';
 
 // Navigation
 import AppNavigator from './navigation/AppNavigator';
@@ -24,6 +25,7 @@ const store = configureStore({
     cart: cartReducer,
     orders: ordersReducer,
     user: userReducer,
+    branches: branchesReducer,
   },
 });
 

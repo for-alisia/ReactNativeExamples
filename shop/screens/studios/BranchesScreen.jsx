@@ -18,7 +18,10 @@ const BranchesSreen = () => {
 };
 
 const styles = StyleSheet.create({
-  screen: {},
+  screen: {
+    flex: 1,
+    paddingHorizontal: theme.padding.s,
+  },
 });
 
 export const screenOptions = ({ navigation }) => {
@@ -31,6 +34,17 @@ export const screenOptions = ({ navigation }) => {
           title="Меню"
           onPress={() => {
             navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+        <Item
+          iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+          title="Добавить филиал"
+          onPress={() => {
+            navigation.navigate('BranchCreate');
           }}
         />
       </HeaderButtons>
