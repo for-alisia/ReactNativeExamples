@@ -9,6 +9,7 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   error: null,
+  didTryAutologin: false,
 };
 
 const userSlice = createSlice({
@@ -28,12 +29,16 @@ const userSlice = createSlice({
       state.error = null;
       state.user = payload;
       state.isLoggedIn = true;
+      state.didTryAutologin = true;
     },
     unsetUser: (state) => {
       state.user = null;
       state.isLoggedIn = false;
       state.isLoading = false;
       state.error = null;
+    },
+    setAutoLogin: (state) => {
+      state.didTryAutologin = true;
     },
   },
 });

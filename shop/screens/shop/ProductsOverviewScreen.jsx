@@ -34,13 +34,13 @@ const ProductsOverviewScreen = (props) => {
   }, [dispatch]);
 
   // Refetch products on every return to this screen
-  useEffect(() => {
-    const willFocusSub = props.navigation.addListener('willFocus', () => dispatch(fetchProducts()));
+  // useEffect(() => {
+  //   const willFocusSub = props.navigation.addListener('willFocus', () => dispatch(fetchProducts()));
 
-    return () => {
-      willFocusSub.remove();
-    };
-  }, [dispatch]);
+  //   return () => {
+  //     willFocusSub.remove();
+  //   };
+  // }, [dispatch]);
 
   const renderItem = (itemData) => {
     const { item } = itemData;
@@ -92,7 +92,7 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = (navData) => ({
+export const screenOptions = (navData) => ({
   headerTitle: 'Все товары',
   headerLeft: () => (
     <HeaderButtons HeaderButtonComponent={SbHeaderButton}>

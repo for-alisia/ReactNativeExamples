@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
 });
 
-OrdersScreen.navigationOptions = (navData) => {
+export const screenOptions = ({ navigation }) => {
   return {
     headerTitle: 'Ваши заказы',
     headerLeft: () => (
@@ -81,7 +81,7 @@ OrdersScreen.navigationOptions = (navData) => {
           iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
           title="Меню"
           onPress={() => {
-            navData.navigation.toggleDrawer();
+            navigation.toggleDrawer();
           }}
         />
       </HeaderButtons>

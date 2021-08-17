@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 });
 
-AdminProductsScreen.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'Редактирование товаров',
     headerLeft: () => (

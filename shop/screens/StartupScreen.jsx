@@ -10,7 +10,7 @@ import { SbLoading } from '../components/ui';
 import theme from '../theme';
 
 // Actions
-import { authenticateFromStore } from '../store/auth.slice';
+import { authenticateFromStore, userActions } from '../store/auth.slice';
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
@@ -21,20 +21,22 @@ const StartupScreen = (props) => {
 
       console.log(userData);
       if (!userData) {
-        props.navigation.navigate('Auth');
+        //props.navigation.navigate('Auth');
+        dispatch(userActions.setAutoLogin());
         return;
       }
       const { token, userId, expireDate } = JSON.parse(userData);
       const expirationDate = new Date(expireDate);
 
       if (expirationDate <= new Date() || !token || !userId) {
-        props.navigation.navigate('Auth');
+        //props.navigation.navigate('Auth');
+        dispatch(userActions.setAutoLogin());
         return;
       }
 
       const expirationTime = expirationDate.getTime() - new Date().getTime();
 
-      props.navigation.navigate('Shop');
+      //props.navigation.navigate('Shop');
       dispatch(
         authenticateFromStore({ idToken: token, localId: userId, expireDate }, expirationTime)
       );

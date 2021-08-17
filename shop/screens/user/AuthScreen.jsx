@@ -162,12 +162,6 @@ const AuthScreen = ({ navigation }) => {
   );
 };
 
-AuthScreen.navigationOptions = (navData) => {
-  return {
-    headerTitle: 'Авторизация',
-  };
-};
-
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

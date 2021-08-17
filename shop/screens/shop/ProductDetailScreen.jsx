@@ -25,8 +25,8 @@ import { getWordEndByQty } from '../../utils';
 // Actions
 import { cartActions } from '../../store/cart.slice';
 
-const ProductDetailScreen = (props) => {
-  const productId = props.navigation.getParam('productId');
+const ProductDetailScreen = ({ navigation, route }) => {
+  const productId = route.params.productId;
 
   const product = useSelector((state) =>
     // @ts-ignore
@@ -96,9 +96,10 @@ const ProductDetailScreen = (props) => {
   );
 };
 
-ProductDetailScreen.navigationOptions = (navData) => {
+export const screenOptions = ({ navigation, route }) => {
+  console.log(route);
   return {
-    headerTitle: navData.navigation.getParam('productTitle'),
+    headerTitle: route.params.productTitle,
   };
 };
 

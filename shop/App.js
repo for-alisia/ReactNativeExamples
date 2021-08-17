@@ -14,7 +14,7 @@ import ordersReducer from './store/orders.slice';
 import userReducer from './store/auth.slice';
 
 // Navigation
-import NavigatorContainer from './navigation/NavigatorContainer';
+import AppNavigator from './navigation/AppNavigator';
 
 enableScreens();
 
@@ -55,7 +55,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigatorContainer />
+      <AppNavigator />
     </Provider>
   );
 }

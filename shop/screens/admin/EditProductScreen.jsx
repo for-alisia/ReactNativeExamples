@@ -20,8 +20,8 @@ import { isLonger, isRequired } from '../../utils/validators';
 // Hooks
 import useInput from '../../hooks/useInput';
 
-const EditProductScreen = ({ navigation }) => {
-  const productId = navigation.getParam('productId');
+const EditProductScreen = ({ navigation, route }) => {
+  const productId = route.params.productId;
   const product = useSelector(
     // @ts-ignore
     (state) => state.products.availableProducts.find((item) => item.id === productId)
@@ -142,12 +142,10 @@ const EditProductScreen = ({ navigation }) => {
   );
 };
 
-EditProductScreen.navigationOptions = (navData) => {
-  const submitHandler = navData.navigation.getParam('submit');
+export const screenOptions = ({ navigation, route }) => {
+  const submitHandler = route.params.submit;
   return {
-    headerTitle: navData.navigation.getParam('productId')
-      ? 'Редактирование продукта'
-      : 'Создание продукта',
+    headerTitle: route.params.productId ? 'Редактирование продукта' : 'Создание продукта',
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
         <Item
