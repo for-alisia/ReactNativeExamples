@@ -41,7 +41,7 @@ const BranchCreateSreen = ({ navigation }) => {
       return;
     }
 
-    dispatch(branchesActions.addBranch({ title, description }));
+    dispatch(branchesActions.addBranch({ title: title.value, description: description.value }));
     navigation.goBack();
   };
 

@@ -1,28 +1,48 @@
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 // Components
-import { SbText, SbHeading, SbLink, SbHeaderButton } from '../../components/ui';
+import { SbText, SbHeading, SbLink, SbHeaderButton, SbTitle, SbCard } from '../../components/ui';
 
 // Theme
 import theme from '../../theme';
 
 const BranchesSreen = () => {
+  // @ts-ignore
+  const branches = useSelector((state) => {
+    const arr = [];
+
+    // @ts-ignore
+    Object.keys(state.branches.items).forEach((key) => {
+      // @ts-ignore
+      arr.push({ ...state.branches.items[key], id: key });
+    });
+
+    return arr;
+  });
+
+  console.log(branches);
+
+  const renderItems = ({ item }) => {
+    return (
+      <SbCard>
+        <View style={styles.branchWrapper}>
+          <SbTitle>{item.title}</SbTitle>
+          <SbText>{item.description}</SbText>
+        </View>
+      </SbCard>
+    );
+  };
+
   return (
     <View style={styles.screen}>
       <SbHeading>Филиалы</SbHeading>
-      <SbText>Здесь будут филиалы</SbText>
+      <FlatList data={branches} renderItem={renderItems} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    paddingHorizontal: theme.padding.s,
-  },
-});
 
 export const screenOptions = ({ navigation }) => {
   return {
@@ -51,5 +71,16 @@ export const screenOptions = ({ navigation }) => {
     ),
   };
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    paddingHorizontal: theme.padding.s,
+  },
+  branchWrapper: {
+    paddingHorizontal: theme.padding.s,
+    paddingVertical: theme.padding.m,
+  },
+});
 
 export default BranchesSreen;

@@ -3,7 +3,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: [],
+  items: {},
   isLoading: false,
   error: null,
   wasCompleted: false,
@@ -14,7 +14,11 @@ const branchesSlice = createSlice({
   initialState,
   reducers: {
     addBranch: (state, { payload }) => {
-      state.items.push(payload);
+      const id = new Date().toISOString();
+      state.items[id] = {
+        title: payload.title,
+        description: payload.description,
+      };
     },
   },
 });
