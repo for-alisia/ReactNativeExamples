@@ -14,3 +14,5 @@ export { default as SbIconContainer } from './SbIconContainer';
 export { default as SbInput } from './SbInput';
 export { default as SbLoading } from './SbLoading';
 export { default as SbError } from './SbError';
+export { default as SbImageSelector } from './SbImageSelector';
+export { default as SbDoubleButton } from './SbDoubleButton';

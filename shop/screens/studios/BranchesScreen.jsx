@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 
 // Components
 import { SbText, SbHeading, SbLink, SbHeaderButton, SbTitle, SbCard } from '../../components/ui';
+import { BranchItem } from '../../components/studios';
 
 // Theme
 import theme from '../../theme';
 
-const BranchesSreen = () => {
-  // @ts-ignore
+const BranchesSreen = ({ navigation }) => {
   const branches = useSelector((state) => {
     const arr = [];
 
@@ -23,16 +23,15 @@ const BranchesSreen = () => {
     return arr;
   });
 
-  console.log(branches);
-
   const renderItems = ({ item }) => {
     return (
-      <SbCard>
-        <View style={styles.branchWrapper}>
-          <SbTitle>{item.title}</SbTitle>
-          <SbText>{item.description}</SbText>
-        </View>
-      </SbCard>
+      <BranchItem
+        item={item}
+        onSelect={() => {
+          console.log('Pressed onSelect');
+          navigation.navigate('BranchDetail', { branchTitle: item.title, branchId: item.id });
+        }}
+      />
     );
   };
 
@@ -75,11 +74,7 @@ export const screenOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingHorizontal: theme.padding.s,
-  },
-  branchWrapper: {
-    paddingHorizontal: theme.padding.s,
-    paddingVertical: theme.padding.m,
+    paddingHorizontal: theme.padding.m,
   },
 });
 

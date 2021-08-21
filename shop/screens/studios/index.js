@@ -7,3 +7,4 @@ export { default as GroupsScreen } from './GroupsScreen';
 // Screen Options
 export { screenOptions as branchesScreenOptions } from './BranchesScreen';
 export { screenOptions as branchCreateScreenOptions } from './BranchCreateScreen';
+export { screenOptions as branchDetailScreenOptions } from './BranchDetailScreen';

@@ -10,6 +10,7 @@ import {
   BranchesScreen,
   branchesScreenOptions,
   BranchDetailScreen,
+  branchDetailScreenOptions,
   BranchCreateScreen,
   branchCreateScreenOptions,
   BranchMapScreen,
@@ -25,7 +26,11 @@ const BranchesNavigator = () => {
         component={BranchesScreen}
         options={branchesScreenOptions}
       />
-      <BranchesStackNavigator.Screen name="BranchDetail" component={BranchDetailScreen} />
+      <BranchesStackNavigator.Screen
+        name="BranchDetail"
+        component={BranchDetailScreen}
+        options={branchDetailScreenOptions}
+      />
       <BranchesStackNavigator.Screen
         name="BranchCreate"
         component={BranchCreateScreen}

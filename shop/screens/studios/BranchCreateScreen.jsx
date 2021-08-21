@@ -1,19 +1,11 @@
-import React from 'react';
-import { View, StyleSheet, Platform, ScrollView, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Platform, ScrollView, Alert, Image } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 // Components
-import {
-  SbText,
-  SbHeading,
-  SbLink,
-  SbHeaderButton,
-  SbInput,
-  SbBottomButton,
-  SbTitle,
-} from '../../components/ui';
+import { SbHeading, SbInput, SbBottomButton, SbTitle, SbImageSelector } from '../../components/ui';
 
 // Hooks
 import useInput from '../../hooks/useInput';
@@ -70,6 +62,7 @@ const BranchCreateSreen = ({ navigation }) => {
               numberOfLines={8}
             />
           </View>
+          <SbImageSelector />
         </View>
       </ScrollView>
       <SbBottomButton onPress={submitHandler}>
@@ -93,7 +86,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: theme.padding.m,
   },
-  inputsContainer: {},
+  inputsContainer: {
+    marginBottom: theme.margin.l,
+  },
   submitButton: {
     flexDirection: 'row',
     alignItems: 'center',
