@@ -27,15 +27,14 @@ const AdminProductsScreen = ({ navigation }) => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Force to refetch products on each refresh
+  // Refetch products on every return to this screen
   useEffect(() => {
-    const willFocusSub = navigation.addListener('willFocus', () => dispatch(fetchProducts()));
+    const unsubscibe = navigation.addListener('focus', () => dispatch(fetchProducts()));
 
     return () => {
-      willFocusSub.remove();
+      unsubscibe();
     };
   }, [dispatch]);
-
   const deleteHandler = (id) => {
     Alert.alert('Удаление продукта', 'Вы уверены, что хотите удалить продукт?', [
       { text: 'Отмена', style: 'default' },

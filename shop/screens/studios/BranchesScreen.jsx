@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, StyleSheet, Platform, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import { SbText, SbHeading, SbLink, SbHeaderButton, SbTitle, SbCard } from '../../components/ui';
+import { SbHeading, SbHeaderButton, SbLoading, SbError } from '../../components/ui';
 import { BranchItem } from '../../components/studios';
 
 // Actions
@@ -14,6 +14,10 @@ import { getBranches } from '../../store/branches.slice';
 import theme from '../../theme';
 
 const BranchesSreen = ({ navigation }) => {
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.branches.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.branches.error);
   const branches = useSelector((state) => {
     const arr = [];
 
@@ -28,8 +32,21 @@ const BranchesSreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const refetchBranches = useCallback(() => {
     dispatch(getBranches());
+  }, [dispatch]);
+
+  useEffect(() => {
+    refetchBranches();
+  }, [refetchBranches]);
+
+  // Refetch branches on every return to this screen
+  useEffect(() => {
+    const unsubscibe = navigation.addListener('focus', refetchBranches);
+
+    return () => {
+      unsubscibe();
+    };
   }, [dispatch]);
 
   const renderItems = ({ item }) => {
@@ -43,6 +60,16 @@ const BranchesSreen = ({ navigation }) => {
       />
     );
   };
+
+  if (isLoading) return <SbLoading />;
+  if (error)
+    return (
+      <SbError
+        errorText="Ошибка загрузки"
+        buttonText="Попробовать еще"
+        buttonHandler={refetchBranches}
+      />
+    );
 
   return (
     <View style={styles.screen}>

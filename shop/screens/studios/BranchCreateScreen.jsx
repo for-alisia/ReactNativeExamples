@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Platform, ScrollView, Alert, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Components
-import { SbHeading, SbInput, SbBottomButton, SbTitle, SbImageSelector } from '../../components/ui';
+import {
+  SbHeading,
+  SbInput,
+  SbBottomButton,
+  SbTitle,
+  SbImageSelector,
+  SbLoading,
+  SbError,
+} from '../../components/ui';
 
 // Hooks
 import useInput from '../../hooks/useInput';
@@ -21,6 +29,12 @@ import { isRequired } from '../../utils/validators';
 
 const BranchCreateSreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.branches.isLoading);
+  // @ts-ignore
+  const error = useSelector((state) => state.branches.error);
+  // @ts-ignore
+  const wasCompleted = useSelector((state) => state.branches.wasCompleted);
   // Create form's inputs
   const title = useInput(isRequired);
   const description = useInput(isRequired);
@@ -43,12 +57,25 @@ const BranchCreateSreen = ({ navigation }) => {
         image: selectedImage,
       })
     );
-    navigation.goBack();
   };
+
+  useEffect(() => {
+    if (wasCompleted) {
+      navigation.goBack();
+    }
+  }, [wasCompleted]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Ошибка сохранения', 'Что-то пошло не так, попробуйте еще раз', [{ text: 'OK' }]);
+    }
+  }, [error]);
 
   const imagePickHandler = (imageUri) => {
     setSelectedImage(imageUri);
   };
+
+  if (isLoading) return <SbLoading color={theme.colors.primary} />;
 
   return (
     <>

@@ -17,7 +17,7 @@ const BranchItem = ({ item, onSelect }) => {
           </View>
           <View style={styles.dataWrapper}>
             <SbTitle>{item.title}</SbTitle>
-            <SbText>{item.description}</SbText>
+            <SbText style={styles.text}>{item.description}</SbText>
           </View>
         </View>
       </SbTouchable>
@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
   dataWrapper: {
     paddingHorizontal: theme.padding.m,
     paddingVertical: theme.padding.s,
+    flex: 1,
+  },
+
+  text: {
+    flexWrap: 'wrap',
+    flex: 1,
   },
 });
 

@@ -2,7 +2,7 @@
 // Dependencies
 import { createSlice } from '@reduxjs/toolkit';
 
-import { branchesAPI } from '../fetchAPI';
+import { fetchAPI } from '../fetchAPI';
 
 const initialState = {
   items: {},
@@ -47,7 +47,7 @@ export const getBranches = () => async (dispatch) => {
   dispatch(branchesActions.startLoading());
 
   try {
-    const branches = await branchesAPI.getBranches();
+    const branches = await fetchAPI.getData('branches');
 
     dispatch(branchesActions.setBranches(branches));
   } catch (err) {
@@ -61,7 +61,7 @@ export const createBranch =
     dispatch(branchesActions.startLoading());
     const token = getState().user.user && getState().user.user.idToken;
     try {
-      const response = await branchesAPI.createBranch({ title, description, image, token });
+      const response = await fetchAPI.createData('branches', { title, description, image }, token);
       dispatch(branchesActions.addBranch(response));
     } catch (err) {
       dispatch(branchesActions.setError(err));

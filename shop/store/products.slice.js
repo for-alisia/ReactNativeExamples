@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
-import { productsAPI } from '../fetchAPI';
+import { fetchAPI } from '../fetchAPI';
 
 const initialState = {
   availableProducts: [],
@@ -78,8 +78,14 @@ export const productActions = productsSlice.actions;
 export const fetchProducts = () => async (dispatch) => {
   dispatch(productActions.startLoading());
   try {
-    const products = await productsAPI.getProducts();
-    dispatch(productActions.setProducts(products));
+    const products = await fetchAPI.getData('products');
+    const loadedProducts = [];
+
+    for (let key in products) {
+      loadedProducts.push({ id: key, ...products[key], price: +products[key].price });
+    }
+
+    dispatch(productActions.setProducts(loadedProducts));
   } catch (err) {
     dispatch(productActions.setError(err.message));
   }
@@ -92,13 +98,19 @@ export const createProduct =
     dispatch(productActions.startLoading());
     const token = getState().user.user && getState().user.user.idToken;
     try {
-      const product = await productsAPI.createProduct({
-        title,
-        description,
-        imageUrl,
-        price,
-        token,
-      });
+      const product = await fetchAPI.createData(
+        'products',
+        {
+          title,
+          description,
+          imageUrl,
+          price,
+          rate: 3.5,
+          reviews: [],
+        },
+        token
+      );
+
       dispatch(productActions.productCreated(product));
     } catch (err) {
       dispatch(productActions.setError(err.message));
@@ -111,14 +123,12 @@ export const updateProduct =
     dispatch(productActions.startLoading());
     const token = getState().user.user && getState().user.user.idToken;
     try {
-      const isSuccessed = await productsAPI.updateProduct({
-        title,
-        description,
-        imageUrl,
-        id,
-        price,
+      const isSuccessed = await fetchAPI.updateData(
+        'products',
+        { title, description, imageUrl, price },
         token,
-      });
+        id
+      );
       if (isSuccessed) {
         dispatch(productActions.productUpdated({ title, description, imageUrl, id, price }));
       }
@@ -132,7 +142,7 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
   dispatch(productActions.startLoading());
   const token = getState().user.user && getState().user.user.idToken;
   try {
-    const isSuccessed = await productsAPI.deleteProduct(productId, token);
+    const isSuccessed = await fetchAPI.deleteData('products', productId, token);
     if (isSuccessed) {
       dispatch(productActions.productDeleted(productId));
     }
