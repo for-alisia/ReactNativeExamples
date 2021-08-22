@@ -11,16 +11,21 @@ import SbDoubleButton from './SbDoubleButton';
 // Theme
 import theme from '../../theme';
 
-const SbImageSelector = () => {
+const SbImageSelector = ({ onImageTaken }) => {
   const [image, setImage] = useState(null);
 
-  const getGalleryPermissions = async () => {
+  const getPermissions = async (type) => {
     if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        type === 'galery'
+          ? await ImagePicker.requestMediaLibraryPermissionsAsync()
+          : await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert(
           'Отсутствие разрешений',
-          'Пожалуйста, дайте разрешение на использование библиотеки устройства',
+          `Пожалуйста, дайте разрешение на использование ${
+            type === 'galery' ? 'библиотеки' : 'камеры'
+          } устройства`,
           [{ text: 'OK' }]
         );
 
@@ -31,64 +36,47 @@ const SbImageSelector = () => {
     }
   };
 
-  const getCameraPermissions = async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Отсутствие разрешений',
-          'Пожалуйста, дайте разрешение на использование камеры устройства',
-          [{ text: 'OK' }]
-        );
+  const pickPhotoHandler = async (type) => {
+    const hasPermission = await getPermissions(type);
 
-        return false;
-      }
-
-      return true;
-    }
-  };
-
-  const pickImageHandler = async () => {
-    const hasPermission = await getGalleryPermissions();
     if (!hasPermission) return;
-    const image = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-
-    if (!image.cancelled) {
-      // @ts-ignore
-      setImage(image.uri);
+    let photo;
+    if (type === 'galery') {
+      photo = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+      });
+    } else {
+      photo = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [3, 4],
+        quality: 0.5,
+        base64: true,
+      });
     }
-  };
-
-  const makePhotoHandler = async () => {
-    const hasPermission = await getCameraPermissions();
-    if (!hasPermission) return;
-    const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 0.5,
-    });
 
     if (!photo.cancelled) {
       // @ts-ignore
-      setImage(photo.uri);
+      setImage(photo.base64);
+      onImageTaken(photo.base64);
     }
   };
   return (
     <View style={styles.container}>
-      <View style={styles.preview}>
-        {!image && <SbText style={styles.text}>Изображение не выбрано</SbText>}
-        <SbImage style={styles.image} source={image} />
+      <View style={styles.labelWrapper}>
+        <SbText style={styles.label}>Изображение:</SbText>
+      </View>
+      <View style={{ ...styles.preview, height: image ? 230 : 10 }}>
+        <SbImage style={styles.image} source={image} base64={true} />
       </View>
       <View style={styles.buttonContainer}>
         <SbDoubleButton
           leftLabel="Выбрать фото"
           rightLabel="Сделать фото"
           type="outline"
-          onRightPress={makePhotoHandler}
-          onLeftPress={pickImageHandler}
+          onRightPress={pickPhotoHandler.bind(null, 'camera')}
+          onLeftPress={pickPhotoHandler.bind(null, 'galery')}
         />
       </View>
     </View>
@@ -102,11 +90,9 @@ const styles = StyleSheet.create({
   preview: {
     marginBottom: theme.margin.s,
     width: '100%',
-    height: 200,
+    height: 230,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: theme.colors.secondary,
-    borderWidth: 1,
   },
   image: {
     width: '100%',
@@ -114,6 +100,16 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: theme.margin.m,
+    fontSize: theme.fontSize.xs,
+    color: theme.colors.accent,
+    width: '100%',
+  },
+  label: {
+    fontFamily: theme.fonts.playfair,
+  },
+  labelWrapper: {
+    width: '100%',
+    marginBottom: theme.margin.s,
   },
   buttonContainer: {
     flexDirection: 'row',

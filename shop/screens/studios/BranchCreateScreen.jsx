@@ -11,7 +11,7 @@ import { SbHeading, SbInput, SbBottomButton, SbTitle, SbImageSelector } from '..
 import useInput from '../../hooks/useInput';
 
 // Actions
-import { branchesActions } from '../../store/branches.slice';
+import { createBranch } from '../../store/branches.slice';
 
 // Theme
 import theme from '../../theme';
@@ -25,6 +25,9 @@ const BranchCreateSreen = ({ navigation }) => {
   const title = useInput(isRequired);
   const description = useInput(isRequired);
 
+  // Set selected image
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const isValid = title.isValid && description.isValid;
 
   const submitHandler = () => {
@@ -33,8 +36,18 @@ const BranchCreateSreen = ({ navigation }) => {
       return;
     }
 
-    dispatch(branchesActions.addBranch({ title: title.value, description: description.value }));
+    dispatch(
+      createBranch({
+        title: title.value,
+        description: description.value,
+        image: selectedImage,
+      })
+    );
     navigation.goBack();
+  };
+
+  const imagePickHandler = (imageUri) => {
+    setSelectedImage(imageUri);
   };
 
   return (
@@ -62,7 +75,7 @@ const BranchCreateSreen = ({ navigation }) => {
               numberOfLines={8}
             />
           </View>
-          <SbImageSelector />
+          <SbImageSelector onImageTaken={imagePickHandler} />
         </View>
       </ScrollView>
       <SbBottomButton onPress={submitHandler}>

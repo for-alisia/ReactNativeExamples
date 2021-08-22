@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Platform, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import { SbText, SbHeading, SbLink, SbHeaderButton, SbTitle, SbCard } from '../../components/ui';
 import { BranchItem } from '../../components/studios';
+
+// Actions
+import { getBranches } from '../../store/branches.slice';
 
 // Theme
 import theme from '../../theme';
@@ -22,6 +25,12 @@ const BranchesSreen = ({ navigation }) => {
 
     return arr;
   });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBranches());
+  }, [dispatch]);
 
   const renderItems = ({ item }) => {
     return (
