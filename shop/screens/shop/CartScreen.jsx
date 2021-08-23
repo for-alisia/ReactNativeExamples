@@ -11,7 +11,7 @@ import { CartItem } from '../../components/shop';
 import theme from '../../theme';
 
 // Actions
-import { cartActions } from '../../store/cart.slice';
+import { cartActions, deleteFromCart } from '../../store/cart.slice';
 import { addOrder } from '../../store/orders.slice';
 
 // Utils
@@ -42,7 +42,7 @@ const CartScreen = ({ navigation }) => {
 
   // Deleting item from cart
   const itemDeleteFromCartHandler = (id) => {
-    dispatch(cartActions.deleteFromCart(id));
+    dispatch(deleteFromCart(id));
   };
   // Adding item in the cart
   const itemAddInCartHandler = (id) => {

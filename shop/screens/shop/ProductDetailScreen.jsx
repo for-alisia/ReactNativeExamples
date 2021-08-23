@@ -23,7 +23,7 @@ import theme from '../../theme';
 import { getWordEndByQty } from '../../utils';
 
 // Actions
-import { cartActions } from '../../store/cart.slice';
+import { addToCart } from '../../store/cart.slice';
 
 const ProductDetailScreen = ({ navigation, route }) => {
   const productId = route.params.productId;
@@ -84,7 +84,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
       </ScrollView>
       <SbBottomButton
         onPress={() => {
-          dispatch(cartActions.addToCart(product));
+          dispatch(addToCart(product));
         }}
       >
         <View style={styles.addToCartButton}>
@@ -97,7 +97,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
 };
 
 export const screenOptions = ({ navigation, route }) => {
-  console.log(route);
   return {
     headerTitle: route.params.productTitle,
   };

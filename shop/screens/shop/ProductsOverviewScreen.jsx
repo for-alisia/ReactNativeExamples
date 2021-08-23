@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -13,7 +13,7 @@ import { SbHeaderButton, SbIconContainer, SbLoading, SbError } from '../../compo
 import theme from '../../theme';
 
 // Actions
-import { cartActions } from '../../store/cart.slice';
+import { addToCart, fetchCart } from '../../store/cart.slice';
 import { fetchProducts } from '../../store/products.slice';
 
 const ProductsOverviewScreen = (props) => {
@@ -31,6 +31,7 @@ const ProductsOverviewScreen = (props) => {
   // Fetch products initially
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCart());
   }, [dispatch]);
 
   // Refetch products on every return to this screen
@@ -56,7 +57,7 @@ const ProductsOverviewScreen = (props) => {
         </SbIconContainer>
         <SbIconContainer
           onPress={() => {
-            dispatch(cartActions.addToCart(item));
+            dispatch(addToCart(item));
           }}
           width={32}
           height={24}

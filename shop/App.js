@@ -17,7 +17,18 @@ import branchesReducer from './store/branches.slice';
 // Navigation
 import AppNavigator from './navigation/AppNavigator';
 
+// Local DB
+import { init } from './helpers/db';
+
 enableScreens();
+
+init()
+  .then(() => {
+    console.log('Initialized db');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const store = configureStore({
   reducer: {
