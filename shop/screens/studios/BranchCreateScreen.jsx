@@ -41,6 +41,7 @@ const BranchCreateSreen = ({ navigation }) => {
 
   // Set selected image
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
 
   const isValid = title.isValid && description.isValid;
 
@@ -55,6 +56,7 @@ const BranchCreateSreen = ({ navigation }) => {
         title: title.value,
         description: description.value,
         image: selectedImage,
+        imageUri,
       })
     );
   };
@@ -71,8 +73,9 @@ const BranchCreateSreen = ({ navigation }) => {
     }
   }, [error]);
 
-  const imagePickHandler = (imageUri) => {
-    setSelectedImage(imageUri);
+  const imagePickHandler = (image, imageUri) => {
+    setSelectedImage(image);
+    setImageUri(imageUri);
   };
 
   if (isLoading) return <SbLoading color={theme.colors.primary} />;

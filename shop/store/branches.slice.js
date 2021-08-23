@@ -1,6 +1,7 @@
 // @ts-nocheck
 // Dependencies
 import { createSlice } from '@reduxjs/toolkit';
+import * as FileSystem from 'expo-file-system';
 
 import { fetchAPI } from '../fetchAPI';
 
@@ -56,9 +57,23 @@ export const getBranches = () => async (dispatch) => {
 };
 
 export const createBranch =
-  ({ title, description, image }) =>
+  ({ title, description, image, imageUri }) =>
   async (dispatch, getState) => {
     dispatch(branchesActions.startLoading());
+    // Save file in the local storage
+    try {
+      const fileName = imageUri.split('/').pop();
+      const newPath = FileSystem.documentDirectory + fileName;
+
+      await FileSystem.moveAsync({
+        from: imageUri,
+        to: newPath,
+      });
+    } catch (err) {
+      dispatch(branchesActions.setError(err));
+    }
+
+    // Get token and send request
     const token = getState().user.user && getState().user.user.idToken;
     try {
       const response = await fetchAPI.createData('branches', { title, description, image }, token);

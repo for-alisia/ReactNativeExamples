@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SbDoubleButton UI Component renders button with a correct text 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={false}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "#DC8080",
+          "borderBottomRightRadius": 0,
+          "borderRadius": 24,
+          "borderRightWidth": 0,
+          "borderTopRightRadius": 0,
+          "opacity": 1,
+          "paddingHorizontal": 24,
+          "paddingVertical": 8,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#F6F6F6",
+            "fontFamily": "montserrat-regular",
+            "fontSize": 16,
+            "textAlign": "center",
+          }
+        }
+      >
+        Hello
+      </Text>
+    </View>
+  </View>
+  <View
+    accessible={true}
+    focusable={false}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "#DC8080",
+          "borderBottomLeftRadius": 0,
+          "borderRadius": 24,
+          "borderTopLeftRadius": 0,
+          "opacity": 1,
+          "paddingHorizontal": 24,
+          "paddingVertical": 8,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#F6F6F6",
+            "fontFamily": "montserrat-regular",
+            "fontSize": 16,
+            "textAlign": "center",
+          }
+        }
+      >
+        World
+      </Text>
+    </View>
+  </View>
+</View>
+`;

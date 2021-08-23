@@ -59,7 +59,7 @@ const SbImageSelector = ({ onImageTaken }) => {
     if (!photo.cancelled) {
       // @ts-ignore
       setImage(photo.base64);
-      onImageTaken(photo.base64);
+      onImageTaken(photo.base64, photo.uri);
     }
   };
   return (
