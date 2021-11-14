@@ -88,6 +88,7 @@ export const cartActions = cartSlice.actions;
 export const fetchCart = () => async (dispatch) => {
   try {
     const dbResult = await sqlFetchCart();
+    console.log(dbResult);
     let convertedItems = {};
     dbResult.rows._array.forEach(({ productId, qty, title, price, imageUrl }) => {
       convertedItems[productId] = {

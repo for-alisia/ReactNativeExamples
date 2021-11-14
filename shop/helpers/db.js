@@ -45,7 +45,7 @@ export const sqlDeleteFromCart = (productId) => {
   const promise = new Promise((res, rej) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `DELETE FROM cart WHERE productId=${productId};`,
+        `DELETE FROM cart WHERE productId='${productId}';`,
         [],
         (_, result) => {
           res(result);
