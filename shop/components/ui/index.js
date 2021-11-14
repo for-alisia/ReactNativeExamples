@@ -16,3 +16,5 @@ export { default as SbLoading } from './SbLoading';
 export { default as SbError } from './SbError';
 export { default as SbImageSelector } from './SbImageSelector';
 export { default as SbDoubleButton } from './SbDoubleButton';
+export { default as SbLocationPicker } from './SbLocationPicker';
+export { default as SbMapPreview } from './SbMapPreview';

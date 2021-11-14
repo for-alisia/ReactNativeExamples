@@ -13,6 +13,7 @@ import {
   SbImageSelector,
   SbLoading,
   SbError,
+  SbLocationPicker,
 } from '../../components/ui';
 
 // Hooks
@@ -106,6 +107,7 @@ const BranchCreateSreen = ({ navigation }) => {
             />
           </View>
           <SbImageSelector onImageTaken={imagePickHandler} />
+          <SbLocationPicker />
         </View>
       </ScrollView>
       <SbBottomButton onPress={submitHandler}>
