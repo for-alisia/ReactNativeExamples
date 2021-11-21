@@ -1,24 +1,21 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { mapKey } from '../../env';
+import { StyleSheet } from 'react-native';
+import ENV from '../../env';
+import { helpers } from '../../helpers/helperFunctions';
 
 import SbImage from './SbImage';
 import SbText from './SbText';
 
-import theme from '../../theme';
+const apiKey = ENV().googleApiKey;
 
 const SbMapPreview = ({ location }) => {
-  const getUrlForMap = (lat, long) =>
-    `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:C%7C${lat},${long}&key=${mapKey}`;
-
-  if (location) {
-    console.log(getUrlForMap(location.lat, location.long));
-  }
-
   return (
     <>
       {location ? (
-        <SbImage source={getUrlForMap(location.lat, location.long)} />
+        <SbImage
+          style={{ height: 200 }}
+          source={helpers.getMapStaticUrl(location.lat, location.long, apiKey)}
+        />
       ) : (
         <SbText>Место не выбрано</SbText>
       )}

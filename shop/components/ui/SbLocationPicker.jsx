@@ -1,22 +1,30 @@
 // @ts-nocheck
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, Platform } from 'react-native';
 import * as Location from 'expo-location';
 
 // Components
-import SbImage from './SbImage';
 import SbText from './SbText';
-import SbButton from './SbButton';
 import SbLoading from './SbLoading';
 import SbMapPreview from './SbMapPreview';
+import SbDoubleButton from './SbDoubleButton';
+import SbTouchable from './SbTouchable';
 
 // Theme
 import theme from '../../theme';
 
-const SbLocationPicker = () => {
+const SbLocationPicker = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pickedLocation, setPickedLocation] = useState();
+
+  const mapPickedLocation = route.params ? route.params.pickedLocation : null;
+
+  useEffect(() => {
+    if (mapPickedLocation) {
+      setPickedLocation({ lat: mapPickedLocation.latitude, long: mapPickedLocation.longitude });
+    }
+  }, [mapPickedLocation]);
 
   const getPermissions = async () => {
     if (Platform.OS !== 'web') {
@@ -33,6 +41,19 @@ const SbLocationPicker = () => {
 
       return true;
     }
+  };
+
+  const defineUserLocation = async () => {
+    if (Platform.OS !== 'web') {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        return false;
+      }
+    }
+
+    let { coords } = await Location.getCurrentPositionAsync({});
+
+    return coords;
   };
 
   const getLocationHandler = async () => {
@@ -60,18 +81,30 @@ const SbLocationPicker = () => {
 
     setIsLoading(false);
   };
+
+  const pickOnMapHandler = async () => {
+    const userLocation = await defineUserLocation();
+    navigation.navigate('BranchMap', { userLocation });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.labelWrapper}>
         <SbText style={styles.label}>Геолокация:</SbText>
       </View>
-      <View style={styles.preview}>
-        {isLoading ? <SbLoading /> : <SbMapPreview location={pickedLocation} />}
-      </View>
+      <SbTouchable onPress={pickOnMapHandler}>
+        <View style={styles.preview}>
+          {isLoading ? <SbLoading /> : <SbMapPreview location={pickedLocation} />}
+        </View>
+      </SbTouchable>
       <View style={styles.buttonContainer}>
-        <SbButton type="outline" onPress={getLocationHandler}>
-          Выбрать место
-        </SbButton>
+        <SbDoubleButton
+          leftLabel="Мое положение"
+          rightLabel="Выбрать на карте"
+          type="outline"
+          onRightPress={pickOnMapHandler}
+          onLeftPress={getLocationHandler}
+        />
       </View>
     </View>
   );
@@ -94,9 +127,14 @@ const styles = StyleSheet.create({
     height: 230,
     justifyContent: 'center',
     alignItems: 'center',
+    borderStyle: 'solid',
+    borderColor: theme.colors.accentDark,
+    borderWidth: 1,
+    overflow: 'hidden',
   },
   buttonContainer: {
     flexDirection: 'row',
+    marginTop: theme.margin.m,
   },
 });
 

@@ -8,3 +8,4 @@ export { default as GroupsScreen } from './GroupsScreen';
 export { screenOptions as branchesScreenOptions } from './BranchesScreen';
 export { screenOptions as branchCreateScreenOptions } from './BranchCreateScreen';
 export { screenOptions as branchDetailScreenOptions } from './BranchDetailScreen';
+export { screenOptions as branchMapScreenOptions } from './BranchMapScreen';

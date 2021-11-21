@@ -28,7 +28,7 @@ import theme from '../../theme';
 // Utils
 import { isRequired } from '../../utils/validators';
 
-const BranchCreateSreen = ({ navigation }) => {
+const BranchCreateSreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   // @ts-ignore
   const isLoading = useSelector((state) => state.branches.isLoading);
@@ -107,7 +107,7 @@ const BranchCreateSreen = ({ navigation }) => {
             />
           </View>
           <SbImageSelector onImageTaken={imagePickHandler} />
-          <SbLocationPicker />
+          <SbLocationPicker navigation={navigation} route={route} />
         </View>
       </ScrollView>
       <SbBottomButton onPress={submitHandler}>

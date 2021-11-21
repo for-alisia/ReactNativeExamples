@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Dependencies
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,6 +15,7 @@ import {
   BranchCreateScreen,
   branchCreateScreenOptions,
   BranchMapScreen,
+  branchMapScreenOptions,
 } from '../../screens/studios';
 
 const BranchesStackNavigator = createStackNavigator();
@@ -36,7 +38,11 @@ const BranchesNavigator = () => {
         component={BranchCreateScreen}
         options={branchCreateScreenOptions}
       />
-      <BranchesStackNavigator.Screen name="BranchMap" component={BranchMapScreen} />
+      <BranchesStackNavigator.Screen
+        name="BranchMap"
+        component={BranchMapScreen}
+        options={branchMapScreenOptions}
+      />
     </BranchesStackNavigator.Navigator>
   );
 };
