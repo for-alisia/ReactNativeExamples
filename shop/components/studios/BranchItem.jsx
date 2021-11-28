@@ -18,6 +18,7 @@ const BranchItem = ({ item, onSelect }) => {
           <View style={styles.dataWrapper}>
             <SbTitle>{item.title}</SbTitle>
             <SbText style={styles.text}>{item.description}</SbText>
+            <SbText style={styles.text}>{item.address}</SbText>
           </View>
         </View>
       </SbTouchable>

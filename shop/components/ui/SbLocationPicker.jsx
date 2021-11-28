@@ -14,17 +14,18 @@ import SbTouchable from './SbTouchable';
 // Theme
 import theme from '../../theme';
 
-const SbLocationPicker = ({ navigation, route }) => {
+const SbLocationPicker = ({ navigation, route, onLocationPicked, location }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [pickedLocation, setPickedLocation] = useState();
-
   const mapPickedLocation = route.params ? route.params.pickedLocation : null;
 
   useEffect(() => {
     if (mapPickedLocation) {
-      setPickedLocation({ lat: mapPickedLocation.latitude, long: mapPickedLocation.longitude });
+      onLocationPicked({
+        latitude: mapPickedLocation.latitude,
+        longitude: mapPickedLocation.longitude,
+      });
     }
-  }, [mapPickedLocation]);
+  }, [mapPickedLocation, onLocationPicked]);
 
   const getPermissions = async () => {
     if (Platform.OS !== 'web') {
@@ -67,10 +68,8 @@ const SbLocationPicker = ({ navigation, route }) => {
       let {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync({});
-      setPickedLocation({
-        lat: latitude,
-        long: longitude,
-      });
+
+      onLocationPicked({ latitude, longitude });
     } catch (err) {
       Alert.alert(
         'Ошибка при определении места',
@@ -94,7 +93,7 @@ const SbLocationPicker = ({ navigation, route }) => {
       </View>
       <SbTouchable onPress={pickOnMapHandler}>
         <View style={styles.preview}>
-          {isLoading ? <SbLoading /> : <SbMapPreview location={pickedLocation} />}
+          {isLoading ? <SbLoading /> : <SbMapPreview location={location} />}
         </View>
       </SbTouchable>
       <View style={styles.buttonContainer}>

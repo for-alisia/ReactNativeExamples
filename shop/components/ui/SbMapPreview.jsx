@@ -14,7 +14,7 @@ const SbMapPreview = ({ location }) => {
       {location ? (
         <SbImage
           style={{ height: 200 }}
-          source={helpers.getMapStaticUrl(location.lat, location.long, apiKey)}
+          source={helpers.getMapStaticUrl(location.latitude, location.longitude, apiKey)}
         />
       ) : (
         <SbText>Место не выбрано</SbText>

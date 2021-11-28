@@ -14,19 +14,32 @@ import theme from '../../theme';
 const BranchMapSreen = ({ navigation, route }) => {
   const [location, setLocation] = useState();
 
-  const userLocation = route.params.userLocation;
+  const userLocation = route.params && route.params.userLocation ? route.params.userLocation : null;
+
+  const readOnly = route.params && route.params.readOnly ? route.params.readOnly : false;
+  const branchLocation = route.params && route.params.location ? route.params.location : null;
+  const branchAddress = route.params && route.params.address ? route.params.address : null;
 
   const initialRegion = {
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 21.40338,
+    longitude: 18.17403,
+    latitudeDelta: 100,
+    longitudeDelta: 100,
   };
 
   const mapRegion = userLocation
     ? {
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+    : initialRegion;
+
+  const branchRegion = branchLocation
+    ? {
+        latitude: branchLocation.latitude,
+        longitude: branchLocation.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }
@@ -51,22 +64,30 @@ const BranchMapSreen = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
-          <Item
-            iconName={Platform.OS === 'android' ? 'md-save' : 'ios-save'}
-            title="Выбрать"
-            onPress={saveLocationHandler}
-          />
-        </HeaderButtons>
-      ),
+      title: readOnly ? branchAddress : 'Выберите место на карте',
+      headerRight: readOnly
+        ? () => {}
+        : () => (
+            <HeaderButtons HeaderButtonComponent={SbHeaderButton}>
+              <Item
+                iconName={Platform.OS === 'android' ? 'md-save' : 'ios-save'}
+                title="Выбрать"
+                onPress={saveLocationHandler}
+              />
+            </HeaderButtons>
+          ),
     });
   }, [saveLocationHandler]);
 
   return (
     <View style={styles.container}>
-      <MapView region={mapRegion} style={styles.map} onPress={selectLocationHandler}>
-        {location && <Marker title="Выбранная локация" coordinate={location}></Marker>}
+      <MapView
+        region={readOnly ? branchRegion : mapRegion}
+        style={styles.map}
+        onPress={readOnly ? () => {} : selectLocationHandler}
+      >
+        {!readOnly && location && <Marker title="Выбранная локация" coordinate={location}></Marker>}
+        {readOnly && <Marker title={branchAddress} coordinate={branchLocation}></Marker>}
       </MapView>
     </View>
   );

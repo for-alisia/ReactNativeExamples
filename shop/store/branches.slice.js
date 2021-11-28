@@ -2,6 +2,7 @@
 // Dependencies
 import { createSlice } from '@reduxjs/toolkit';
 import * as FileSystem from 'expo-file-system';
+import getEnvVariables from '../env';
 
 import { fetchAPI } from '../fetchAPI';
 
@@ -57,7 +58,7 @@ export const getBranches = () => async (dispatch) => {
 };
 
 export const createBranch =
-  ({ title, description, image, imageUri }) =>
+  ({ title, description, image, imageUri, location }) =>
   async (dispatch, getState) => {
     dispatch(branchesActions.startLoading());
     // Save file in the local storage
@@ -75,8 +76,31 @@ export const createBranch =
 
     // Get token and send request
     const token = getState().user.user && getState().user.user.idToken;
+    const googleKey = getEnvVariables().googleApiKey;
     try {
-      const response = await fetchAPI.createData('branches', { title, description, image }, token);
+      // TODO: this fetching should be on a map
+      const addressResponse = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&language=ru&key=${googleKey}`
+      );
+
+      if (!addressResponse.ok) {
+        throw new Error('Can not get an address');
+      }
+
+      const addressData = await addressResponse.json();
+
+      if (!addressData.results) {
+        throw new Error('Address results are not correct');
+      }
+
+      const address = addressData.results[0].formatted_address;
+      console.log(address);
+
+      const response = await fetchAPI.createData(
+        'branches',
+        { title, description, image, location, address },
+        token
+      );
       dispatch(branchesActions.addBranch(response));
     } catch (err) {
       dispatch(branchesActions.setError(err));

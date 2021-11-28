@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -40,9 +40,12 @@ const BranchCreateSreen = ({ navigation, route }) => {
   const title = useInput(isRequired);
   const description = useInput(isRequired);
 
+  const mapPickedLocation = route.params ? route.params.pickedLocation : null;
+
   // Set selected image
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [location, setLocation] = useState(null);
 
   const isValid = title.isValid && description.isValid;
 
@@ -58,6 +61,7 @@ const BranchCreateSreen = ({ navigation, route }) => {
         description: description.value,
         image: selectedImage,
         imageUri,
+        location,
       })
     );
   };
@@ -69,6 +73,12 @@ const BranchCreateSreen = ({ navigation, route }) => {
   }, [wasCompleted]);
 
   useEffect(() => {
+    if (mapPickedLocation) {
+      setLocation(mapPickedLocation);
+    }
+  }, [mapPickedLocation]);
+
+  useEffect(() => {
     if (error) {
       Alert.alert('Ошибка сохранения', 'Что-то пошло не так, попробуйте еще раз', [{ text: 'OK' }]);
     }
@@ -78,6 +88,13 @@ const BranchCreateSreen = ({ navigation, route }) => {
     setSelectedImage(image);
     setImageUri(imageUri);
   };
+
+  const locationPickHandler = useCallback(
+    (location) => {
+      setLocation(location);
+    },
+    [setLocation]
+  );
 
   if (isLoading) return <SbLoading color={theme.colors.primary} />;
 
@@ -107,7 +124,12 @@ const BranchCreateSreen = ({ navigation, route }) => {
             />
           </View>
           <SbImageSelector onImageTaken={imagePickHandler} />
-          <SbLocationPicker navigation={navigation} route={route} />
+          <SbLocationPicker
+            navigation={navigation}
+            route={route}
+            onLocationPicked={locationPickHandler}
+            location={location}
+          />
         </View>
       </ScrollView>
       <SbBottomButton onPress={submitHandler}>
