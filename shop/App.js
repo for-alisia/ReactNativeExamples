@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { enableScreens } from 'react-native-screens';
+import * as Notifications from 'expo-notifications';
 
 // Redux
 import { configureStore } from '@reduxjs/toolkit';
@@ -19,6 +20,14 @@ import AppNavigator from './navigation/AppNavigator';
 
 // Local DB
 import { init } from './helpers/db';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+    };
+  },
+});
 
 enableScreens();
 

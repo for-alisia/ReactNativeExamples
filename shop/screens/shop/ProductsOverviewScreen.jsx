@@ -45,6 +45,7 @@ const ProductsOverviewScreen = (props) => {
 
   const renderItem = (itemData) => {
     const { item } = itemData;
+
     return (
       <ProductItem
         item={item}

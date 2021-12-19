@@ -44,13 +44,29 @@ export const addOrder = ({ items, total }) => {
   return async (dispatch, getState) => {
     dispatch(orderActions.startLoading());
     const userId = getState().user.user && getState().user.user.localId;
+    const orderToCreate = { items, total, status: 'Оформлен', date: +new Date(), userId };
     try {
-      const orderToCreate = { items, total, status: 'Оформлен', date: +new Date(), userId };
       const newOrder = await ordersAPI.addOrder(orderToCreate);
       dispatch(orderActions.orderAdded(newOrder));
     } catch (err) {
       dispatch(orderActions.setError(err.message));
     }
+    orderToCreate.items.forEach((product) => {
+      fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Accept-encoding': 'gzip, deflate',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: product.pushToken,
+          data: { extraData: 'some data here' },
+          title: 'You got an order',
+          body: `You've just got a new order of ${product.title} (price: ${product.price}, amount: ${product.quantity})`,
+        }),
+      });
+    });
   };
 };
 

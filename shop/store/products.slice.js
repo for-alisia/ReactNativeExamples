@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchAPI } from '../fetchAPI';
+import * as Notifications from 'expo-notifications';
 
 const initialState = {
   availableProducts: [],
@@ -96,7 +97,23 @@ export const createProduct =
   ({ title, description, imageUrl, price }) =>
   async (dispatch, getState) => {
     dispatch(productActions.startLoading());
+    let pushToken;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      pushToken = null;
+    }
+
+    if (finalStatus === 'granted') {
+      pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+    }
+
     const token = getState().user.user && getState().user.user.idToken;
+
     try {
       const product = await fetchAPI.createData(
         'products',
@@ -107,6 +124,7 @@ export const createProduct =
           price,
           rate: 3.5,
           reviews: [],
+          pushToken,
         },
         token
       );

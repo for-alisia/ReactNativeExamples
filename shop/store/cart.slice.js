@@ -23,7 +23,7 @@ const cartSlice = createSlice({
       }, 0);
     },
     addToCart: (state, { payload }) => {
-      const { price, title, imageUrl, id, sqId } = payload;
+      const { price, title, imageUrl, id, sqId, pushToken } = payload;
 
       if (state.items[id]) {
         state.items[id].quantity++;
@@ -36,6 +36,7 @@ const cartSlice = createSlice({
           quantity: 1,
           sum: price,
           sqId,
+          pushToken,
         };
         state.items[id] = newItemInCart;
       }
@@ -90,13 +91,14 @@ export const fetchCart = () => async (dispatch) => {
     const dbResult = await sqlFetchCart();
     console.log(dbResult);
     let convertedItems = {};
-    dbResult.rows._array.forEach(({ productId, qty, title, price, imageUrl }) => {
+    dbResult.rows._array.forEach(({ productId, qty, title, price, imageUrl, pushToken }) => {
       convertedItems[productId] = {
         title,
         price,
         quantity: qty,
         imageUrl,
         sum: qty * price,
+        pushToken,
       };
     });
     dispatch(cartActions.setCart(convertedItems));
@@ -106,7 +108,7 @@ export const fetchCart = () => async (dispatch) => {
 };
 
 export const addToCart =
-  ({ price, title, imageUrl, id }) =>
+  ({ price, title, imageUrl, id, pushToken }) =>
   async (dispatch, getState) => {
     let qty = 1;
     const currentItems = getState().cart.items;
@@ -114,8 +116,17 @@ export const addToCart =
       qty += currentItems[id].quantity;
     }
     try {
-      const dbResult = await sqlUpdateInCart({ productId: id, title, imageUrl, qty, price });
-      dispatch(cartActions.addToCart({ price, title, imageUrl, id, sqId: dbResult.insertId }));
+      const dbResult = await sqlUpdateInCart({
+        productId: id,
+        title,
+        imageUrl,
+        qty,
+        price,
+        pushToken,
+      });
+      dispatch(
+        cartActions.addToCart({ price, title, imageUrl, id, sqId: dbResult.insertId, pushToken })
+      );
     } catch (err) {
       console.log(err);
       throw err;
