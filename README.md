@@ -24,18 +24,10 @@ server side data, device camera, google maps and user location, local storage an
 
 ## Gallery
 
-![alt text][guessnumber]
-![alt text][recipes]
-![alt text][todo1]
-![alt text][todo2]
-![alt text][shop1]
-![alt text][shop2]
-![alt text][shop3]
-
-[guessnumber]: /screenshots/guessNumber1.jpg
-[recipes]: ./screenshots/recipes1.jpg
-[todo1]: ./screenshots/todo1.jpg
-[todo2]: ./screenshots/todo2.jpg
-[shop1]: ./screenshots/shop1.jpg
-[shop2]: ./screenshots/shop1.jpg
-[shop3]: ./screenshots/shop1.jpg
+<img src="./screenshots/guessNumber1.jpg" alt="guessnumber" width="200"/>
+<img src="./screenshots/recipes1.jpg" alt="recipes" width="200"/>
+<img src="./screenshots/todo1.jpg" alt="todo1" width="200"/>
+<img src="./screenshots/todo2.jpg" alt="todo2" width="200"/>
+<img src="./screenshots/shop1.jpg" alt="shop1" width="200"/>
+<img src="./screenshots/shop2.jpg" alt="shop2" width="200"/>
+<img src="./screenshots/shop3.jpg" alt="shop3" width="200"/>
